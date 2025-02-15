@@ -39,7 +39,7 @@ const GenderMain = ({ ...props }) => {
   const gender = searchParams.get("gender");
   const { push } = useRouter();
 
-  const [state, setstate] = React.useState({
+  const [state, setState] = React.useState({
     genders: [],
     isLoaded: false,
   });
@@ -66,7 +66,7 @@ const GenderMain = ({ ...props }) => {
     var data = state.genders;
     if (e.target.checked) {
       data = [...data, props];
-      setstate({ ...state, genders: [...state.genders, props] });
+      setState({ ...state, genders: [...state.genders, props] });
       push(
         `${path}?` +
           createQueryString("gender", [...state.genders, props].join("_"))
@@ -76,7 +76,7 @@ const GenderMain = ({ ...props }) => {
       data.splice(index, 1);
       if (data.length > 0) {
         const filtered = state.genders.filter((gen) => gen !== props);
-        setstate({ ...state, genders: filtered });
+        setState({ ...state, genders: filtered });
         push(`${path}?` + createQueryString("gender", filtered.join("_")));
       } else {
         const deleted = deleteQueryString("gender");
@@ -86,12 +86,12 @@ const GenderMain = ({ ...props }) => {
   };
   React.useEffect(() => {
     if (Boolean(gender)) {
-      setstate({
+      setState({
         ...state,
         genders: [...gender.split("_")],
       });
     } else {
-      setstate({
+      setState({
         ...state,
         genders: [],
         isLoaded: true,
@@ -124,7 +124,7 @@ const GenderMain = ({ ...props }) => {
           <Zoom in={state.genders.length}>
             <Button
               onClick={() => {
-                setstate({ ...state, genders: [] });
+                setState({ ...state, genders: [] });
                 push(`${path}?${deleteQueryString("gender")}`);
               }}
               variant="outlined"
@@ -137,6 +137,29 @@ const GenderMain = ({ ...props }) => {
           </Zoom>
         }
       </Stack>
+      <Grid container>
+        {genders?.map((v) => (
+          <Grid key={Math.random()} item xs={6}>
+            <FormGroup>
+              <FormControlLabel
+                sx={{ textTransform: "capitalize" }}
+                name="gender"
+                defaultChecked={state.genders.includes(v)}
+                checked={state.genders.includes(v)}
+                onChange={(e) => handleChange(v, e)}
+                control={
+                  <Checkbox
+                    {...label}
+                    icon={icons[v.toLowerCase()]}
+                    checkedIcon={icons[v.toLowerCase()]}
+                  />
+                }
+                label={v.toLowerCase()}
+              />
+            </FormGroup>
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 };
