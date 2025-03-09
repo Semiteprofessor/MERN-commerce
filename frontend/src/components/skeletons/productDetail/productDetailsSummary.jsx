@@ -1,7 +1,7 @@
 // mui
 import { Box, Stack, Typography, Skeleton } from '@mui/material';
 
-export default function ProductDetailsSumarySkeleton() {
+export default function ProductDetailsSummarySkeleton() {
   return (
     <Box>
       <Typography noWrap variant="h4" lineHeight={1} mt={1.5}>
