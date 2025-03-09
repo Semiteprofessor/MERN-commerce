@@ -47,7 +47,24 @@ import { IoIosHeart } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa";
 // dynamic
 const ProductDetailsDialog = dynamic(() => import("../dialog/productDetails"));
-const ShopProductCard = () => {
+const ShopProductCard = ({...props}) => {
+    const { product, loading } = props;
+    const cCurrency = useCurrencyConvert();
+    const fCurrency = useCurrencyFormatter();
+
+    const [open, setOpen] = useState(false);
+    const [openActions, setOpenActions] = useState(false);
+    const theme = useTheme();
+    const router = useRouter();
+    const dispatch = useDispatch();
+    // type error
+    const { wishlist } = useSelector(({ wishlist }) => wishlist);
+    const { products: compareProducts } = useSelector(({ compare }) => compare);
+
+    const { isAuthenticated } = useSelector(({ user }) => user);
+    const isTablet = useMediaQuery("(max-width:900px)");
+    const [isLoading, setLoading] = useState(false);
+  
   return <div>ShopProductCard</div>;
 };
 
