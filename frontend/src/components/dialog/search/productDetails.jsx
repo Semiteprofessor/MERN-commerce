@@ -9,7 +9,7 @@ import Dialog from "@mui/material/Dialog";
 // components
 import DetailsSkeleton from "@/components/skeletons/productDetail";
 import ProductDetailsSumaryMobile from "../_main/product/mobileSummary";
-import ProductDetailsCarousel from "@/components/carousels/customPaginationSilder";
+import ProductDetailsCarousel from "@/components/carousels/customPaginationSlider";
 
 ProductDetailsDialog.propTypes = {
   slug: PropTypes.string,
