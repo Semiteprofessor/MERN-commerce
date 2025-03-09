@@ -8,7 +8,7 @@ import { Typography, Box, Stack, Button } from "@mui/material";
 import * as api from "@/services";
 import { useQuery } from "react-query";
 // components
-import ProductsCarousel from "src/components/carousels/gridSlider";
+import ProductsCarousel from "@/components/carousels/gridSlider";
 // icons
 import { IoIosArrowForward } from "react-icons/io";
 
