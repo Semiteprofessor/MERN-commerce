@@ -57,7 +57,34 @@ const WhyUs = () => {
         alignItems="center"
         justifyContent="space-around"
         spacing={1}
-      ></Stack>
+      >
+        {data.map((v, i) => (
+          <React.Fragment key={Math.random()}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              // justifyContent="center"
+              spacing={1}
+              sx={{
+                svg: {
+                  color: "primary.main",
+                },
+              }}
+            >
+              {v.icon}
+              <Stack>
+                <Typography variant="h5" color="text.primary">
+                  {v.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {v.description}
+                </Typography>
+              </Stack>
+            </Stack>
+            {i !== 4 ? <Divider orientation="vertical" flexItem /> : null}
+          </React.Fragment>
+        ))}
+      </Stack>
     </Card>
   );
 };
