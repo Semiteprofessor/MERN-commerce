@@ -1,9 +1,23 @@
-import React from 'react'
+"use client";
+import PropTypes from "prop-types";
+import Link from "next/link";
+// mui
+import {
+  Typography,
+  CardActionArea,
+  Card,
+  Box,
+  Skeleton,
+  Stack,
+} from "@mui/material";
+// components
+import Image from "src/components/blurImage";
 
-const CategoriesCard = () => {
-  return (
-    <div>CategoriesCard</div>
-  )
-}
+const CategoriesCard = ({ ...props }) => {
+  const { category, isLoading } = props;
+  const baseUrl = "/products/";
 
-export default CategoriesCard
+  return <div>CategoriesCard</div>;
+};
+
+export default CategoriesCard;
