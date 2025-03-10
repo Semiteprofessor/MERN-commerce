@@ -50,6 +50,19 @@ const Index = () => {
                 sizes="100vw"
                 objectFit="cover"
               />
+              <Stack
+                spacing={isDeskTop ? 2 : 1.5}
+                sx={{
+                  p: {
+                    sm: "24px",
+                    xs: "12px",
+                    zIndex: 99,
+                    position: "relative",
+                  },
+                }}
+              >
+                <Typography>Shop the latest from top brands</Typography>
+              </Stack>
             </Card>
           </Grid>
         </Grid>
