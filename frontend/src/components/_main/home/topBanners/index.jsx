@@ -61,7 +61,27 @@ const Index = () => {
                   },
                 }}
               >
-                <Typography>Shop the latest from top brands</Typography>
+                <Typography
+                  variant={"h4"}
+                  lineHeight={1.3}
+                  sx={{
+                    width: {
+                      xl: "320px !important",
+                      lg: "300px !important",
+                      md: "220px !important",
+                      xs: "170px !important",
+                    },
+                    fontSize: {
+                      xl: 38,
+                      lg: 38,
+                      md: 28,
+                      sm: 20,
+                      xs: 20,
+                    },
+                  }}
+                >
+                  Shop the latest from top brands
+                </Typography>
               </Stack>
             </Card>
           </Grid>
