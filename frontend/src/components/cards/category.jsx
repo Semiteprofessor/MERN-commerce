@@ -61,10 +61,39 @@ const CategoriesCard = ({ ...props }) => {
             <Box
               p={0.4}
               sx={{ bgcolor: (theme) => theme.palette.background.default }}
-            ></Box>
+            >
+              <Box className="image-wrapper">
+                <Image
+                  alt="category"
+                  src={category?.cover?.url}
+                  placeholder="blur"
+                  blurDataURL={category?.cover?.blurDataURL}
+                  layout="fill"
+                  objectFit="cover"
+                  static
+                  draggable="false"
+                  quality={5}
+                  sizes={"50vw"}
+                />
+              </Box>
+            </Box>
           </CardActionArea>
         )}
       </Card>
+      <Typography
+        {...(!isLoading && {
+          component: Link,
+          href: baseUrl + category.slug,
+        })}
+        color="text.primary"
+        variant="h5"
+        textAlign="center"
+        noWrap
+        className="title"
+        sx={{ py: 0.5, textTransform: "capitalize" }}
+      >
+        {isLoading ? <Skeleton variant="text" width={100} /> : category?.name}
+      </Typography>
     </Stack>
   );
 };
