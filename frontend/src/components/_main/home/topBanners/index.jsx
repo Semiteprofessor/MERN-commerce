@@ -107,6 +107,82 @@ const Index = () => {
               </Stack>
             </Card>
           </Grid>
+          {/* card 2  */}
+          <Grid item lg={6} md={6} xs={12} sm={6}>
+            <Card
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                borderRadius: "12px",
+                height: "100%",
+                py: { xs: 0, md: 3 },
+                px: { lg: 3, md: 1, xs: 1 },
+                position: "relative",
+              }}
+            >
+              <Image
+                draggable="false"
+                src={banner2Img}
+                alt="banner-1"
+                placeholder="blur"
+                layout="fill"
+                static
+                sizes="100vw"
+                objectFit="cover"
+              />
+
+              <Stack
+                spacing={isDeskTop ? 1 : 1.5}
+                sx={{ p: { sm: "24px", xs: "12px", zIndex: 99 } }}
+              >
+                <Typography
+                  variant={"h4"}
+                  lineHeight={1.3}
+                  sx={{
+                    width: {
+                      xl: "320px !important",
+                      lg: "300px !important",
+                      md: "220px !important",
+                      xs: "170px !important",
+                    },
+                    fontSize: {
+                      xl: 38,
+                      lg: 38,
+                      md: 28,
+                      sm: 20,
+                      xs: 20,
+                    },
+                  }}
+                >
+                  Shop the latest from top brands
+                </Typography>
+
+                <Typography
+                  variant={isDeskTop ? "body1" : "body2"}
+                  mb={2}
+                  display={{ md: "block", xs: "none" }}
+                  width={{ xl: 270 }}
+                >
+                  Fully Comfortable and Smooth Product
+                </Typography>
+                <Box>
+                  <Button
+                    component={Link}
+                    href="/products"
+                    variant="contained"
+                    color={"secondary"}
+                    size={isDeskTopBtn ? "large" : "small"}
+                    sx={{
+                      borderRadius: 6,
+                    }}
+                  >
+                    View Collection
+                  </Button>
+                </Box>
+              </Stack>
+            </Card>
+          </Grid>
         </Grid>
       </Container>
     </Box>
