@@ -46,7 +46,25 @@ const CategoriesCard = ({ ...props }) => {
             },
           },
         }}
-      ></Card>
+      >
+        {isLoading ? (
+          <Skeleton
+            variant="circular"
+            sx={{ position: "absolute", height: "100%", width: "100%" }}
+          />
+        ) : (
+          <CardActionArea
+            className="card-action-area"
+            component={Link}
+            href={`${baseUrl + category?.slug}`}
+          >
+            <Box
+              p={0.4}
+              sx={{ bgcolor: (theme) => theme.palette.background.default }}
+            ></Box>
+          </CardActionArea>
+        )}
+      </Card>
     </Stack>
   );
 };
