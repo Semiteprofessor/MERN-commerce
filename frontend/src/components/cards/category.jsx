@@ -11,7 +11,7 @@ import {
   Stack,
 } from "@mui/material";
 // components
-import Image from "src/components/blurImage";
+import Image from "@/components/blurImage";
 
 const CategoriesCard = ({ ...props }) => {
   const { category, isLoading } = props;
