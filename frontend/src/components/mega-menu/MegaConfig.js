@@ -1,6 +1,6 @@
 import { FaChevronRight } from "react-icons/fa";
 
-const manuConfig = [
+const menuConfig = [
   {
     title: "Parent 1",
     path: "#",

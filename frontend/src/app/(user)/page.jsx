@@ -8,6 +8,7 @@ const IndexPage = () => {
       <Container maxWidth="xl">
         <Hero />
       </Container>
+      <TopBanners />
     </>
   );
 };
