@@ -12,7 +12,17 @@ import * as api from "@/services";
 import { useQuery } from "react-query";
 
 const Categories = () => {
-  return <div>Categories</div>;
+  return (
+    <Paper elevation={0}>
+      <Stack
+        direction={"column"}
+        sx={{
+          gap: 3,
+          mt: 5,
+        }}
+      ></Stack>
+    </Paper>
+  );
 };
 
 export default Categories;
