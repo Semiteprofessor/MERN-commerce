@@ -98,4 +98,16 @@ const CategoriesCard = ({ ...props }) => {
   );
 };
 
+CategoriesCard.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  category: PropTypes.shape({
+    slug: PropTypes.string.isRequired,
+    cover: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      blurDataURL: PropTypes.string.isRequired,
+    }),
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 export default CategoriesCard;
