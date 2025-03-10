@@ -39,7 +39,27 @@ const WhyUs = () => {
         description: "24/7 Dedicated Support.",
       },
     ];
-  return <div>WhyUs</div>;
+  return (
+    <Card
+      sx={{
+        p: 3,
+        borderRadius: "12px",
+
+        display: {
+          md: "block",
+          xs: "none",
+        },
+        // borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
+      }}
+    >
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-around"
+        spacing={1}
+      ></Stack>
+    </Card>
+  );
 };
 
 export default WhyUs;
