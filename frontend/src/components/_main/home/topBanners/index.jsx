@@ -82,6 +82,28 @@ const Index = () => {
                 >
                   Shop the latest from top brands
                 </Typography>
+                <Typography
+                  variant={isDeskTop ? "body1" : "body2"}
+                  mb={2}
+                  display={{ md: "block", xs: "none" }}
+                  width={{ xl: 270 }}
+                >
+                  Fully Comfortable and Smooth Product
+                </Typography>
+                <Box>
+                  <Button
+                    component={Link}
+                    href="/products"
+                    variant="contained"
+                    color={"primary"}
+                    size={isDeskTopBtn ? "large" : "small"}
+                    sx={{
+                      borderRadius: 6,
+                    }}
+                  >
+                    View Collection
+                  </Button>
+                </Box>
               </Stack>
             </Card>
           </Grid>
