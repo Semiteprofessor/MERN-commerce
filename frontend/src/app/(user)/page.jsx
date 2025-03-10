@@ -3,9 +3,9 @@ import React from "react";
 
 // Dynamic imports
 const Categories = dynamic(() => import("@/components/_main/home/categories"));
-// const BestSellingProducs = dynamic(
-//   () => import("@/components/_main/home/bestSelling")
-// );
+const BestSellingProducts = dynamic(
+  () => import("@/components/_main/home/bestSelling")
+);
 // const Banner = dynamic(() => import("@/components/_main/home/banner"));
 // const Brands = dynamic(() => import("@/components/_main/home/brands"));
 // const TopCollection = dynamic(() => import("@/components/_main/home/top"));
@@ -40,8 +40,8 @@ const IndexPage = () => {
       <Container maxWidth="xl">
         <WhyUs />
         <Categories />
-        {/* <BestSellingProducs />
-        <Compaigns /> */}
+        <BestSellingProducts />
+        {/* <Compaigns /> */}
       </Container>
     </>
   );

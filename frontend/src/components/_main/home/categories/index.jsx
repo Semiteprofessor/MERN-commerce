@@ -12,9 +12,9 @@ import * as api from "@/services";
 import { useQuery } from "react-query";
 
 const Categories = () => {
-    const { data, isLoading } = useQuery(["get-home-categories"], () =>
-      api.getHomeCategories()
-    );
+  const { data, isLoading } = useQuery(["get-home-categories"], () =>
+    api.getHomeCategories()
+  );
   return (
     <Paper elevation={0}>
       <Stack
