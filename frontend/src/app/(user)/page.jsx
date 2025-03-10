@@ -1,6 +1,10 @@
-import Hero from "@/components/_main/home/hero";
 import { Container } from "@mui/material";
 import React from "react";
+
+// components
+import Hero from "src/components/_main/home/hero"; // Importing the Hero component.
+// import WhyUs from 'src/components/_main/home/whyUs'; // Importing the WhyUs component.
+import TopBanners from "src/components/_main/home/topBanners"; // Importing the TopBanners component.
 
 const IndexPage = () => {
   return (
