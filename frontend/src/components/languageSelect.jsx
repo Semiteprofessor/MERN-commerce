@@ -1,5 +1,13 @@
 import { Api } from "@mui/icons-material";
-import { alpha, Dialog, IconButton } from "@mui/material";
+import {
+  alpha,
+  Button,
+  Dialog,
+  DialogContent,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { MdClear, MdCurrencyExchange } from "react-icons/md";
 import { useQuery } from "react-query";
@@ -7,6 +15,7 @@ import { useQuery } from "react-query";
 // api
 import * as api from "@/services";
 import { useDispatch, useSelector } from "react-redux";
+import { handleChangeCurrency } from "@/redux/slices/settings";
 
 const LanguageSelect = () => {
   const dispatch = useDispatch();
@@ -53,6 +62,34 @@ const LanguageSelect = () => {
         >
           <MdClear />
         </IconButton>
+        <DialogContent>
+          <Typography variant="h5" mb={2}>
+            Choose a currency
+          </Typography>
+          <Grid>
+            {(isLoading ? Array.from(new Array(12)) : (data?.data ?? [])).map(
+              (cur, idx) => (
+                <Grid key={idx} item xs={12} md={4}>
+                  <Button
+                    onClick={() => {
+                      if (!isLoading && cur) {
+                        dispatch(
+                          handleChangeCurrency({
+                            currency: cur.code,
+                            rate: cur.rate,
+                          })
+                        );
+                      }
+                      handleClose();
+                    }}
+                    fullWidth
+                    size="large"
+                  />
+                </Grid>
+              )
+            )}
+          </Grid>
+        </DialogContent>
       </Dialog>
     </React.Fragment>
   );
