@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// ----------------------------------------------------------------------
+
+// initial state
 const initialState = {
   themeMode: "light",
   openSidebar: false,
@@ -7,10 +10,11 @@ const initialState = {
   rate: 1,
 };
 
+// slice
 const slice = createSlice({
   name: "settings",
   initialState,
-  reducer: {
+  reducers: {
     setThemeMode: (state, action) => {
       state.themeMode = action.payload;
     },
@@ -24,7 +28,11 @@ const slice = createSlice({
   },
 });
 
+// Reducer
 export default slice.reducer;
 
+// Actions
 export const { setThemeMode, toggleSidebar, handleChangeCurrency } =
   slice.actions;
+
+// ----------------------------------------------------------------------
