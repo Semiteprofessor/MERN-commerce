@@ -1,9 +1,13 @@
 "use client";
 
 import PropTypes from "prop-types";
-import { CacheProvider } from "@emotion/react";
-import { createTheme, ThemeProvider } from "@mui/material";
 import React from "react";
+
+// mui
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme } from "@mui/material/styles";
+import * as locales from "@mui/material/locale";
 
 // emotion
 import createCache from "@emotion/cache";
@@ -21,10 +25,6 @@ import shape from "./shape";
 import shadows, { customShadows } from "./shadows";
 import componentsOverride from "./overrides";
 import { usePathname } from "next/navigation";
-
-ThemeRegistry.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 const Localization = (lang) => {
   switch (lang) {
@@ -52,13 +52,22 @@ const ThemeRegistry = ({ children }) => {
   });
 
   const customTheme = () => {
-    createTheme({
-      palette:
-        themeMode === "dark"
-          ? { ...palette.dark, mode: "dark" }
-          : { ...palette.light, mode: "light" },
-      direction: dir,
-    });
+    createTheme(
+      {
+        palette:
+          themeMode === "dark"
+            ? { ...palette.dark, mode: "dark" }
+            : { ...palette.light, mode: "light" },
+        direction: dir,
+        typography: typography,
+        shadows: themeMode === "dark" ? shadows.dark : shadows.light,
+        shape,
+        breakpoints,
+        customShadows:
+          themeMode === "dark" ? customShadows.light : customShadows.dark,
+      },
+      locales[locale]
+    );
   };
   return (
     <CacheProvider value={styleCache}>
@@ -67,9 +76,18 @@ const ThemeRegistry = ({ children }) => {
           ...customTheme(),
           components: componentsOverride(customTheme()),
         }}
-      ></ThemeProvider>
+      >
+        <main dir={dir}>
+          <CssBaseline />
+          {children}
+        </main>
+      </ThemeProvider>
     </CacheProvider>
   );
+};
+
+ThemeRegistry.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default ThemeRegistry;
