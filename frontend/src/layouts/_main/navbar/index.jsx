@@ -72,7 +72,7 @@ const Navbar = () => {
 
           <Stack gap={2} direction="row" alignItems="center">
             <LanguageSelect />
-            <SettingMode />
+            {/* <SettingMode /> */}
             {/* <WishlistProvider />
             <CompareWidget />
             <CartWidget /> */}

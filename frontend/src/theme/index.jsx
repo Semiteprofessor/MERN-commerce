@@ -1,7 +1,8 @@
 "use client";
-
+import * as React from "react";
 import PropTypes from "prop-types";
-import React from "react";
+import { usePathname } from "next/navigation";
+import { useSelector } from "@/redux";
 
 // mui
 import { ThemeProvider } from "@mui/material/styles";
@@ -24,7 +25,10 @@ import breakpoints from "./breakpoints";
 import shape from "./shape";
 import shadows, { customShadows } from "./shadows";
 import componentsOverride from "./overrides";
-import { usePathname } from "next/navigation";
+
+ThemeRegistry.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 const Localization = (lang) => {
   switch (lang) {
@@ -34,12 +38,12 @@ const Localization = (lang) => {
       return "frFR";
     case "en":
       return "enUS";
-
     default:
       return "frFR";
   }
 };
-const ThemeRegistry = ({ children }) => {
+
+export default function ThemeRegistry({ children }) {
   const { themeMode } = useSelector((state) => state.settings);
   const pathName = usePathname();
   const segments = pathName?.split("/");
@@ -50,8 +54,7 @@ const ThemeRegistry = ({ children }) => {
     key: dir === "rtl" ? "muirtl" : "css",
     stylisPlugins: dir === "rtl" ? [prefixer, rtlPlugin] : [],
   });
-
-  const customTheme = () => {
+  const customTheme = () =>
     createTheme(
       {
         palette:
@@ -68,7 +71,7 @@ const ThemeRegistry = ({ children }) => {
       },
       locales[locale]
     );
-  };
+
   return (
     <CacheProvider value={styleCache}>
       <ThemeProvider
@@ -84,10 +87,4 @@ const ThemeRegistry = ({ children }) => {
       </ThemeProvider>
     </CacheProvider>
   );
-};
-
-ThemeRegistry.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-export default ThemeRegistry;
+}
