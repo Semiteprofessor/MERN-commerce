@@ -32,6 +32,7 @@ const Providers = (props) => {
         },
       })
   );
+
   return (
     <Provider store={reduxStore}>
       <AuthProvider isAuth={props.isAuth}>
@@ -58,6 +59,7 @@ const Providers = (props) => {
               {props.children}
             </PersistGate>
           </QueryClientProvider>
+          <ProgressBar />
         </ThemeRegistry>
       </AuthProvider>
     </Provider>
