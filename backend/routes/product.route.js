@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const product = require("../controllers/product");
-const vendor_product = require("../controllers/vendor-product");
+const product = require("../controllers/product.ctl");
+const vendor_product = require("../controllers/vendor-product.ctl");
 
 // Import verifyToken function
 const verifyToken = require("../config/jwt");
