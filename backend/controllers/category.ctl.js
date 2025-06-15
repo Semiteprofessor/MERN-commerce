@@ -180,3 +180,34 @@ const deleteCategoryBySlug = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getCategories = async (req, res) => {
+  try {
+    const { limit = 10, page = 1, search = "" } = req.query;
+
+    const skip = parseInt(limit) || 10;
+    const totalCategories = await Categories.find({
+      name: { $regex: search, $options: "i" },
+    });
+    const categories = await Categories.find(
+      {
+        name: { $regex: search, $options: "i" },
+      },
+      null,
+      {
+        skip: skip * (parseInt(page) - 1 || 0),
+        limit: skip,
+      }
+    ).sort({
+      createdAt: -1,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: categories,
+      count: Math.ceil(totalCategories.length / skip),
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
