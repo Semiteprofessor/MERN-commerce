@@ -159,3 +159,24 @@ const updateCategoryBySlug = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const deleteCategoryBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const category = await Categories.findOneAndDelete({ slug });
+    const dataaa = await singleFileDelete(category.cover._id);
+    if (!category) {
+      return res.status(400).json({
+        success: false,
+        message: "Category Not Found",
+      });
+    }
+
+    res
+      .status(201)
+      .json({ success: true, message: "Category Deleted Successfully" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
