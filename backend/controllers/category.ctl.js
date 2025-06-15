@@ -25,3 +25,26 @@ const createCategory = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getAllHeaderCategories = async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    await SubCategories.findOne();
+    const categories = await Categories.find()
+      .sort({
+        createdAt: -1,
+      })
+      .select(["name", "slug", "subCategories"])
+      .populate({ path: "subCategories", select: ["name", "slug"] });
+
+    res.status(201).json({
+      success: true,
+      data: categories,
+      ...(!userCount && {
+        adminPopup: true,
+      }),
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};

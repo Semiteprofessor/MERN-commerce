@@ -1,5 +1,5 @@
-const Users = require("../models/User");
-const Shop = require("../models/Shop");
+const Users = require("../models/User.model");
+const Shop = require("../models/Shop.model");
 
 exports.getUser = async (req, res, requireVerify) => {
   if (!req.user) {
