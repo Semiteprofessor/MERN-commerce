@@ -133,3 +133,29 @@ const getCategoryBySlug = async (req, res) => {
     });
   }
 };
+
+const updateCategoryBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { cover, ...others } = req.body;
+    // Validate if the 'blurDataURL' property exists in the logo object
+    if (!cover.blurDataURL) {
+      // If blurDataURL is not provided, generate it using the 'getBlurDataURL' function
+      cover.blurDataURL = await getBlurDataURL(cover.url);
+    }
+    await Categories.findOneAndUpdate(
+      { slug },
+      {
+        ...others,
+        cover: {
+          ...cover,
+        },
+      },
+      { new: true, runValidators: true }
+    );
+
+    res.status(201).json({ success: true, message: "Category Updated" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
