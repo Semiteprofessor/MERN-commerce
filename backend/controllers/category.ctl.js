@@ -84,3 +84,24 @@ const getCategoriesByAdmin = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getCategoryByAdmin = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const category = await Categories.findOne({ slug });
+
+    if (!category) {
+      return res.status(400).json({
+        success: false,
+        message: "Category Not Found",
+      });
+    }
+
+    res.status(201).json({ success: true, data: category });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
