@@ -211,3 +211,30 @@ const getCategories = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getCategoriesSlugs = async (req, res) => {
+  try {
+    const categories = await Categories.find().select("slug");
+
+    res.status(201).json({
+      success: true,
+      data: categories,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+const getSubCategoriesSlugs = async (req, res) => {
+  try {
+    const categories = await SubCategories.find()
+      .select("slug")
+      .populate({ path: "parentCategory", select: ["slug"] });
+
+    res.status(201).json({
+      success: true,
+      data: categories,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
