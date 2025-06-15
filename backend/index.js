@@ -26,3 +26,46 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
+
+  mongoose
+    .connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log("Connected to MongoDB");
+    })
+    .catch((error) => {
+      console.error("Error connecting to MongoDB:", error);
+    });
+
+  // Routes
+
+  // var cron = require('node-cron');
+
+  // cron.schedule('* * * * *', () => {
+  //   console.log('running a task every minute');
+  // });
+
+  const homeRoutes = require("./routes/home");
+  const authRoutes = require("./routes/auth");
+  const brandRoutes = require("./routes/brand");
+  const categoryRoutes = require("./routes/category");
+  const subcategoryRoutes = require("./routes/subcategory");
+  const newsletterRoutes = require("./routes/newsletter");
+  const productRoutes = require("./routes/product");
+  const dashboardRoutes = require("./routes/dashboard");
+  const searchRoutes = require("./routes/search");
+  const userRoutes = require("./routes/user");
+  const cartRoutes = require("./routes/cart");
+  const couponCodeRoutes = require("./routes/coupon-code");
+  const productReviewRoutes = require("./routes/product-review");
+  const reviewRoutes = require("./routes/review");
+  const wishlistRoutes = require("./routes/wishlist");
+  const OrderRoutes = require("./routes/order");
+  const paymentRoutes = require("./routes/payment-intents");
+  const delete_fileRoutes = require("./routes/file-delete");
+  const shopRoutes = require("./routes/shop");
+  const payment = require("./routes/payment");
+  const currency = require("./routes/currencies");
+  const compaign = require("./routes/compaign");
