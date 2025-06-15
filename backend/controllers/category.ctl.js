@@ -67,3 +67,20 @@ const getAllCategories = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getCategoriesByAdmin = async (req, res) => {
+  try {
+    const categories = await Categories.find()
+      .sort({
+        createdAt: -1,
+      })
+      .select(["name", "slug"]);
+
+    res.status(201).json({
+      success: true,
+      data: categories,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
