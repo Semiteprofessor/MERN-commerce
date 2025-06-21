@@ -70,4 +70,32 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  reviews: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "ProductReview",
+    },
+  ],
+
+  shop: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Shop",
+    required: true,
+  },
+  images: [
+    {
+      url: {
+        type: String,
+        required: [true],
+      },
+      _id: {
+        type: String,
+        required: [true],
+      },
+      blurDataURL: {
+        type: String,
+        required: [true, "image-blur-data-url-required-error"],
+      },
+    },
+  ],
 });
