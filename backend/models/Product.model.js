@@ -43,4 +43,31 @@ const productSchema = new mongoose.Schema({
     ref: "SubCategory",
     required: [true, "please provide a sub category id"],
   },
+  gender: {
+    type: String,
+  },
+  tags: [String],
+  sku: {
+    type: String,
+    required: [true, "SKU is required."],
+  },
+  price: {
+    type: Number,
+    required: [true, "Price is required."],
+  },
+  priceSale: {
+    type: Number,
+    required: [true, "Sale price is required."],
+  },
+  oldPriceSale: {
+    type: Number,
+  },
+  available: {
+    type: Number,
+    required: [true, "Available quantity is required."],
+  },
+  sold: {
+    type: Number,
+    default: 0,
+  },
 });
