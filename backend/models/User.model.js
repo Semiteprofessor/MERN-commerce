@@ -70,4 +70,44 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide a Phone Number."],
     maxlength: [20, "Phone cannot be more than 20 characters."],
   },
+  status: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  zip: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  about: {
+    type: String,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  otp: {
+    type: String,
+    required: true,
+  },
+  lastOtpSentAt: {
+    type: Date,
+  },
+  commission: {
+    type: Number,
+  },
+  role: {
+    type: String,
+    enum: ["super admin", "admin", "user", "vendor"],
+    required: true,
+  },
 });
