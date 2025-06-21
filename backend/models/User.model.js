@@ -52,4 +52,22 @@ const UserSchema = new mongoose.Schema({
       ref: "Product",
     },
   ],
+  orders: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
+  shop: { type: mongoose.Types.ObjectId, ref: "Shop" },
+  recentProducts: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
+  phone: {
+    type: String,
+    required: [true, "Please provide a Phone Number."],
+    maxlength: [20, "Phone cannot be more than 20 characters."],
+  },
 });
