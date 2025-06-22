@@ -150,3 +150,43 @@ const deleteSubCategoriesBySlug = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+const getSubCategories = async (req, res) => {
+  try {
+    const subcategories = await SubCategories.find().sort({
+      createdAt: -1,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: subcategories,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const getSubCategoryNameBySlug = async (req, res) => {
+  try {
+    const subcategory = await SubCategories.findOne({ slug: req.params.slug })
+      .select(["name", "slug"])
+      .populate({ path: "parentCategory", select: ["name", "slug"] });
+
+    res.status(201).json({
+      success: true,
+      data: subcategory,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+module.exports = {
+  createSubCategory,
+  getSubCategories,
+  getAllSubCategories,
+  getSubCategoriesBySlug,
+  updateSubCategoriesBySlug,
+  deleteSubCategoriesBySlug,
+  getSubCategoryNameBySlug,
+};
+  
