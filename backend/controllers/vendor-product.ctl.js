@@ -143,3 +143,64 @@ const createProductByVendor = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getOneProductVendor = async (req, res) => {
+  try {
+    const vendor = await getVendor(req, res);
+    const shop = await Shop.findOne({
+      vendor: vendor._id.toString(),
+    });
+    if (!shop) {
+      res.status(404).json({ success: false, message: "Shop not found" });
+    }
+
+    const product = await Product.findOne({
+      slug: req.params.slug,
+      shop: shop._id,
+    });
+    const category = await Category.findById(product.category).select([
+      "name",
+      "slug",
+    ]);
+    const brand = await Brand.findById(product.brand).select("name");
+
+    if (!product) {
+      notFound();
+    }
+    const getProductRatingAndProductReviews = () => {
+      return Product.aggregate([
+        {
+          $match: { slug: req.params.slug },
+        },
+        {
+          $lookup: {
+            from: "productreviews",
+            localField: "reviews",
+            foreignField: "_id",
+            as: "reviews",
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            rating: { $avg: "$reviews.rating" },
+            totalProductReviews: { $size: "$reviews" },
+          },
+        },
+      ]);
+    };
+
+    const reviewReport = await getProductRatingAndProductReviews();
+    return res.status(201).json({
+      success: true,
+      data: product,
+      totalRating: reviewReport[0]?.rating,
+      totalProductReviews: reviewReport[0]?.totalProductReviews,
+      brand: brand,
+      category: category,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, error: error.message });
+  }
+};
