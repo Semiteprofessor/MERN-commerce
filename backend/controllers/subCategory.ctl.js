@@ -125,4 +125,28 @@ const updateSubCategoriesBySlug = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-  
+
+const deleteSubCategoriesBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const subCategory = await SubCategories.findOneAndDelete({ slug });
+    await singleFileDelete(subCategory.cover._id);
+    await Category.findByIdAndUpdate(subCategory.parentCategory, {
+      $pull: { subCategories: subCategory._id },
+    });
+
+    if (!subCategory) {
+      return res.status(400).json({
+        success: false,
+        message: "Subcategory Not Found",
+      });
+    }
+
+    res
+      .status(201)
+      .json({ success: true, message: "SubCategory Deleted Successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
