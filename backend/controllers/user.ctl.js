@@ -114,4 +114,81 @@ const getInvoice = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const changePassword = async (req, res) => {
+  try {
+    const user = await getUser(req, res);
+    const uid = user._id.toString();
+    const { password, newPassword, confirmPassword } = await req.body;
+
+    // Find the user by ID
+    const userWithPassword = await User.findById(uid).select("password");
+
+    if (!userWithPassword) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User Not Found" });
+    }
+
+    // Check if the old password matches the stored hashed password
+    const passwordMatch = await bcrypt.compare(
+      password,
+      userWithPassword.password
+    );
+
+    if (passwordMatch) {
+      // Check if the new password and confirm password match
+      if (newPassword !== confirmPassword) {
+        return res
+          .status(400)
+          .json({ success: false, message: "New Password Mismatch" });
+      }
+      if (password === newPassword) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Please Enter A New Password ",
+          },
+          { status: 400 }
+        );
+      }
+      // Hash the new password before updating
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update the password with the hashed version
+      const updatedUser = await User.findByIdAndUpdate(
+        uid,
+        { password: hashedNewPassword },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+
+      if (!updatedUser) {
+        return res
+          .status(404)
+          .json({ success: false, message: "User Not Found" });
+      }
+
+      return res
+        .status(201)
+        .json({ success: true, message: "Password Changed" });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: "Old Password Incorrect" });
+    }
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  getOneUser,
+  updateUser,
+  getInvoice,
+  changePassword,
+  getUserByAdmin,
+};
   
