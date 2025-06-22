@@ -95,3 +95,51 @@ const getProductsByVendor = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const createProductByVendor = async (req, res) => {
+  try {
+    const vendor = await getVendor(req, res);
+
+    const { images, ...body } = req.body;
+
+    const shop = await Shop.findOne({
+      vendor: vendor._id.toString(),
+    });
+
+    if (!shop) {
+      res.status(404).json({ success: false, message: "Shop not found" });
+    }
+    if (shop.status !== "approved") {
+      return res.status(400).json({
+        success: false,
+        message: "No Action Before You’re Approved",
+      });
+    }
+
+    const updatedImages = await Promise.all(
+      images.map(async (image) => {
+        const blurDataURL = await blurDataUrl(image.url);
+        return { ...image, blurDataURL };
+      })
+    );
+
+    const data = await Product.create({
+      ...body,
+      shop: shop._id,
+      images: updatedImages,
+      likes: 0,
+    });
+    await Shop.findByIdAndUpdate(shop._id.toString(), {
+      $addToSet: {
+        products: data._id,
+      },
+    });
+    res.status(201).json({
+      success: true,
+      message: "Product Created",
+      data: data,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
