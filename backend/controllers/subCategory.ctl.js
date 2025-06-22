@@ -81,3 +81,48 @@ const getSubCategoriesBySlug = async (req, res) => {
     });
   }
 };
+
+const updateSubCategoriesBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { cover, ...others } = req.body;
+    // Validate if the 'blurDataURL' property exists in the logo object
+    if (!cover.blurDataURL) {
+      // If blurDataURL is not provided, generate it using the 'getBlurDataURL' function
+      cover.blurDataURL = await getBlurDataURL(cover.url);
+    }
+    const currentCategory = await SubCategories.findOneAndUpdate(
+      { slug },
+      {
+        ...others,
+        cover: {
+          ...cover,
+        },
+      },
+      { new: true, runValidators: true }
+    );
+    // Check if parent category is updated
+    if (
+      String(currentCategory.parentCategory) !== String(others.parentCategory)
+    ) {
+      // Remove subcategory from old parent category
+      await Category.findByIdAndUpdate(currentCategory.parentCategory, {
+        $pull: { subCategories: currentCategory._id },
+      });
+
+      // Add subcategory to new parent category
+      await Category.findByIdAndUpdate(others.parentCategory, {
+        $addToSet: { subCategories: currentCategory._id },
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "SubCategory Updated",
+      currentCategory,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+  
