@@ -204,3 +204,42 @@ const getOneProductVendor = async (req, res) => {
     return res.status(400).json({ success: false, error: error.message });
   }
 };
+
+const updateProductByVendor = async (req, res) => {
+  try {
+    const vendor = await getVendor(req, res);
+    const shop = await Shop.findOne({
+      vendor: vendor._id.toString(),
+    });
+    if (!shop) {
+      res.status(404).json({ success: false, message: "Shop not found" });
+    }
+    const { slug } = req.params;
+    const { images, ...body } = req.body;
+
+    const updatedImages = await Promise.all(
+      images.map(async (image) => {
+        const blurDataURL = await blurDataUrl(image.url);
+        return { ...image, blurDataURL };
+      })
+    );
+
+    const updated = await Product.findOneAndUpdate(
+      { slug: slug, shop: shop._id },
+      {
+        ...body,
+        images: updatedImages,
+        shop: shop._id,
+      },
+      { new: true, runValidators: true }
+    );
+
+    return res.status(201).json({
+      success: true,
+      data: updated,
+      message: "Product Updated",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, error: error.message });
+  }
+};
