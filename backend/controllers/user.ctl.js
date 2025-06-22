@@ -89,4 +89,29 @@ const updateUser = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getInvoice = async (req, res) => {
+  try {
+    const user = await getUser(req, res);
+    const { limit = 10, page = 1 } = req.query;
+
+    const skip = parseInt(limit) * (parseInt(page) - 1) || 0;
+    const totalOrderCount = await Orders.countDocuments();
+
+    const orders = await Orders.find({ "user.email": user.email }, null, {
+      skip: skip,
+      limit: parseInt(limit),
+    }).sort({
+      createdAt: -1,
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: orders,
+      count: Math.ceil(totalOrderCount / parseInt(limit)),
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
   
