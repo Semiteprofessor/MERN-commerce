@@ -27,3 +27,23 @@ const getReviews = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+const createReview = async (req, res) => {
+  try {
+    const user = await getUser(req, res);
+    const uid = user._id.toString();
+    const { rating, review, designation } = req.body;
+
+    // Create new review
+    const newReview = await Review.create({
+      user: uid,
+      rating,
+      review,
+      designation,
+    });
+
+    res.status(201).json({ success: true, data: newReview });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
