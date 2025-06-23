@@ -481,3 +481,35 @@ const getShops = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getAllShopsByAdmin = async (req, res) => {
+  try {
+    const shops = await Shop.find({}).select(["title", "slug", "_id"]);
+    return res.status(200).json({
+      success: true,
+      data: shops,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+const getAllShops = async (req, res) => {
+  try {
+    const shops = await Shop.find({}).select([
+      "logo",
+      "cover",
+      "followers",
+      "title",
+      "description",
+      "slug",
+      "address",
+    ]);
+    return res.status(200).json({
+      success: true,
+      data: shops,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+  
