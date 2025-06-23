@@ -49,3 +49,35 @@ const getShopsByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const createShopByAdmin = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res);
+    const { logo, cover, ...others } = req.body;
+    const logoBlurDataURL = await getBlurDataURL(logo.url);
+    const coverBlurDataURL = await getBlurDataURL(cover.url);
+
+    const shop = await Shop.create({
+      vendor: admin._id.toString(),
+      ...others,
+      logo: {
+        ...logo,
+        blurDataURL: logoBlurDataURL,
+      },
+      cover: {
+        ...cover,
+        blurDataURL: coverBlurDataURL,
+      },
+      status: "approved",
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: shop,
+      message: "Shop created",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+  
