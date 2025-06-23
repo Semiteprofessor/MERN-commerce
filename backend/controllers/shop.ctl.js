@@ -80,4 +80,34 @@ const createShopByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+async function getTotalEarningsByShopId(shopId) {
+  // const result = await Payment.find({ shop: shopId });
+  const pipeline = [
+    {
+      $match: {
+        shop: shopId,
+        status: "paid", // Filter by shop ID and paid status
+      },
+    },
+    {
+      $group: {
+        _id: null, // Group all documents (optional, set shop ID for grouping by shop)
+        totalEarnings: { $sum: "$totalIncome" }, // Calculate sum of totalIncome for paid payments
+        totalCommission: { $sum: "$totalCommission" }, // Calculate sum of totalIncome for paid payments
+      },
+    },
+  ];
+
+  const result = await Payment.aggregate(pipeline);
+
+  if (result.length > 0) {
+    return result[0]; // Return total earnings from paid payments
+  } else {
+    return {
+      totalEarnings: 0,
+      totalCommission: 0,
+    }; // Return 0 if no paid payments found for the shop
+  }
+}
   
