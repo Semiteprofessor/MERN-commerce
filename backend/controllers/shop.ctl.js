@@ -142,4 +142,69 @@ const getOneShopByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const updateOneShopByAdmin = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const admin = await getAdmin(req, res);
+    const shop = await Shop.findOne({ slug });
+
+    // Check if the shop exists
+    if (!shop) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Shop not found" });
+    }
+
+    const { logo, cover, status, ...others } = req.body;
+    const logoBlurDataURL = await getBlurDataURL(logo.url);
+    const coverBlurDataURL = await getBlurDataURL(cover.url);
+
+    const updatedShop = await Shop.findOneAndUpdate(
+      { slug: slug },
+      {
+        ...others,
+        logo: { ...logo, blurDataURL: logoBlurDataURL },
+        cover: { ...cover, blurDataURL: coverBlurDataURL },
+        status: status, // Update shop status
+      },
+      { new: true, runValidators: true }
+    );
+
+    // Find the vendor associated with the updated shop
+    const vendor = await User.findById(updatedShop.vendor);
+
+    // Email message
+    let message;
+    if (status === "approved") {
+      message = "Your shop is now approved.";
+    } else {
+      message = "Your shop is not approved.";
+    }
+
+    // Create nodemailer transporter
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.RECEIVING_EMAIL, // Your Gmail email
+        pass: process.env.EMAIL_PASSWORD, // Your Gmail password
+      },
+    });
+
+    // Email options
+    let mailOptions = {
+      from: process.env.RECEIVING_EMAIL, // Your Gmail email
+      to: vendor.email, // User's email
+      subject: "Shop Status Update", // Email subject
+      text: message, // Email body
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({ success: true, message: "Updated Shop" });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
   
