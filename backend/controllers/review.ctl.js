@@ -73,3 +73,33 @@ const getReviewsByAdmin = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getOneReviewByAdmin = async (req, res) => {
+  try {
+    const { rid } = req.params;
+    const review = await Review.findById(rid);
+    res.status(200).json({ success: true, data: review });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+const createReviewByAdmin = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res);
+    const uid = admin._id.toString();
+    const { rating, review, designation } = req.body;
+
+    // Create new review
+    const newReview = await Review.create({
+      user: uid,
+      rating,
+      review,
+      designation,
+    });
+
+    res.status(201).json({ success: true, data: newReview });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
