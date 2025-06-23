@@ -103,3 +103,23 @@ const createReviewByAdmin = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
+const updateReviewByAdmin = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res);
+    const uid = admin._id.toString();
+    const { rid } = req.params;
+    const { rating, review, designation } = req.body;
+
+    const newReview = await Review.findByIdAndUpdate(rid, {
+      user: uid,
+      rating,
+      review,
+      designation,
+    });
+
+    res.status(201).json({ success: true, data: newReview });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
