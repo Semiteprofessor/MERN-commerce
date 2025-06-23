@@ -512,4 +512,33 @@ const getAllShops = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getOneShopByUser = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const shop = await Shop.findOne({ slug: slug });
+    if (!shop) {
+      return res.status(404).json({ message: "Shop Not Found" });
+    }
+    return res.status(200).json({
+      success: true,
+      data: shop,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const getShopsSlugs = async (req, res) => {
+  try {
+    const shops = await Shop.find().select(["slug"]);
+
+    res.status(201).json({
+      success: true,
+      data: shops,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
   
