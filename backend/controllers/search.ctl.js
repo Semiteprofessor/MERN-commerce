@@ -7,7 +7,7 @@ const SubCategory = require("../models/SubCategory.model");
 const Search = async (req, res) => {
   try {
     const { query, shop, subCategory, category } = req.body;
-    const currenctShop = shop ? await Shop.findById(shop).select(["_id"]) : "";
+    const currentShop = shop ? await Shop.findById(shop).select(["_id"]) : "";
     const catId = category
       ? await Category.findById(category).select(["_id"])
       : "";
@@ -19,8 +19,8 @@ const Search = async (req, res) => {
       {
         $match: {
           name: { $regex: query || "", $options: "i" },
-          ...(currenctShop && {
-            shop: currenctShop._id,
+          ...(currentShop && {
+            shop: currentShop._id,
           }),
           ...(catId && {
             category: catId._id,
@@ -73,3 +73,28 @@ const Search = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getFilters = async (req, res) => {
+  try {
+    await SubCategory.findOne();
+    const categories = await Category.find()
+      .select(["_id", "name", "slug", "subCategories"])
+      .populate({
+        path: "subCategories",
+        select: ["_id", "name", "slug"],
+      });
+
+    const shops = await Shop.find().select(["_id", "title", "slug"]);
+
+    return res.status(200).json({
+      success: true,
+      categories,
+      shops,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { Search, getFilters };
+  
