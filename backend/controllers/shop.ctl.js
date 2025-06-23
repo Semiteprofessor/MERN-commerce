@@ -235,3 +235,24 @@ const updateShopStatusByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const deleteOneShopByAdmin = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res);
+    const { slug } = req.params;
+    const shop = await Shop.findOne({ slug, vendor: admin._id });
+    if (!shop) {
+      return res.status(404).json({ message: "Shop Not Found" });
+    }
+    await singleFileDelete(shop.cover._id);
+    await singleFileDelete(shop.logo._id);
+    // const dataaa = await singleFileDelete(shop?.logo?._id,shop?.cover?._id);
+    await Shop.deleteOne({ slug }); // Corrected to pass an object to deleteOne method
+    return res.status(200).json({
+      success: true,
+      message: "Shop Deleted Successfully", // Corrected message typo
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
