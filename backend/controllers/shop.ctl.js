@@ -541,4 +541,28 @@ const getShopsSlugs = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getShopNameBySlug = async (req, res) => {
+  try {
+    const shop = await Shop.findOne({
+      slug: req.params.slug,
+    }).select([
+      "cover",
+      "logo",
+      "description",
+      "title",
+      "slug",
+      "address",
+      "phone",
+      "createdAt",
+    ]);
+
+    res.status(201).json({
+      success: true,
+      data: shop,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
   
