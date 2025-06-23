@@ -340,4 +340,37 @@ const createShopByUser = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getOneShopByVendor = async (req, res) => {
+  try {
+    const vendor = await getVendor(req, res);
+
+    const shop = await Shop.findOne({ vendor: vendor._id });
+    if (!shop) {
+      return res.status(404).json({ message: "Shop Not Found" });
+    }
+    return res.status(200).json({
+      success: true,
+      data: shop,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+const getShopByUser = async (req, res) => {
+  try {
+    const user = await getUser(req, res);
+
+    const shop = await Shop.findOne({ vendor: user._id });
+    if (!shop) {
+      return res.status(200).json({ success: false, data: null });
+    }
+    return res.status(200).json({
+      success: true,
+      data: shop,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
   
