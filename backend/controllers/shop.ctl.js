@@ -412,3 +412,23 @@ const updateOneShopByVendor = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const deleteOneShopByVendor = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const vendor = await getVendor(req, res);
+    const shop = await Shop.findOne({ slug: slug, vendor: vendor._id });
+    if (!shop) {
+      return res.status(404).json({ message: "Shop Not Found" });
+    }
+    // const dataaa = await singleFileDelete(shop?.logo?._id,shop?.cover?._id);
+    await Shop.deleteOne({ _id: slug, vendor: vendor._id }); // Corrected to pass an object to deleteOne method
+    return res.status(200).json({
+      success: true,
+      message: "Shop Deleted Successfully", // Corrected message typo
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+  
