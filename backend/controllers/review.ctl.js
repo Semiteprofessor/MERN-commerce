@@ -123,3 +123,25 @@ const updateReviewByAdmin = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
+const deleteReviewByAdmin = async (req, res) => {
+  try {
+    const { rid } = req.params;
+
+    const deletedReview = await Review.findByIdAndDelete(rid);
+
+    res.status(201).json({ success: true, data: deletedReview });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
+module.exports = {
+  getReviews,
+  createReview,
+  getReviewsByAdmin,
+  getOneReviewByAdmin,
+  createReviewByAdmin,
+  updateReviewByAdmin,
+  deleteReviewByAdmin,
+};
