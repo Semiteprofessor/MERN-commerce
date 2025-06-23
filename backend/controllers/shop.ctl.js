@@ -565,4 +565,35 @@ const getShopNameBySlug = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
-  
+
+const getShopStatsByVendor = async (req, res) => {
+  try {
+    // const admin = await getAdmin(req, res);
+
+    const shop = await Shop.findOne({ vendor: req.user._id });
+    if (!shop) {
+      return res.status(404).json({ message: "Shop Not Found" });
+    }
+    const { totalCommission, totalEarnings } = await getTotalEarningsByShopId(
+      shop._id
+    );
+    // stats
+    const totalProducts = await Product.countDocuments({
+      shop: shop._id,
+    });
+    const totalOrders = await Orders.countDocuments({
+      "items.shop": shop._id,
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: shop,
+      totalOrders,
+      totalEarnings,
+      totalCommission,
+      totalProducts,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
