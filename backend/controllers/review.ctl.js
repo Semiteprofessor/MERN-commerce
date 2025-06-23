@@ -47,3 +47,29 @@ const createReview = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
+const getReviewsByAdmin = async (req, res) => {
+  try {
+    const skip = 10;
+    const ReviewTotal = await Review.find({}, null, {}).sort({
+      createdAt: -1,
+    });
+
+    const page = parseInt(req.query.page) || 1;
+
+    const data = await Review.find({}, null, {
+      skip: skip * (page - 1),
+      limit: skip,
+    }).sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: data,
+      count: Math.ceil(ReviewTotal.length / skip),
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
