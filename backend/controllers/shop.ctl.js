@@ -256,3 +256,35 @@ const deleteOneShopByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+// Vendor apis
+const createShopByVendor = async (req, res) => {
+  try {
+    const vendor = await getVendor(req, res);
+    const { logo, cover, ...others } = req.body;
+    const logoBlurDataURL = await getBlurDataURL(logo?.url);
+    const coverBlurDataURL = await getBlurDataURL(cover?.url);
+
+    const shop = await Shop.create({
+      vendor: vendor._id.toString(),
+      ...others,
+      logo: {
+        ...logo,
+        blurDataURL: logoBlurDataURL,
+      },
+      cover: {
+        ...cover,
+        blurDataURL: coverBlurDataURL,
+      },
+      status: "pending",
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: shop,
+      message: "Shop created",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
