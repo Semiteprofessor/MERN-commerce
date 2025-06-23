@@ -207,4 +207,31 @@ const updateOneShopByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
-  
+
+const updateShopStatusByAdmin = async (req, res) => {
+  try {
+    const { sid } = req.params;
+    const admin = await getAdmin(req, res);
+    const { status } = req.body;
+    const updateStatus = await Shop.findOneAndUpdate(
+      {
+        _id: sid,
+        vendor: admin._id,
+      },
+      {
+        status,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Updated Status",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
