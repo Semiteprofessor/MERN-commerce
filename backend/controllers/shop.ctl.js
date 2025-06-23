@@ -373,4 +373,42 @@ const getShopByUser = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
-  
+
+const updateOneShopByVendor = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const vendor = await getVendor(req, res);
+    const { logo, cover, ...others } = req.body;
+    const logoBlurDataURL = await getBlurDataURL(logo?.url);
+    const coverBlurDataURL = await getBlurDataURL(cover?.url);
+    const updateShop = await Shop.findOneAndUpdate(
+      {
+        slug: slug,
+        vendor: vendor._id.toString(),
+      },
+      {
+        ...others,
+        logo: {
+          ...logo,
+          blurDataURL: logoBlurDataURL,
+        },
+        cover: {
+          ...cover,
+          blurDataURL: coverBlurDataURL,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Updated shop",
+      data: updateShop,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
