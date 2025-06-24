@@ -1006,4 +1006,75 @@ async function deletedProductByAdmin(req, res) {
     return res.status(400).json({ success: false, message: error.message });
   }
 }
+
+const getFiltersByCategory = async (req, res) => {
+  try {
+    const { shop, category } = req.params;
+    // Fetch shop data
+    const shopData = await Shop.findOne({ slug: shop }).select(["_id"]);
+    console.log("Shop Data:", shopData); // Log shop data
+    if (!shopData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Shop Not Found" });
+    }
+
+    // Fetch category data
+    const categoryData = await Category.findOne({ slug: category }).select([
+      "_id",
+      "name",
+    ]);
+    if (!categoryData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Category Not Found" });
+    }
+    // Fetch products for the category under the specified shop
+    const products = await Product.find({
+      status: { $ne: "disabled" },
+      category: categoryData._id,
+      shop: shopData._id,
+    }).select(["colors", "sizes", "gender", "price", "brand"]);
+
+    // Extract unique values for colors, sizes, gender, and prices
+    const colors = [
+      ...new Set(products.flatMap((product) => product.colors || [])),
+    ];
+    const sizes = [
+      ...new Set(products.flatMap((product) => product.sizes || [])),
+    ];
+    const genders = [
+      ...new Set(products.flatMap((product) => product.gender || [])),
+    ];
+    const prices = products.flatMap((product) => product.price || []);
+    const minPrice = Math.min(...prices, 0); // Calculate min price
+    const maxPrice = Math.max(...prices, 100000); // Calculate max price
+
+    // Extract unique brands
+    const brands = [...new Set(products.map((product) => product.brand))];
+
+    // Remove any undefined or null values from brands array
+    const cleanBrands = brands.filter(Boolean);
+
+    // Query the Brand collection to get additional information for brands
+    const brandData = await Brand.find({ _id: { $in: cleanBrands } }).select([
+      "_id",
+      "slug",
+      "name",
+    ]);
+
+    // Construct the response object
+    const response = {
+      colors,
+      sizes,
+      prices: [minPrice, maxPrice],
+      genders,
+      brands: brandData,
+    };
+
+    res.status(200).json({ success: true, data: response });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
   
