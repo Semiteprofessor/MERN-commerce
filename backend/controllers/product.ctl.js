@@ -858,3 +858,37 @@ const getProductsByAdmin = async (request, response) => {
     response.status(400).json({ success: false, message: error.message });
   }
 };
+
+const createProductByAdmin = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res);
+
+    const { images, ...body } = req.body;
+
+    const updatedImages = await Promise.all(
+      images.map(async (image) => {
+        const blurDataURL = await blurDataUrl(image.url);
+        return { ...image, blurDataURL };
+      })
+    );
+    const data = await Product.create({
+      vendor: admin._id,
+      ...body,
+      images: updatedImages,
+      likes: 0,
+    });
+    await Shop.findByIdAndUpdate(req.body.shop, {
+      $addToSet: {
+        products: data._id,
+      },
+    });
+    res.status(201).json({
+      success: true,
+      message: "Product Created",
+      data: data,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+  
