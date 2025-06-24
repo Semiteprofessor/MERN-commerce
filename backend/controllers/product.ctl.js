@@ -749,3 +749,112 @@ const getFilters = async (req, res) => {
     });
   }
 };
+
+const getProductsByAdmin = async (request, response) => {
+  try {
+    const {
+      page: pageQuery,
+      limit: limitQuery,
+      search: searchQuery,
+      shop,
+      category,
+      brand,
+    } = request.query;
+
+    const limit = parseInt(limitQuery) || 10;
+    const page = parseInt(pageQuery) || 1;
+
+    // Calculate skip correctly
+    const skip = limit * (page - 1);
+
+    let matchQuery = {};
+
+    if (shop) {
+      const currentShop = await Shop.findOne({
+        slug: shop,
+      }).select(["slug", "_id"]);
+
+      matchQuery.shop = currentShop._id;
+    }
+    if (category) {
+      const currentCategory = await Category.findOne({
+        slug: category,
+      }).select(["slug", "_id"]);
+
+      matchQuery.category = currentCategory._id;
+    }
+    if (brand) {
+      const currentBrand = await Brand.findOne({
+        slug: brand,
+      }).select(["slug", "_id"]);
+
+      matchQuery.brand = currentBrand._id;
+    }
+
+    const totalProducts = await Product.countDocuments({
+      name: { $regex: searchQuery || "", $options: "i" },
+      ...matchQuery,
+    });
+
+    const products = await Product.aggregate([
+      {
+        $match: {
+          ...matchQuery,
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+      {
+        $lookup: {
+          from: "productreviews",
+          localField: "reviews",
+          foreignField: "_id",
+          as: "reviews",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $avg: "$reviews.rating" },
+          image: { $arrayElemAt: ["$images", 0] },
+        },
+      },
+
+      {
+        $project: {
+          image: { url: "$image.url", blurDataURL: "$image.blurDataURL" },
+          name: 1,
+          slug: 1,
+          colors: 1,
+          discount: 1,
+          likes: 1,
+          priceSale: 1,
+          price: 1,
+          averageRating: 1,
+          vendor: 1,
+          shop: 1,
+          available: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
+
+    response.status(200).json({
+      success: true,
+      data: products,
+      total: totalProducts,
+      count: Math.ceil(totalProducts / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    response.status(400).json({ success: false, message: error.message });
+  }
+};
