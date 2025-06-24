@@ -218,4 +218,31 @@ const updatePaymentStatus = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
-  
+
+const getPayoutsByAdmin = async (req, res) => {
+  try {
+    const { shop, status } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const count = await Payment.countDocuments({
+      ...(shop && { shop }),
+      ...(status && { status }),
+    });
+    const payments = await Payment.find({
+      ...(shop && { shop }),
+      ...(status && { status }),
+    })
+      .populate({ path: "shop", select: ["logo", "title"] })
+      .skip(limit * (parseInt(page) - 1))
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: payments,
+      count: Math.ceil(count / limit),
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
