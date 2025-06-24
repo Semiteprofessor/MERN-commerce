@@ -246,3 +246,60 @@ const getPayoutsByAdmin = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const lastMonthOrders = async (shopId) => {
+  const today = new Date();
+  const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const firstDayThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  const pipeline = [
+    {
+      $match: {
+        "items.shop": shopId,
+        status: "delivered",
+        createdAt: {
+          $gte: lastMonth, // Filter orders created after or on last month's first day
+          $lt: firstDayThisMonth, // Filter orders created before this month's first day
+        },
+      },
+    },
+    {
+      $project: {
+        // Existing projection fields (if any)
+        month: { $month: "$createdAt" },
+        year: { $year: "$createdAt" },
+        income: {
+          $sum: {
+            $map: {
+              input: {
+                $filter: {
+                  input: "$items",
+                  as: "item",
+                  cond: { $eq: ["$$item.shop", shopId] },
+                },
+              },
+              as: "item",
+              in: { $multiply: ["$$item.quantity", "$$item.priceSale"] }, // Calculate income per item
+            },
+          },
+        },
+        orderId: "$_id",
+      },
+    },
+    {
+      $group: {
+        _id: {
+          month: "$month",
+          year: "$year",
+        },
+        orders: { $push: "$$ROOT" },
+        totalIncome: { $sum: "$income" },
+      },
+    },
+  ];
+
+  const result = await Orders.aggregate(pipeline);
+
+  const lastMonthTotal = result[0] || null;
+  return lastMonthTotal;
+};
