@@ -191,3 +191,31 @@ const deletePayment = async (req, res) => {
     }
   };
   
+const updatePaymentStatus = async (req, res) => {
+  try {
+    const { pid, sid } = req.params;
+    const { status } = req.body;
+
+    const payment = await Payment.findOneAndUpdate(
+      {
+        shop: sid,
+        _id: pid,
+      },
+      {
+        status,
+      }
+    );
+
+    if (!payment) {
+      res.status(404).json({ success: false, message: "Not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: payment,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+  
