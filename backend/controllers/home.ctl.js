@@ -1,7 +1,7 @@
 // controllers/newsController.js
-const BrandModel = require("../models/Brand");
-const Category = require("../models/Category");
-const Product = require("../models/Product");
+const BrandModel = require("../models/Brand.model");
+const Category = require("../models/Category.model");
+const Product = require("../models/Product.model");
 
 const getCategories = async (req, res) => {
   try {

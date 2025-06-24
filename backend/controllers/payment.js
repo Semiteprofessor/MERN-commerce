@@ -1,6 +1,6 @@
-const Payment = require("../models/Payment");
-const Shop = require("../models/Shop");
-const Orders = require("../models/Order");
+const Payment = require("../models/Payment.model");
+const Shop = require("../models/Shop.model");
+const Orders = require("../models/Order.model");
 const { getVendor } = require("../config/getUser");
 const moment = require("moment");
 const getPaymentsByAdmin = async (req, res) => {
@@ -615,4 +615,3 @@ module.exports = {
   getIncomeByShop,
   getIncomeByVendor,
 };
-  

@@ -1,20 +1,20 @@
-const Notifications = require('../models/Notification');
-const Products = require('../models/Product');
-const Orders = require('../models/Order');
-const Coupons = require('../models/CouponCode');
-const User = require('../models/User');
-const Shop = require('../models/Shop');
-const nodemailer = require('nodemailer');
-const fs = require('fs');
-const path = require('path');
-const { getVendor, getAdmin } = require('../config/getUser');
+const Notifications = require("../models/Notification.model");
+const Products = require("../models/Product.model");
+const Orders = require("../models/Order.model");
+const Coupons = require("../models/CouponCode.model");
+const User = require("../models/User.model");
+const Shop = require("../models/Shop.model");
+const nodemailer = require("nodemailer");
+const fs = require("fs");
+const path = require("path");
+const { getVendor, getAdmin } = require("../config/getUser");
 function isExpired(expirationDate) {
   const currentDateTime = new Date();
   return currentDateTime >= new Date(expirationDate);
 }
 function generateOrderNumber() {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  let orderNumber = '';
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let orderNumber = "";
 
   // Generate a random alphabet character
   orderNumber += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
@@ -356,18 +356,18 @@ const getOrdersByVendor = async (req, res) => {
       vendor: vendor._id.toString(),
     });
     if (!shop) {
-      res.status(404).json({ success: false, message: 'Shop not found' });
+      res.status(404).json({ success: false, message: "Shop not found" });
     }
-    const { limit = 10, page = 1, search = '' } = req.query;
+    const { limit = 10, page = 1, search = "" } = req.query;
 
     const skip = parseInt(limit) * (parseInt(page) - 1) || 0;
     const pipeline = [
       {
         $match: {
-          'items.shop': shop._id, // Assuming 'items.shop' refers to the shop ID associated with the order
+          "items.shop": shop._id, // Assuming 'items.shop' refers to the shop ID associated with the order
           $or: [
-            { 'user.firstName': { $regex: new RegExp(search, 'i') } },
-            { 'user.lastName': { $regex: new RegExp(search, 'i') } },
+            { "user.firstName": { $regex: new RegExp(search, "i") } },
+            { "user.lastName": { $regex: new RegExp(search, "i") } },
           ],
         },
       },
@@ -375,7 +375,7 @@ const getOrdersByVendor = async (req, res) => {
     const totalOrderCount = await Orders.aggregate([
       ...pipeline,
       {
-        $count: 'totalOrderCount', // Name the count field as "totalOrderCount"
+        $count: "totalOrderCount", // Name the count field as "totalOrderCount"
       },
     ]);
     // Access the count from the first element of the result array

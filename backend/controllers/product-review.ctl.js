@@ -1,8 +1,8 @@
-const ProductReview = require("../models/ProductReview");
-const Products = require("../models/Product");
-const Users = require("../models/User");
+const ProductReview = require("../models/ProductReview.model");
+const Products = require("../models/Product.model");
+const Users = require("../models/User.model");
 const { getUser } = require("../config/getUser");
-const Orders = require("../models/Order");
+const Orders = require("../models/Order.model");
 const blurDataUrl = require("../config/getBlurDataURL");
 const getProductReviewsByPid = async (req, res) => {
   try {
