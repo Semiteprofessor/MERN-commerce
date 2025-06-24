@@ -969,3 +969,41 @@ const updateProductByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, error: error.message });
   }
 };
+async function deletedProductByAdmin(req, res) {
+  try {
+    const slug = req.params.slug;
+    const product = await Product.findOne({ slug: slug });
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product Not Found",
+      });
+    }
+    // const length = product?.images?.length || 0;
+    // for (let i = 0; i < length; i++) {
+    //   await multiFilesDelete(product?.images[i]);
+    // }
+    if (product && product.images && product.images.length > 0) {
+      await multiFilesDelete(product.images);
+    }
+    const deleteProduct = await Product.deleteOne({ slug: slug });
+    if (!deleteProduct) {
+      return res.status(400).json({
+        success: false,
+        message: "Product Deletion Failed",
+      });
+    }
+    await Shop.findByIdAndUpdate(req.body.shop, {
+      $pull: {
+        products: product._id,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Product Deleted ",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+}
+  
