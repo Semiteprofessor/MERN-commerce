@@ -37,3 +37,53 @@ const getPaymentsByAdmin = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+// Create payment
+const createPayment = async (req, res) => {
+    try {
+      const newPayment = await Payment.create(req.body);
+      res
+        .status(201)
+        .json({ success: true, message: 'Payment created', data: newPayment });
+    } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  };
+  
+  // update payment
+  const updatePayment = async (req, res) => {
+    try {
+      const { id } = req.params;
+      // Find the existing payment
+      const existingPayment = await Payment.findById(id);
+  
+      if (!existingPayment) {
+        return res
+          .status(404)
+          .json({ success: false, message: 'Payment not found' });
+      }
+  
+      const updatedPayment = await Payment.findByIdAndUpdate(
+        id,
+        { ...req.body },
+        {
+          new: true,
+        }
+      );
+  
+      if (!updatedPayment) {
+        return res
+          .status(404)
+          .json({ success: false, message: 'Payment not found' });
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Payment updated',
+        data: updatedPayment,
+      });
+    } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  };
+  
