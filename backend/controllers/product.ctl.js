@@ -1334,3 +1334,94 @@ const getOneProductBySlug = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+const getCompareProducts = async (req, res) => {
+  try {
+    const fetchedProducts = await Product.find({
+      _id: { $in: req.body.products },
+    }).select(["_id"]);
+    const products = await Product.aggregate([
+      {
+        $match: {
+          _id: { $in: fetchedProducts.map((v) => v._id) },
+        },
+      },
+      {
+        $lookup: {
+          from: "productreviews", // Replace with your actual review model name
+          localField: "reviews", // Replace with the field referencing product in reviews
+          foreignField: "_id", // Replace with the field referencing product in reviews
+          as: "reviews",
+        },
+      },
+      {
+        $lookup: {
+          from: "brands", // Replace with your actual review model name
+          localField: "brand", // Replace with the field referencing product in reviews
+          foreignField: "_id", // Replace with the field referencing product in reviews
+          as: "brand",
+        },
+      },
+      {
+        $lookup: {
+          from: "shops", // Replace with your actual review model name
+          localField: "shop", // Replace with the field referencing product in reviews
+          foreignField: "_id", // Replace with the field referencing product in reviews
+          as: "shop",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $avg: "$reviews.rating" },
+          image: { $arrayElemAt: ["$images", 0] },
+          brandName: { $arrayElemAt: ["$brand.name", 0] },
+          shopName: { $arrayElemAt: ["$shop.title", 0] },
+        },
+      },
+      {
+        $project: {
+          _id: 1, // Exclude unnecessary fields if needed
+          brandName: 1,
+          shopName: 1,
+          slug: 1,
+          available: 1,
+          name: 1,
+          sizes: 1,
+          colors: 1,
+          priceSale: 1,
+          price: 1,
+          image: { url: "$image.url", blurDataURL: "$image.blurDataURL" },
+          totalReviews: { $size: "$reviews" }, // Count total reviews
+          averageRating: 1,
+        },
+      },
+    ]);
+    return res.status(201).json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  getProducts,
+  getProductsByCategory,
+  getProductsBySubCategory,
+  getProductsByShop,
+  getFilters,
+  getProductsByAdmin,
+  createProductByAdmin,
+  getOneProductByAdmin,
+  updateProductByAdmin,
+  deletedProductByAdmin,
+  getFiltersByCategory,
+  getFiltersByShop,
+  getAllProductSlug,
+  getFiltersBySubCategory,
+  relatedProducts,
+  getOneProductBySlug,
+  getProductsByCompaign,
+  getCompareProducts,
+};
