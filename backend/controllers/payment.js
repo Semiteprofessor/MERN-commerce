@@ -102,7 +102,7 @@ const deletePayment = async (req, res) => {
       res.status(400).json({ success: false, message: error.message });
     }
   };
-  
+
   const getPaymentsByVender = async (req, res) => {
     try {
       const vendor = await getVendor(req, res);
@@ -122,6 +122,69 @@ const deletePayment = async (req, res) => {
         success: true,
         data: payments,
         count: Math.ceil(totalPayments / skip),
+      });
+    } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  };
+
+  const getPaymentDetailsById = async (req, res) => {
+    try {
+      const { pid } = req.params;
+      const { page = 1, limit = 10 } = req.query; // Set default values for page and limit
+
+      const payment = await Payment.findOne({
+        _id: pid,
+      })
+        .populate({
+          path: "shop",
+          select: [
+            "title",
+            "cover",
+            "logo",
+            "approved",
+            "approvedAt",
+            "description",
+            "status",
+            "phone",
+            "address",
+          ],
+        })
+        .populate({
+          path: "orders",
+          select: [
+            "items",
+            "createdAt",
+            "total",
+            "status",
+            "paymentMethod",
+            "user",
+          ],
+        });
+
+      const orders = payment.orders || []; // Handle case where 'orders' might be empty
+
+      // Pagination logic
+      const totalOrders = orders.length;
+      const start = (parseInt(page) - 1) * parseInt(limit);
+      const end = Math.min(start + parseInt(limit), totalOrders);
+      const paginatedOrders = orders.slice(start, end);
+      const { totalCommission, totalIncome, status, paidAt, date } = payment;
+      res.status(200).json({
+        success: true,
+        payment: {
+          totalCommission,
+          totalIncome,
+          status,
+          paidAt,
+          date,
+        },
+        shop: payment.shop,
+        data: {
+          data: paginatedOrders,
+          total: totalOrders,
+          count: Math.ceil(totalOrders / parseInt(limit)),
+        },
       });
     } catch (error) {
       res.status(400).json({ success: false, message: error.message });
