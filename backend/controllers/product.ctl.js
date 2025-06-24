@@ -1284,3 +1284,53 @@ const relatedProducts = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+const getOneProductBySlug = async (req, res) => {
+  try {
+    const product = await Product.findOne({ slug: req.params.slug });
+    const category = await Category.findById(product.category).select([
+      "name",
+      "slug",
+    ]);
+    const brand = await Brand.findById(product.brand).select("name");
+
+    const getProductRatingAndReviews = async () => {
+      const product = await Product.aggregate([
+        {
+          $match: { slug: req.params.slug },
+        },
+        {
+          $lookup: {
+            from: "productreviews", // Replace with your actual review model name
+            localField: "reviews", // Replace with the field referencing product in reviews
+            foreignField: "_id", // Replace with the field referencing product in reviews
+            as: "reviews",
+          },
+        },
+        {
+          $project: {
+            _id: 0, // Exclude unnecessary fields if needed
+            totalReviews: { $size: "$reviews" }, // Count total reviews
+            averageRating: {
+              $avg: "$reviews.rating", // Calculate average rating (optional)
+            },
+          },
+        },
+      ]);
+
+      return product[0];
+    };
+
+    const reviewReport = await getProductRatingAndReviews();
+    return res.status(201).json({
+      success: true,
+      data: product,
+      totalReviews: reviewReport.totalReviews,
+      totalRating: reviewReport.averageRating || 0,
+      brand: brand,
+      category: category,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
