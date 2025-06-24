@@ -710,4 +710,42 @@ const getProductsByShop = async (req, res) => {
     });
   }
 };
-  
+
+const getFilters = async (req, res) => {
+  try {
+    const totalProducts = await Product.find({
+      status: { $ne: "disabled" },
+    }).select(["colors", "sizes", "gender", "price"]);
+    const Shops = await Shop.find({
+      status: { $ne: "disabled" },
+    }).select(["title"]);
+    const brands = await Brand.find({
+      status: { $ne: "disabled" },
+    }).select(["name", "slug"]);
+    const total = totalProducts.map((item) => item.gender);
+    const totalGender = total.filter((item) => item !== "");
+    function onlyUnique(value, index, array) {
+      return array.indexOf(value) === index;
+    }
+    const mappedColors = totalProducts?.map((v) => v.colors);
+    const mappedSizes = totalProducts?.map((v) => v.sizes);
+    const mappedPrices = totalProducts?.map((v) => v.price);
+    const min = mappedPrices[0] ? Math.min(...mappedPrices) : 0;
+    const max = mappedPrices[0] ? Math.max(...mappedPrices) : 100000;
+    const response = {
+      colors: _.union(...mappedColors),
+      sizes: _.union(...mappedSizes),
+      prices: [min, max],
+      genders: totalGender.filter(onlyUnique),
+      brands: brands,
+      Shops: Shops,
+    };
+    res.status(200).json({ success: true, data: response });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
