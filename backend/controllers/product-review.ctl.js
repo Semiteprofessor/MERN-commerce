@@ -4,7 +4,7 @@ const Users = require("../models/User");
 const { getUser } = require("../config/getUser");
 const Orders = require("../models/Order");
 const blurDataUrl = require("../config/getBlurDataURL");
-const getProductReviewsbyPid = async (req, res) => {
+const getProductReviewsByPid = async (req, res) => {
   try {
     // Populate the product
     const pid = req.params.pid;
@@ -89,4 +89,127 @@ const createProductReview = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
-  
+
+const getProductReviewsByAdmin = async (req, res) => {
+  try {
+    const reviews = await ProductReview.find(
+      {}
+    ); /* find all the data in our database */
+    return res.status(200).json({ success: true, data: reviews });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const createProductReviewByAdmin = async (req, res) => {
+  try {
+    const { _id, review } = await req.body;
+    const isProductReview = await ProductReview.findOne({ _id: _id });
+    const product = await Products.findOne({ _id: _id });
+
+    await Products.findByIdAndUpdate(
+      _id,
+      {
+        totalProductReview: product.totalProductReview + 1,
+        totalRating: product.totalRating + review.rating,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (isProductReview) {
+      const filtered = isProductReview.ratings.filter(
+        (v) => v.name === `${review.rating} Star`
+      )[0];
+      const notFiltered = isProductReview.ratings.filter(
+        (v) => v.name !== `${review.rating} Star`
+      );
+
+      const alreadyProductReview = await ProductReview.findByIdAndUpdate(
+        _id,
+        {
+          ratings: [
+            ...notFiltered,
+            {
+              name: `${review.rating} Star`,
+              reviewCount: filtered.reviewCount + 1,
+              starCount: filtered.starCount + 1,
+            },
+          ],
+          reviews: [...isProductReview.reviews, { ...review }],
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+
+      return res
+        .status(400)
+        .json({ success: true, data: alreadyProductReview });
+    } else {
+      const ratingData = [
+        {
+          name: "1 Star",
+          starCount: 0,
+          reviewCount: 0,
+        },
+        {
+          name: "2 Star",
+          starCount: 0,
+          reviewCount: 0,
+        },
+        {
+          name: "3 Star",
+          starCount: 0,
+          reviewCount: 0,
+        },
+        {
+          name: "4 Star",
+          starCount: 0,
+          reviewCount: 0,
+        },
+        {
+          name: "5 Star",
+          starCount: 0,
+          reviewCount: 0,
+        },
+      ];
+
+      const filtered = ratingData.filter(
+        (v) => v.name === `${review.rating} Star`
+      )[0];
+      const notFiltered = ratingData.filter(
+        (v) => v.name !== `${review.rating} Star`
+      );
+
+      const newProductReview = await ProductReview.create([
+        {
+          _id: _id,
+          ratings: [
+            ...notFiltered,
+            {
+              name: `${review.rating} Star`,
+              reviewCount: filtered.reviewCount + 1,
+              starCount: filtered.starCount + 1,
+            },
+          ],
+          reviews: [{ ...review }],
+        },
+      ]);
+
+      return res.status(201).json({ success: true, data: newProductReview });
+    }
+  } catch (error) {
+    return res.status(400).json({ success: false, error: message.error });
+  }
+};
+
+module.exports = {
+  getProductReviewsByPid,
+  createProductReview,
+  getProductReviewsByAdmin,
+  createProductReviewByAdmin,
+};
