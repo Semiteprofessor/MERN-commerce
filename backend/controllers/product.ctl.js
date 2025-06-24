@@ -1217,4 +1217,17 @@ const getFiltersByShop = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+const getAllProductSlug = async (req, res) => {
+  try {
+    const products = await Product.find().select("slug");
+
+    return res.status(200).json({
+      success: true,
+      data: products,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
   
