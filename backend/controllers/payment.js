@@ -357,3 +357,134 @@ const thisMonthOrders = async (shopId) => {
   const thisMonthTotal = result[0] || null;
   return thisMonthTotal;
 };
+function isSameMonth(date1, date2) {
+  // Check if both dates have values
+  if (!date1 || !date2) {
+    return false;
+  }
+
+  // Extract year and month values
+  const year1 = date1.getFullYear();
+  const month1 = date1.getMonth(); // Months are zero-indexed (January = 0)
+  const year2 = date2.getFullYear();
+  const month2 = date2.getMonth();
+
+  // Compare year and month
+  return year1 === year2 && month1 === month2;
+}
+const getIncomeByShop = async (req, res) => {
+  try {
+    const shop = await Shop.findOne({
+      slug: req.params.slug,
+    });
+    if (!shop) {
+      res.status(404).json({ success: false, message: "Shop not found" });
+    }
+    const { limit = 10, page = 1 } = req.query;
+
+    const skip = parseInt(limit) * (parseInt(page) - 1) || 0;
+
+    function getTotalAfterComission(param) {
+      const commissionRate = process.env.COMMISSION / 100;
+      const finalPaymentAfterComission = param * (1 - commissionRate);
+      return finalPaymentAfterComission;
+    }
+    function getComission(param) {
+      const commissionRate = process.env.COMMISSION / 100;
+      const finalPaymentAfterComission = param * (1 - commissionRate);
+
+      const totalComission = param - finalPaymentAfterComission;
+      return totalComission;
+    }
+
+    const count = await Payment.countDocuments({
+      shop: shop._id,
+    });
+
+    const allPayments = await Payment.find({
+      shop: shop._id,
+    })
+      .skip(skip)
+      .limit(parseInt(limit))
+      .sort({ createdAt: 1 });
+
+    const lastMonthTotal = await lastMonthOrders(shop._id);
+    const thisMonthTotal = await thisMonthOrders(shop._id);
+    const today = new Date();
+
+    const lastMonthDate = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      1
+    );
+
+    const month = today.getMonth(); // Months are zero-indexed (January = 0)
+    const year = today.getFullYear();
+
+    // Calculate last month's dates
+    const lastMonth = month === 0 ? 11 : month - 1; // Handle January as December of previous year
+    const lastYear = month === 0 ? year - 1 : year;
+
+    // Define the start and end dates for the last month
+    const startDate = new Date(lastYear, lastMonth, 1);
+    const endDate = new Date(lastYear, lastMonth + 1, 0); // Go to the last day of the last month (day 0)
+    const lastMonthPaymentDate = await Payment.findOne({
+      shop: shop._id,
+      date: {
+        $gte: startDate, // Greater than or equal to start of the month
+        $lt: endDate, // Less than the end of the month (next month's 1st day)
+      },
+    }).select("createdAt");
+    const lastMonthPayment = {
+      date: new Date(
+        `${lastMonthTotal?._id?.year ||
+          lastMonthDate.getFullYear()} ${lastMonthTotal?._id?.month ||
+          lastMonthDate.getMonth() + 1}`
+      ), // Use timestamp for accurate date
+      orders: lastMonthTotal?.orders.map((v) => v._id),
+      shop: shop._id,
+      total: lastMonthTotal?.totalIncome || 0,
+      totalIncome: Number(
+        getTotalAfterComission(lastMonthTotal?.totalIncome || 0)?.toFixed(1)
+      ),
+      totalCommission: Number(
+        getComission(lastMonthTotal?.totalIncome || 0)?.toFixed(1)
+      ),
+      status: "pending",
+    };
+
+    const thisMonthPayment = {
+      date: new Date(
+        `${thisMonthTotal?._id?.year ||
+          new Date().getFullYear()} ${thisMonthTotal?._id?.month ||
+          new Date().getMonth() + 1}`
+      ), // Use timestamp for accurate date
+      orders: thisMonthTotal?.orders.map((v) => v._id),
+      shop: shop._id,
+      total: thisMonthTotal?.totalIncome,
+      totalIncome: Number(
+        getTotalAfterComission(thisMonthTotal?.totalIncome)?.toFixed(1)
+      ),
+      totalCommission: Number(
+        getComission(thisMonthTotal?.totalIncome)?.toFixed(1)
+      ),
+      status: "pending",
+      thisMonth: true,
+    };
+
+    return res.status(200).json({
+      success: true,
+      data: [
+        thisMonthPayment,
+        !lastMonthPaymentDate && { ...lastMonthPayment },
+        ...allPayments,
+      ].filter((v) => Boolean(v)),
+      total: count,
+      count: Math.ceil(count / parseInt(limit)),
+      currentPage: page,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+  
