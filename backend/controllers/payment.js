@@ -87,3 +87,44 @@ const createPayment = async (req, res) => {
     }
   };
   
+// Delete payment
+const deletePayment = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deletedPayment = await Payment.findByIdAndDelete(id);
+      if (!deletedPayment) {
+        return res
+          .status(404)
+          .json({ success: false, message: 'Payment not found' });
+      }
+      res.status(200).json({ success: true, message: 'Payment deleted' });
+    } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  };
+  
+  const getPaymentsByVender = async (req, res) => {
+    try {
+      const vendor = await getVendor(req, res);
+      if (!vendor) {
+        return res.status(400).json({ success: false, message: 'Not Allowed' });
+      }
+      const { limit, page = 1 } = req.query;
+  
+      const skip = parseInt(limit) || 8;
+      const totalPayments = await Payment.find().countDocuments();
+      const payments = await Payment.find()
+        .skip(skip * (parseInt(page) - 1 || 0))
+        .limit(skip)
+        .sort({ createdAt: -1 });
+  
+      res.status(200).json({
+        success: true,
+        data: payments,
+        count: Math.ceil(totalPayments / skip),
+      });
+    } catch (error) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  };
+  
