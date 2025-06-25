@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const compaign = require("../controllers/compaign");
+const compaign = require("../controllers/compaign.ctl");
 
 // Import verifyToken function
 const verifyToken = require("../config/jwt");
