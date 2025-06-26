@@ -41,3 +41,27 @@ const getCouponCodeById = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getCouponCodesByAdmin = async (req, res) => {
+  try {
+    const { limit = 10, page = 1 } = req.query;
+
+    const skip = parseInt(limit) * (parseInt(page) - 1) || 0;
+    const totalCouponCode = await CouponCode.countDocuments();
+
+    const CouponCodes = await CouponCode.find({}, null, {
+      skip: skip,
+      limit: parseInt(limit),
+    }).sort({
+      createdAt: -1,
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: CouponCodes,
+      count: Math.ceil(totalCouponCode / parseInt(limit)),
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
