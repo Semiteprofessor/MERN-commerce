@@ -107,3 +107,29 @@ const getOneCouponCodeByAdmin = async (req, res) => {
 		return res.status(400).json({ success: false, message: error.message });
 	}
 };
+
+const updatedCouponCodeByAdmin = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const data = await req.body;
+
+    const updatedCouponCode = await CouponCode.findOneAndUpdate(
+      { _id: id },
+      { ...data },
+      { new: true }
+    );
+    if (!updatedCouponCode) {
+      return res
+        .status(404)
+        .json({ success: false, message: "CouponCode Not Found" });
+    }
+    return res.status(201).json({
+      success: true,
+      data: updatedCouponCode,
+      message: "CouponCode Updated",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
