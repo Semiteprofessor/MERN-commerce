@@ -539,3 +539,99 @@ const getAdminLowStockProducts = async (request, response) => {
     response.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getVendorLowStockProducts = async (request, response) => {
+  try {
+    const { page: pageQuery, limit: limitQuery } = request.query;
+
+    const limit = parseInt(limitQuery) || 10;
+    const page = parseInt(pageQuery) || 1;
+
+    // Calculate skip correctly
+    const skip = limit * (page - 1);
+    const vendor = await getVendor(request, response);
+    const shop = await Shop.findOne({
+      vendor: vendor._id.toString(),
+    });
+    if (!shop) {
+      res.status(404).json({ success: false, message: "Shop not found" });
+    }
+
+    const totalProducts = await Product.countDocuments({
+      available: { $lt: 30 },
+      shop: shop._id,
+    });
+
+    const products = await Product.aggregate([
+      {
+        $match: {
+          available: { $lt: 30 },
+          shop: shop._id,
+        },
+      },
+
+      {
+        $sort: {
+          available: -1,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+      {
+        $lookup: {
+          from: "productreviews",
+          localField: "reviews",
+          foreignField: "_id",
+          as: "reviews",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $avg: "$reviews.rating" },
+          image: { $arrayElemAt: ["$images", 0] },
+        },
+      },
+
+      {
+        $project: {
+          image: { url: "$image.url", blurDataURL: "$image.blurDataURL" },
+          name: 1,
+          slug: 1,
+          colors: 1,
+          discount: 1,
+          likes: 1,
+          priceSale: 1,
+          price: 1,
+          averageRating: 1,
+          vendor: 1,
+          shop: 1,
+          available: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
+
+    response.status(200).json({
+      success: true,
+      data: products,
+      total: totalProducts,
+      count: Math.ceil(totalProducts / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    response.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  getDashboardAnalytics,
+  getNofications,
+  getVendorAnalytics,
+  getAdminLowStockProducts,
+  getVendorLowStockProducts,
+};
+  
