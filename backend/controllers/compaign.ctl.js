@@ -198,3 +198,23 @@ const updateOneCompaignByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const deleteOneCompaignByAdmin = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res);
+    const { cid } = req.params;
+    const compaign = await Compaign.findOne({ _id: cid });
+    if (!compaign) {
+      return res.status(404).json({ message: "Compaign Not Found" });
+    }
+    await singleFileDelete(compaign.cover._id);
+
+    await Compaign.deleteOne({ _id: cid }); // Corrected to pass an object to deleteOne method
+    return res.status(200).json({
+      success: true,
+      message: "Compaign Deleted Successfully", // Corrected message typo
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
