@@ -43,3 +43,31 @@ const getAdminCurrencies = async (request, response) => {
     response.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getCurrency = async (request, response) => {
+  try {
+    const currency = await Currency.findById(request.params.cid);
+
+    response.status(200).json({
+      success: true,
+      data: currency,
+      message: "Currency created!",
+    });
+  } catch (error) {
+    response.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const createCurrency = async (request, response) => {
+  try {
+    const currency = await Currency.create({ ...request.body });
+
+    response.status(200).json({
+      success: true,
+      data: currency,
+      message: "Currency created!",
+    });
+  } catch (error) {
+    response.status(400).json({ success: false, message: error.message });
+  }
+};
