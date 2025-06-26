@@ -419,4 +419,46 @@ const getVendorAnalytics = async (req, res) => {
     });
   }
 };
+
+const getNofications = async (req, res) => {
+  try {
+    // Extract query parameters for pagination
+
+    const { page: pageQuery, limit: limitQuery } = req.query;
+
+    // Set default limit and page number
+    const limit = parseInt(limitQuery) || 10;
+    const page = parseInt(pageQuery) || 1;
+    const skip = limit * (page - 1); // Calculate skip value
+
+    // Count total notifications
+    const totalNotifications = await Notifications.countDocuments();
+
+    // Count total unread notifications
+    const totalUnreadNotifications = await Notifications.countDocuments({
+      opened: false,
+    });
+
+    // Fetch notifications
+    const notifications = await Notifications.find({}, null, {
+      limit: limit,
+      skip: skip,
+    }).sort({ createdAt: -1 });
+
+    res.status(201).json({
+      success: true,
+      data: notifications,
+      totalNotifications: totalNotifications,
+      totalUnread: totalUnreadNotifications,
+      count: Math.ceil(totalUnreadNotifications / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
   
