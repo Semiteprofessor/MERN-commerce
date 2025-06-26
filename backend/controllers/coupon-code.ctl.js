@@ -65,3 +65,45 @@ const getCouponCodesByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+// POST method to create a new couponCode
+const createCouponCodeByAdmin = async (req, res) => {
+	try {
+		const data = await req.body;
+		if (!data) {
+			return res
+				.status(404)
+				.json({ success: false, message: "CouponCode Not Found" });
+		}
+
+		const newCouponCode = await CouponCode.create({ ...data });
+
+		return res.status(201).json({
+			success: true,
+			data: newCouponCode,
+			message: "Coupon Code Created",
+		});
+	} catch (error) {
+		return res.status(400).json({ success: false, message: error.message });
+	}
+};
+const getOneCouponCodeByAdmin = async (req, res) => {
+	try {
+		const id = req.params.id;
+		const getCouponCode = await CouponCode.findById(id);
+
+		if (!getCouponCode) {
+			return res.status(404).json({
+				success: false,
+				message: "CouponCode Not Found",
+			});
+		}
+
+		return res.status(200).json({
+			success: true,
+			data: getCouponCode,
+		});
+	} catch (error) {
+		return res.status(400).json({ success: false, message: error.message });
+	}
+};
