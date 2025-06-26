@@ -1,4 +1,4 @@
-const Brands = require("../models/Brand");
+const Brands = require("../models/Brand.model");
 const getBlurDataURL = require("../config/getBlurDataURL");
 const { singleFileDelete } = require("../config/uploader");
 

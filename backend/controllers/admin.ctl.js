@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const Order = require("../models/Order");
+const User = require("../models/User.model");
+const Order = require("../models/Order.model");
 
 const getUsersByAdmin = async (req, res) => {
   try {
