@@ -1,12 +1,12 @@
 // controllers/newsController.js
-const Order = require("../models/Order");
-const User = require("../models/User");
-const Product = require("../models/Product");
-const Notifications = require("../models/Notification");
-const Payment = require("../models/Payment");
+const Order = require("../models/Order.model");
+const User = require("../models/User.model");
+const Product = require("../models/Product.model");
+const Notifications = require("../models/Notification.model");
+const Payment = require("../models/Payment.model");
 const moment = require("moment");
 const { getVendor } = require("../config/getUser");
-const Shop = require("../models/Shop");
+const Shop = require("../models/Shop.model");
 
 const calculateExpirationDate = (days) => {
   const now = new Date();
