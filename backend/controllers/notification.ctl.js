@@ -1,4 +1,4 @@
-const Notifications = require("../models/Notification");
+const Notifications = require("../models/Notification.model");
 
 const getNotifications = async (req, res) => {
   try {
@@ -27,3 +27,23 @@ const getNotifications = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+//Post Notifications
+const createNotification = async (req, res) => {
+	try {
+		const { ...data } = await req.body;
+		// Create a new notification
+		await Notifications.create({
+			...data,
+		});
+
+		return res.status(201).json({
+			success: true,
+			data: "Notification Added",
+			message: "Notification Added",
+		});
+	} catch (error) {
+		return res.status(400).json({ success: false, message: error.message });
+	}
+};
+module.exports = { getNotifications, createNotification };
