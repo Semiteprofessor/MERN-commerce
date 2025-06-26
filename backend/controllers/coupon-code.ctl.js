@@ -1,4 +1,4 @@
-const CouponCode = require("../models/CouponCode");
+const CouponCode = require("../models/CouponCode.model");
 
 const getCouponCodeByCode = async (req, res) => {
   try {
