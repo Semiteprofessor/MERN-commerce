@@ -73,4 +73,41 @@ const getTopRatedProducts = async (req, res) => {
     });
   }
 };
+
+const getBrands = async (req, res) => {
+  try {
+    const brandsWithProductCount = await BrandModel.aggregate([
+      {
+        $lookup: {
+          from: "products", // The collection name of the ProductModel
+          localField: "_id",
+          foreignField: "brand",
+          as: "products",
+        },
+      },
+      {
+        $addFields: {
+          totalProducts: { $size: "$products" },
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          logo: 1,
+          slug: 1,
+          status: 1,
+          totalProducts: 1,
+        },
+      },
+    ]);
+
+    res.status(201).json({ success: true, data: brandsWithProductCount });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
   
