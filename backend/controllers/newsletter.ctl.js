@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Newsletter = require("../models/Newsletter");
+const Newsletter = require("../models/Newsletter.model");
 
 const getNewsletters = async (req, res) => {
   try {
