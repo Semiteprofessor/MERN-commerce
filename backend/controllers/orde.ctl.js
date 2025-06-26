@@ -260,3 +260,33 @@ const getOrdersByAdmin = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+const getOneOrderByAdmin = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Notifications.findOneAndUpdate(
+      { orderId: id },
+      {
+        opened: true,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    const orderGet = await Orders.findById({ _id: id });
+    if (!orderGet) {
+      return res.status(404).json({
+        success: false,
+        message: "Order Not Found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: orderGet,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
