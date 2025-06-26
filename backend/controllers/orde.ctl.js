@@ -313,3 +313,37 @@ const updateOrderByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const deleteOrderByAdmin = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+
+    // Find the order to be deleted
+    const order = await Orders.findById(orderId);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order Not Found",
+      });
+    }
+
+    // Delete the order from the Orders collection
+    await Orders.findByIdAndDelete(orderId);
+
+    // Remove the order ID from the user's order array
+    await User.findOneAndUpdate(
+      { _id: order.user },
+      { $pull: { orders: orderId } }
+    );
+
+    // Delete notifications related to the order
+    await Notifications.deleteMany({ orderId });
+
+    return res.status(200).json({
+      success: true,
+      message: "Order Deleted",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
