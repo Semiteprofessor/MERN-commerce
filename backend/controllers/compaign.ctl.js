@@ -279,4 +279,37 @@ const getCompaignsSlugs = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
-  
+
+const getCompaignNameBySlug = async (req, res) => {
+  try {
+    const compaign = await Compaign.findOne({
+      slug: req.params.slug,
+    }).select([
+      "cover",
+      "description",
+      "name",
+      "slug",
+      "address",
+      "phone",
+      "createdAt",
+    ]);
+
+    res.status(201).json({
+      success: true,
+      data: compaign,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+module.exports = {
+  getAdminCompaigns,
+  createCompaign,
+  getOneCompaignByAdmin,
+  updateOneCompaignByAdmin,
+  deleteOneCompaignByAdmin,
+  getCompaignsByUser,
+  getCompaignBySlug,
+  getCompaignsSlugs,
+  getCompaignNameBySlug,
+};
