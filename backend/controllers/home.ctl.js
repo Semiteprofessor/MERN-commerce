@@ -158,3 +158,59 @@ const getBestSellerProducts = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getFeaturedProducts = async (req, res) => {
+  try {
+    const featured = await Product.aggregate([
+      {
+        $lookup: {
+          from: "productreviews",
+          localField: "reviews",
+          foreignField: "_id",
+          as: "reviews",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $avg: "$reviews.rating" },
+          image: { $arrayElemAt: ["$images", 0] },
+        },
+      },
+      {
+        $match: {
+          isFeatured: true,
+        },
+      },
+      {
+        $limit: 8,
+      },
+      {
+        $project: {
+          image: { url: "$image.url", blurDataURL: "$image.blurDataURL" },
+          name: 1,
+          slug: 1,
+          colors: 1,
+          discount: 1,
+          likes: 1,
+          priceSale: 1,
+          price: 1,
+          averageRating: 1,
+          vendor: 1,
+          shop: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
+    return res.status(200).json({ success: true, data: featured });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  getCategories,
+  getTopRatedProducts,
+  getBrands,
+  getBestSellerProducts,
+  getFeaturedProducts,
+};
