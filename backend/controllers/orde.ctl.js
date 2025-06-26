@@ -290,3 +290,26 @@ const getOneOrderByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const updateOrderByAdmin = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await req.body;
+    const order = await Orders.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    });
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order Not Found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Order Updated",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
