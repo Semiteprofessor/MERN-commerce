@@ -347,3 +347,71 @@ const deleteOrderByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+// Vendor apis
+const getOrdersByVendor = async (req, res) => {
+  try {
+    const vendor = await getVendor(req, res);
+    const shop = await Shop.findOne({
+      vendor: vendor._id.toString(),
+    });
+    if (!shop) {
+      res.status(404).json({ success: false, message: 'Shop not found' });
+    }
+    const { limit = 10, page = 1, search = '' } = req.query;
+
+    const skip = parseInt(limit) * (parseInt(page) - 1) || 0;
+    const pipeline = [
+      {
+        $match: {
+          'items.shop': shop._id, // Assuming 'items.shop' refers to the shop ID associated with the order
+          $or: [
+            { 'user.firstName': { $regex: new RegExp(search, 'i') } },
+            { 'user.lastName': { $regex: new RegExp(search, 'i') } },
+          ],
+        },
+      },
+    ];
+    const totalOrderCount = await Orders.aggregate([
+      ...pipeline,
+      {
+        $count: 'totalOrderCount', // Name the count field as "totalOrderCount"
+      },
+    ]);
+    // Access the count from the first element of the result array
+    const count =
+      totalOrderCount.length > 0 ? totalOrderCount[0].totalOrderCount : 0;
+
+    const orders = await Orders.aggregate([
+      ...pipeline,
+      {
+        $sort: { createdAt: -1 }, // Sort by createdAt in descending order
+      },
+      {
+        $skip: skip, // Skip documents based on pagination
+      },
+      {
+        $limit: parseInt(limit), // Limit the number of documents retrieved
+      },
+    ]);
+    return res.status(200).json({
+      success: true,
+      data: orders,
+      total: count,
+      count: Math.ceil(count / parseInt(limit)),
+      currentPage: page,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  createOrder,
+  getOrderById,
+  getOrdersByAdmin,
+  getOneOrderByAdmin,
+  updateOrderByAdmin,
+  deleteOrderByAdmin,
+  getOrdersByVendor,
+};
