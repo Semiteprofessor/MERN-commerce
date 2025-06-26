@@ -212,3 +212,51 @@ const getOrderById = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getOrdersByAdmin = async (req, res) => {
+  try {
+    const {
+      page: pageQuery,
+      limit: limitQuery,
+      search: searchQuery,
+      shop,
+    } = req.query;
+
+    const limit = parseInt(limitQuery) || 10;
+    const page = parseInt(pageQuery) || 1;
+
+    const skip = limit * (page - 1);
+    let matchQuery = {};
+
+    if (shop) {
+      const currentShop = await Shop.findOne({ slug: shop }).select(["_id"]);
+
+      matchQuery["items.shop"] = currentShop._id;
+    }
+
+    const totalOrders = await Orders.countDocuments({
+      $or: [
+        { "user.firstName": { $regex: searchQuery || "", $options: "i" } },
+        { "user.lastName": { $regex: searchQuery || "", $options: "i" } },
+      ],
+      ...matchQuery,
+    });
+
+    const orders = await Orders.aggregate([
+      { $match: { ...matchQuery } },
+      { $sort: { createdAt: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      data: orders,
+      total: totalOrders,
+      count: Math.ceil(totalOrders / parseInt(limit)),
+      currentPage: page,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
