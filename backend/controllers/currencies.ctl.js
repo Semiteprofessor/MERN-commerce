@@ -1,4 +1,4 @@
-const Currency = require("../models/Currencies");
+const Currency = require("../models/Currencies.model");
 
 const getAdminCurrencies = async (request, response) => {
   try {
