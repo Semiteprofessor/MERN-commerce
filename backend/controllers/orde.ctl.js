@@ -26,3 +26,169 @@ function generateOrderNumber() {
 
   return orderNumber;
 }
+
+function readHTMLTemplate() {
+  const htmlFilePath = path.join(
+    process.cwd(),
+    "src/email-templates",
+    "order.html"
+  );
+  return fs.readFileSync(htmlFilePath, "utf8");
+}
+
+const createOrder = async (req, res) => {
+  try {
+    const {
+      items,
+      user,
+      currency,
+      conversionRate,
+      paymentMethod,
+      paymentId,
+      couponCode,
+      totalItems,
+      shipping,
+      description,
+    } = await req.body;
+
+    if (!items || !items.length) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Please Provide Item(s)" });
+    }
+
+    const products = await Products.find({
+      _id: { $in: items.map((item) => item.pid) },
+    });
+
+    const updatedItems = items.map((item) => {
+      const product = products.find((p) => p._id.toString() === item.pid);
+      const price = product ? product.priceSale : 0;
+      const total = price * item.quantity;
+
+      Products.findOneAndUpdate(
+        { _id: item.pid, available: { $gte: 0 } },
+        { $inc: { available: -item.quantity, sold: item.quantity } },
+        { new: true, runValidators: true }
+      ).exec();
+
+      return {
+        ...item,
+        total,
+        shop: product?.shop,
+        imageUrl: product.images.length > 0 ? product.images[0].url : "",
+      };
+    });
+
+    const grandTotal = updatedItems.reduce((acc, item) => acc + item.total, 0);
+    let discount = 0;
+
+    if (couponCode) {
+      const couponData = await Coupons.findOne({ code: couponCode });
+
+      const expired = isExpired(couponData.expire);
+      if (expired) {
+        return res
+          .status(400)
+          .json({ success: false, message: "CouponCode Is Expired" });
+      }
+      // Add the user's email to the usedBy array of the coupon code
+      await Coupons.findOneAndUpdate(
+        { code: couponCode },
+        { $addToSet: { usedBy: user.email } }
+      );
+
+      if (couponData && couponData.type === "percent") {
+        const percentLess = couponData.discount;
+        discount = (percentLess / 100) * grandTotal;
+      } else if (couponData) {
+        discount = couponData.discount;
+      }
+    }
+
+    let discountedTotal = grandTotal - discount;
+    discountedTotal = discountedTotal || 0;
+
+    const existingUser = await User.findOne({ email: user.email });
+    const orderNo = await generateOrderNumber();
+    const orderCreated = await Orders.create({
+      paymentMethod,
+      paymentId,
+      discount,
+      currency,
+      description: description || "",
+      conversionRate,
+      total: discountedTotal + Number(shipping),
+      subTotal: grandTotal,
+      shipping,
+      items: updatedItems.map(({ image, ...others }) => others),
+      user: existingUser ? { ...user, _id: existingUser._id } : user,
+      totalItems,
+      orderNo,
+      status: "pending",
+    });
+
+    await Notifications.create({
+      opened: false,
+      title: `${user.firstName} ${user.lastName} placed an order from ${user.city}.`,
+      paymentMethod,
+      orderId: orderCreated._id,
+      city: user.city,
+      cover: user?.cover?.url || "",
+    });
+
+    let htmlContent = readHTMLTemplate();
+
+    htmlContent = htmlContent.replace(
+      /{{recipientName}}/g,
+      `${user.firstName} ${user.lastName}`
+    );
+
+    let itemsHtml = "";
+    updatedItems.forEach((item) => {
+      itemsHtml += `
+        <tr style='border-bottom: 1px solid #e4e4e4;'>
+          <td style="border-radius: 8px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); overflow: hidden; border-spacing: 0; border: 0">
+            <img src="${item.imageUrl}" alt="${item.name}" style="width: 62px; height: 62px; object-fit: cover; border-radius: 8px;">
+          </td>
+          <td style=" padding: 10px; border-spacing: 0; border: 0">${item.name}</td>         
+          <td style=" padding: 10px; border-spacing: 0; border: 0">${item.sku}</td>
+          <td style=" padding: 10px; border-spacing: 0; border: 0">${item.quantity}</td>
+          <td style=" padding: 10px; border-spacing: 0; border: 0">${item.priceSale}</td>
+        </tr>
+      `;
+    });
+
+    htmlContent = htmlContent.replace(/{{items}}/g, itemsHtml);
+    htmlContent = htmlContent.replace(/{{grandTotal}}/g, orderCreated.subTotal);
+    htmlContent = htmlContent.replace(/{{Shipping}}/g, orderCreated.shipping);
+    htmlContent = htmlContent.replace(/{{subTotal}}/g, orderCreated.total);
+
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.RECEIVING_EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    let mailOptions = {
+      from: process.env.RECEIVING_EMAIL,
+      to: user.email,
+      subject: "Your Order Confirmation",
+      html: htmlContent,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(201).json({
+      success: true,
+      message: "Order Placed",
+      orderId: orderCreated._id,
+      data: items.name,
+      orderNo,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
