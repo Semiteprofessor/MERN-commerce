@@ -420,7 +420,7 @@ const getVendorAnalytics = async (req, res) => {
   }
 };
 
-const getNofications = async (req, res) => {
+const getNotifications = async (req, res) => {
   try {
     // Extract query parameters for pagination
 
@@ -629,9 +629,8 @@ const getVendorLowStockProducts = async (request, response) => {
 
 module.exports = {
   getDashboardAnalytics,
-  getNofications,
+  getNotifications,
   getVendorAnalytics,
   getAdminLowStockProducts,
   getVendorLowStockProducts,
 };
-  
