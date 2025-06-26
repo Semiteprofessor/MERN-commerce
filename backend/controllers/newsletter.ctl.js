@@ -27,3 +27,27 @@ const getNewsletters = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const createNewsletter = async (req, res) => {
+  try {
+    // Create a new Newsletter document
+    await Newsletter.create({
+      email: req.body.email,
+      createdAt: new Date(),
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Newsletter Added",
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Failed To Add Newsletter",
+    });
+  }
+};
+module.exports = {
+  getNewsletters,
+  createNewsletter,
+};
