@@ -39,3 +39,42 @@ const getAdminCompaigns = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const createCompaign = async (req, res) => {
+  try {
+    const admin = await getAdmin(req, res);
+    const { cover, products, discountType, discount, ...others } = req.body;
+    const productsWithPrice = await Product.find({
+      _id: { $in: products },
+    }).select(["price", "priceSale"]);
+    for (const product of productsWithPrice) {
+      const newPriceSale =
+        discountType === "percent"
+          ? product.price * (1 - discount / 100)
+          : product.price - discount;
+      await Product.updateOne(
+        { _id: product._id },
+        { $set: { priceSale: newPriceSale, oldPriceSale: product.priceSale } }
+      );
+    }
+    const coverBlurDataURL = await getBlurDataURL(cover.url);
+
+    await Compaign.create({
+      ...others,
+      products,
+      discountType,
+      discount,
+      cover: {
+        ...cover,
+        blurDataURL: coverBlurDataURL,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Compaign created",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
