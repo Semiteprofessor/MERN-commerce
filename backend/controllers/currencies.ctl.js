@@ -103,3 +103,47 @@ const deleteCurrency = async (request, response) => {
     response.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getUserCurrencies = async (request, response) => {
+  try {
+    const currencies = await Currency.aggregate([
+      {
+        $sort: {
+          available: -1,
+        },
+      },
+
+      {
+        $project: {
+          name: 1,
+          code: 1,
+          rate: 1,
+          country: 1,
+        },
+      },
+    ]);
+
+    const data = await fetch(
+      "https://api.exchangerate-api.com/v4/latest/USD"
+    ).then((res) => res.json());
+    const mapped = currencies.map((v) => {
+      return { ...v, rate: v.rate || data.rates[v.code] };
+    });
+    response.status(200).json({
+      success: true,
+      data: mapped,
+    });
+  } catch (error) {
+    response.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  getAdminCurrencies,
+  getCurrency,
+  createCurrency,
+  updateCurrency,
+  deleteCurrency,
+  getUserCurrencies,
+};
+  
