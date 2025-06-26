@@ -192,3 +192,23 @@ const createOrder = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getOrderById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const orderGet = await Orders.findById(id); // Remove curly braces around _id: id
+
+    if (!orderGet) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order Not Found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: orderGet,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
