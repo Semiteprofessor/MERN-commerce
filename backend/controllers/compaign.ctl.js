@@ -218,3 +218,36 @@ const deleteOneCompaignByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getCompaignsByUser = async (req, res) => {
+  try {
+    const { limit } = req.query; // Destructure limit from query parameters
+
+    let query = {}; // Initialize an empty query object
+    const currentDate = new Date();
+
+    if (limit) {
+      // If limit is provided, convert it to a number and add to query
+      const limitNumber = parseInt(limit);
+      if (isNaN(limitNumber)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid limit parameter (must be a number).",
+        });
+      }
+      query = { endDate: { $gt: currentDate }, limit: limitNumber };
+    } else {
+      query = { endDate: { $gt: currentDate } };
+    }
+
+    const campaigns = await Compaign.find(query); // Find campaigns with optional limit
+
+    return res.status(200).json({
+      success: true,
+      data: campaigns,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+  
