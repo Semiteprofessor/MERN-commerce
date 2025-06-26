@@ -157,3 +157,44 @@ const getOneCompaignByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const updateOneCompaignByAdmin = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const admin = await getAdmin(req, res);
+    const { cover, ...others } = req.body;
+    const compaign = await Compaign.findOne({ slug });
+    if (!compaign) {
+      return res.status(404).json({ message: "Compaign Not Found" });
+    }
+    const missingProducts = compaign.products.filter(
+      (product) => !req.body.products.includes(product)
+    );
+
+    const productsWithPrice = await Product.find({
+      _id: { $in: missingProducts },
+    }).select(["price", "priceSale"]);
+    for (const product of productsWithPrice) {
+      await Product.updateOne(
+        { _id: product._id },
+        { $set: { priceSale: product.oldPriceSale, oldPriceSale: null } }
+      );
+    }
+
+    const coverBlurDataURL = await getBlurDataURL(cover.url);
+
+    await Compaign.findOneAndUpdate(
+      { slug: slug },
+      {
+        ...others,
+
+        cover: { ...cover, blurDataURL: coverBlurDataURL },
+      },
+      { new: true, runValidators: true }
+    );
+
+    return res.status(200).json({ success: true, message: "Updated Compaign" });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
