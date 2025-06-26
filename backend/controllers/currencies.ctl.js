@@ -71,3 +71,35 @@ const createCurrency = async (request, response) => {
     response.status(400).json({ success: false, message: error.message });
   }
 };
+
+const updateCurrency = async (request, response) => {
+  try {
+    const currency = await Currency.findByIdAndUpdate(request.params.cid, {
+      ...request.body,
+    });
+
+    response.status(200).json({
+      success: true,
+      data: currency,
+      message: "Currency updated!",
+    });
+  } catch (error) {
+    response.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const deleteCurrency = async (request, response) => {
+  try {
+    const currency = await Currency.findByIdAndDelete(request.params.cid, {
+      ...request.body,
+    });
+
+    response.status(200).json({
+      success: true,
+      data: currency,
+      message: "Currency deleted!",
+    });
+  } catch (error) {
+    response.status(400).json({ success: false, message: error.message });
+  }
+};
