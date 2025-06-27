@@ -65,4 +65,40 @@ const getBrandBySlug = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+const updateBrandBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { logo, ...others } = req.body;
+    // Validate if the 'blurDataURL' property exists in the logo object
+    if (!logo.blurDataURL) {
+      // If blurDataURL is not provided, generate it using the 'getBlurDataURL' function
+      logo.blurDataURL = await getBlurDataURL(logo.url);
+    }
+    const updatedBrand = await Brands.findOneAndUpdate(
+      { slug },
+      {
+        ...others,
+        logo: {
+          ...logo,
+        },
+        totalItems: 0,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedBrand) {
+      return res.status(404).json({ message: "Brand Not Found" });
+    }
+
+    res
+      .status(201)
+      .json({ success: true, data: updatedBrand, message: "Brand Updated" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
   
