@@ -101,4 +101,23 @@ const updateBrandBySlug = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+const deleteBrandBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const brand = await Brands.findOne({ slug });
+
+    if (!brand) {
+      return res.status(404).json({ message: "Brand Not Found" });
+    }
+    // Uncomment the line below if you have a function to delete the logo file
+    const dataaa = await singleFileDelete(brand?.logo?._id);
+
+    await Brands.deleteOne({ slug });
+
+    res.status(201).json({ success: true, message: "Brand Deleted" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
   
