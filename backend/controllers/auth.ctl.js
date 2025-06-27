@@ -263,4 +263,60 @@ const forgetPassword = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
-  
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = await req.body;
+
+    // Verify the token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Or Expired Token. Please Request A New One.",
+      });
+    }
+
+    // Find the user by ID from the token
+    const user = await User.findById(decoded._id).select("password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not Found ",
+      });
+    }
+    if (!newPassword || !user.password) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid Data. Both NewPassword And User Password Are Required.",
+      });
+    }
+
+    // Check if the new password is the same as the old password
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
+    if (isSamePassword) {
+      return res.status(400).json({
+        success: false,
+        message: "New Password Must Be Different From The Old Password.",
+      });
+    }
+    // Update the user's password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await User.findByIdAndUpdate(user._id, {
+      password: hashedPassword,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Password Updated Successfully.",
+      user,
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
