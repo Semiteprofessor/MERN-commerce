@@ -120,4 +120,28 @@ const deleteBrandBySlug = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+const getBrands = async (req, res) => {
+  try {
+    const brands = await Brands.find().sort({
+      createdAt: -1,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: brands,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  createBrand,
+  getAllBrands,
+  getBrandBySlug,
+  updateBrandBySlug,
+  deleteBrandBySlug,
+  getBrands,
+};
   
