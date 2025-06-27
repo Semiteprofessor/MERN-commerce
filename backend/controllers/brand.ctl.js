@@ -33,4 +33,36 @@ const createBrand = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+const getAllBrands = async (req, res) => {
+  try {
+    const brands = await Brands.find().sort({
+      createdAt: -1,
+    });
+    res.status(201).json({
+      success: true,
+      data: brands,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getBrandBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const brand = await Brands.findOne({ slug });
+
+    if (!brand) {
+      return res.status(404).json({ message: "Brand Not Found" });
+    }
+
+    res.status(201).json({
+      success: true,
+      data: brand,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
   
