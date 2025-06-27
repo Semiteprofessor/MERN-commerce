@@ -30,6 +30,7 @@ const registerUser = async (req, res) => {
       lowerCaseAlphabets: false,
       digits: true,
     });
+    
     // Create user with the generated OTP
     const user = await User.create({
       ...request,
