@@ -197,4 +197,70 @@ const loginUser = async (req, res) => {
     return res.status(400).json({ success: false, error: error.message });
   }
 };
+
+const forgetPassword = async (req, res) => {
+  try {
+    const request = await req.body;
+    const user = await User.findOne({ email: request.email });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User Not Found " });
+    }
+
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    // Constructing the link with the token
+    const resetPasswordLink = `${request.origin}/auth/reset-password/${token}`;
+
+    // Path to the HTML file
+    const htmlFilePath = path.join(
+      process.cwd(),
+      "src/email-templates",
+      "forget.html"
+    );
+
+    // Read HTML file content
+    let htmlContent = fs.readFileSync(htmlFilePath, "utf8");
+
+    // Replace the href attribute of the <a> tag with the reset password link
+    // htmlContent = htmlContent.replace(
+    //   /href="javascript:void\(0\);"/g,
+    //   `href="${resetPasswordLink}"`
+    // )
+    htmlContent = htmlContent.replace(
+      /href="javascript:void\(0\);"/g,
+      `href="${resetPasswordLink}"`
+    );
+    // Create nodemailer transporter
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.RECEIVING_EMAIL, // Your Gmail email
+        pass: process.env.EMAIL_PASSWORD, // Your Gmail password
+      },
+    });
+
+    // Email options
+    let mailOptions = {
+      from: process.env.RECEIVING_EMAIL, // Your Gmail email
+      to: user.email, // User's email
+      subject: "Verify your email",
+      html: htmlContent, // HTML content with OTP and user email
+    };
+
+    // Send email synchronously
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({
+      success: true,
+      message: "Forgot Password Email Sent Successfully.",
+      token,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
   
