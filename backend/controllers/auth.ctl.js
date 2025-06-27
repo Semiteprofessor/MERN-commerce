@@ -30,7 +30,7 @@ const registerUser = async (req, res) => {
       lowerCaseAlphabets: false,
       digits: true,
     });
-    
+
     // Create user with the generated OTP
     const user = await User.create({
       ...request,
@@ -96,3 +96,105 @@ const registerUser = async (req, res) => {
     });
   }
 };
+
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = await req.body;
+    const user = await User.findOne({ email }).select("+password");
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User Not Found" });
+    }
+
+    if (!user.password) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User Password Not Found" });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Incorrect Password" });
+    }
+
+    const token = jwt.sign(
+      {
+        _id: user._id,
+        email: user.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    const products = await Products.aggregate([
+      {
+        $match: {
+          _id: { $in: user.wishlist },
+        },
+      },
+      {
+        $lookup: {
+          from: "productreviews",
+          localField: "productreviews",
+          foreignField: "_id",
+          as: "productreviews",
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $avg: "$productreviews.rating" },
+          image: { $arrayElemAt: ["$images", 0] },
+        },
+      },
+      {
+        $project: {
+          image: { url: "$image.url", blurDataURL: "$image.blurDataURL" },
+          name: 1,
+          slug: 1,
+          colors: 1,
+          discount: 1,
+          likes: 1,
+          priceSale: 1,
+          price: 1,
+          averageRating: 1,
+          vendor: 1,
+          shop: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
+
+    return res.status(201).json({
+      success: true,
+      message: "Login Successfully",
+      token,
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        cover: user.cover,
+        gender: user.gender,
+        phone: user.phone,
+        address: user.address,
+        city: user.city,
+        country: user.country,
+        zip: user.zip,
+        state: user.state,
+        about: user.about,
+        role: user.role,
+        wishlist: products,
+      },
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, error: error.message });
+  }
+};
+  
