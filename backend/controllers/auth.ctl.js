@@ -354,4 +354,83 @@ const verifyOtp = async (req, res) => {
       .json({ success: false, message: "Internal Server Error" });
   }
 };
+
+const resendOtp = async (req, res) => {
+  try {
+    const user = await getUser(req, res, "not-verified");
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User Not Found" });
+    }
+    if (user.isVerified) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP Has Already Been Verified",
+      });
+    }
+    // Generate new OTP
+    const otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      specialChars: false,
+      lowerCaseAlphabets: false,
+      digits: true,
+    });
+    // Update the user's OTP
+    await User.findByIdAndUpdate(user._id, {
+      otp: otp.toString(),
+    });
+
+    // Path to the HTML file
+    const htmlFilePath = path.join(
+      process.cwd(),
+      "src/email-templates",
+      "otp.html"
+    );
+
+    // Read HTML file content
+    let htmlContent = fs.readFileSync(htmlFilePath, "utf8");
+
+    // Replace the placeholder with the OTP and user email
+    htmlContent = htmlContent.replace(/<h1>[\s\d]*<\/h1>/g, `<h1>${otp}</h1>`);
+    htmlContent = htmlContent.replace(/usingyourmail@gmail\.com/g, user.email);
+
+    // Create nodemailer transporter
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.RECEIVING_EMAIL, // Your Gmail email
+        pass: process.env.EMAIL_PASSWORD, // Your Gmail password
+      },
+    });
+
+    // Email options
+    let mailOptions = {
+      from: process.env.RECEIVING_EMAIL, // Your Gmail email
+      to: user.email, // User's email
+      subject: "Verify your email",
+      html: htmlContent, // HTML content with OTP and user email
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    // Return the response
+    return res.status(200).json({
+      success: true,
+      message: "OTP Resent Successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+module.exports = {
+  registerUser,
+  loginUser,
+  forgetPassword,
+  resetPassword,
+  verifyOtp,
+  resendOtp,
+};
   
