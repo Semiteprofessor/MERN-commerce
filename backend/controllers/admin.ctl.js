@@ -36,3 +36,38 @@ const getUsersByAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
+const getOrdersByUid = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { limit = 10, page = 1 } = req.query;
+
+    const skip = parseInt(limit) * (parseInt(page) - 1) || 0;
+
+    const currentUser = await User.findById(id);
+
+    const totalOrders = await Order.countDocuments({ "user._id": id });
+
+    const orders = await Order.find({ "user._id": id }, null, {
+      skip: skip,
+      limit: parseInt(limit),
+    }).sort({
+      createdAt: -1,
+    });
+
+    if (!currentUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User Not Found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: currentUser,
+      orders,
+      count: Math.ceil(totalOrders / parseInt(limit)),
+    });
+  } catch (error) {
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
