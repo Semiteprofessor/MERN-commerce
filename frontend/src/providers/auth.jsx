@@ -6,7 +6,7 @@ import { setLogout } from "../redux/slices/users";
 import { setWishlist } from "../redux/slices/wishlist";
 
 // cookies
-import { deleteCookies } from "src/hooks/cookies";
+import { deleteCookies } from "@/hooks/cookies";
 
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
