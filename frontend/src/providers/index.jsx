@@ -12,6 +12,9 @@ import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import AuthProvider from "./auth";
+
+import GlobalStyles from "@/theme/globalStyles";
 
 // dynamic import
 const ProgressBar = dynamic(() => import("@/components/ProgressBar"), {
@@ -31,30 +34,32 @@ const Providers = (props) => {
   );
   return (
     <Provider store={reduxStore}>
-      <AuthPr
-      <ThemeRegistry>
-        <QueryClientProvider client={queryClient}>
-          <Toaster position={"top-center"} />
-          <PersistGate
-            loading={
-              <Stack
-                sx={{
-                  position: "fixed",
-                  top: "calc(50vh - 2px)",
-                  width: "300px",
-                  left: "calc(50vw - 150px",
-                  zIndex: 11,
-                }}
-              >
-                <LinearProgress />
-              </Stack>
-            }
-            persistor={persistor}
-          >
-            {props.children}
-          </PersistGate>
-        </QueryClientProvider>
-      </ThemeRegistry>
+      <AuthProvider isAuth={props.isAuth}>
+        <ThemeRegistry>
+          <GlobalStyles />
+          <QueryClientProvider client={queryClient}>
+            <Toaster position={"top-center"} />
+            <PersistGate
+              loading={
+                <Stack
+                  sx={{
+                    position: "fixed",
+                    top: "calc(50vh - 2px)",
+                    width: "300px",
+                    left: "calc(50vw - 150px",
+                    zIndex: 11,
+                  }}
+                >
+                  <LinearProgress />
+                </Stack>
+              }
+              persistor={persistor}
+            >
+              {props.children}
+            </PersistGate>
+          </QueryClientProvider>
+        </ThemeRegistry>
+      </AuthProvider>
     </Provider>
   );
 };
