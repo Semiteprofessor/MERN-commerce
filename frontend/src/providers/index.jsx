@@ -1,17 +1,21 @@
 "use client";
 
-import { persistor } from "@/redux/store";
+import { useState } from "react";
+import PropTypes from "prop-types";
+import dynamic from "next/dynamic";
+
+import { persistor, reduxStore } from "@/redux/store";
 import ThemeRegistry from "@/theme";
 import { LinearProgress, Stack } from "@mui/material";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { PersistGate } from "redux-persist/integration/react";
-
+import { Provider } from "react-redux";
 
 // dynamic import
-const ProgressBar = dynamic(() => import('@/components/ProgressBar'), {
-  ssr: false
+const ProgressBar = dynamic(() => import("@/components/ProgressBar"), {
+  ssr: false,
 });
 
 const Providers = (props) => {
@@ -26,34 +30,38 @@ const Providers = (props) => {
       })
   );
   return (
-    <ThemeRegistry>
-      <QueryClientProvider client={queryClient}>
-        <Toaster position={"top-center"} />
-        <PersistGate
-          loading={
-            <Stack
-              sx={{
-                position: "fixed",
-                top: "calc(50vh - 2px)",
-                width: "300px",
-                left: "calc(50vw - 150px",
-                zIndex: 11,
-              }}
-            >
-              <LinearProgress />
-            </Stack>
-          }
-          persistor={persistor}
-        >
-          {props.children}
-        </PersistGate>
-      </QueryClientProvider>
-    </ThemeRegistry>
+    <Provider store={reduxStore}>
+      <AuthPr
+      <ThemeRegistry>
+        <QueryClientProvider client={queryClient}>
+          <Toaster position={"top-center"} />
+          <PersistGate
+            loading={
+              <Stack
+                sx={{
+                  position: "fixed",
+                  top: "calc(50vh - 2px)",
+                  width: "300px",
+                  left: "calc(50vw - 150px",
+                  zIndex: 11,
+                }}
+              >
+                <LinearProgress />
+              </Stack>
+            }
+            persistor={persistor}
+          >
+            {props.children}
+          </PersistGate>
+        </QueryClientProvider>
+      </ThemeRegistry>
+    </Provider>
   );
 };
 
 Providers.propTypes = {
-  isAuth: propTypes.bool.isRequired
-}
+  isAuth: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
 export default Providers;
