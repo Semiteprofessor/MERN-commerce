@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const dashboard = require("../controllers/dashboard");
+const dashboard = require("../controllers/dashboard.ctl");
 
 // Import verifyToken function
 const verifyToken = require("../config/jwt");
@@ -26,6 +26,6 @@ router.get(
   dashboard.getVendorAnalytics
 );
 
-router.get("/admin/notifications", verifyToken, dashboard.getNofications);
+router.get("/admin/notifications", verifyToken, dashboard.getNotifications);
 
 module.exports = router;

@@ -7,6 +7,7 @@ const Compaign = require("../models/Compaign.model");
 const _ = require("lodash");
 const { multiFilesDelete } = require("../config/uploader");
 const blurDataUrl = require("../config/getBlurDataURL");
+const { getAdmin } = require("../config/getUser");
 const getProducts = async (req, res) => {
   try {
     const query = req.query; // Extract query params from request

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const payment = require("../controllers/payment-intents.ctl");
+const payment = require("../controllers/payment.ctl");
 
 // Import verifyToken function
 const verifyToken = require("../config/jwt");
@@ -22,7 +22,7 @@ router.delete("/admin/payments/:id", verifyToken, payment.deletePayment);
 router.get("/admin/payouts", verifyToken, payment.getPayoutsByAdmin);
 
 // Vender routes
-router.get("/vendor/shops/income", verifyToken, payment.getIncomeByvendor);
+router.get("/vendor/shops/income", verifyToken, payment.getIncomeByVendor);
 router.get("/vendor/payments", verifyToken, payment.getPaymentsByVender);
 router.get("/vendor/payments/:pid", verifyToken, payment.getPaymentDetailsById);
 

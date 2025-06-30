@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const Orders = require("../models/Order");
+const User = require("../models/User.model");
+const Orders = require("../models/Order.model");
 const bcrypt = require("bcrypt");
 const { getUser } = require("../config/getUser");
 
@@ -191,4 +191,3 @@ module.exports = {
   changePassword,
   getUserByAdmin,
 };
-  

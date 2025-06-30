@@ -52,7 +52,7 @@ const registerUser = async (req, res) => {
     // Path to the HTML file
     const htmlFilePath = path.join(
       process.cwd(),
-      "src/email-templates",
+      "email-templates",
       "otp.html"
     );
 
@@ -61,7 +61,10 @@ const registerUser = async (req, res) => {
 
     // Replace the placeholder with the OTP and user email
     htmlContent = htmlContent.replace(/<h1>[\s\d]*<\/h1>/g, `<h1>${otp}</h1>`);
-    htmlContent = htmlContent.replace(/usingyourmail@gmail\.com/g, user.email);
+    htmlContent = htmlContent.replace(
+      /semiteprofessor@gmail\.com/g,
+      user.email
+    );
 
     // Create nodemailer transporter
     let transporter = nodemailer.createTransport({
@@ -321,7 +324,9 @@ const resetPassword = async (req, res) => {
   }
 };
 
-const verifyOtp = async (req, res) => {
+const 
+
+verifyOtp = async (req, res) => {
   try {
     const { otp } = req.body;
     const user = await getUser(req, res, "not-verified");

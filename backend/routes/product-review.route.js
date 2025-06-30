@@ -4,7 +4,7 @@ const reviewRoutes = require("../controllers/product-review.ctl");
 // Import verifyToken function
 const verifyToken = require("../config/jwt");
 //user routes
-router.get("/reviews/:pid", reviewRoutes.getProductReviewsbyPid);
+router.get("/reviews/:pid", reviewRoutes.getProductReviewsByPid);
 router.post("/reviews", verifyToken, reviewRoutes.createProductReview);
 
 //admin routes
