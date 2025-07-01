@@ -1,3 +1,4 @@
+import Navbar from "@/layouts/_main/navbar";
 import UserTopBar from "@/layouts/_main/topbar";
 
 export const metadata = {
@@ -9,6 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <>
       <UserTopBar />
+      <Navbar />
       {children}
     </>
   );
