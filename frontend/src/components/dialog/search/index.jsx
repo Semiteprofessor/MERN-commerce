@@ -1,9 +1,16 @@
-import React from 'react'
+import { Stack } from "@mui/material";
+import React from "react";
 
 const SimpleDialogDemo = () => {
   return (
-    <div>SimpleDialogDemo</div>
-  )
-}
+    <>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between" onClick={handleClickOpen}
+      ></Stack>
+    </>
+  );
+};
 
-export default SimpleDialogDemo
+export default SimpleDialogDemo;

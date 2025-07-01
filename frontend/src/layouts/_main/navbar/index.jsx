@@ -1,10 +1,27 @@
 "use client";
 
 import Logo from "@/components/ui/logo";
-import { alpha, AppBar, Container, Stack, Toolbar } from "@mui/material";
+import {
+  alpha,
+  AppBar,
+  Container,
+  Skeleton,
+  Stack,
+  Toolbar,
+} from "@mui/material";
 import dynamic from "next/dynamic";
 
-const Search = dynamic(() => import("@/components/dialog/search"));
+const Search = dynamic(() => import("@/components/dialog/search"), {
+  ssr: false,
+  loading: () => (
+    <Skeleton
+      variant="rounded"
+      width={300}
+      height={56}
+      sx={{ borderRadius: "70px" }}
+    />
+  ),
+});
 
 const Navbar = () => {
   return (
@@ -38,6 +55,7 @@ const Navbar = () => {
         >
           <Stack gap={4} direction="row" alignItems="center">
             <Logo />
+            <Search />
           </Stack>
         </Toolbar>
       </Container>
