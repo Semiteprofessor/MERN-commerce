@@ -1,5 +1,6 @@
 import { alpha, IconButton, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { IoSearchOutline } from "react-icons/io5";
 
 const SimpleDialogDemo = () => {
   const [open, setOpen] = useState(false);
@@ -27,7 +28,9 @@ const SimpleDialogDemo = () => {
           cursor: "pointer",
         }}
       >
-        <Typography>Search...</Typography>
+        <Typography variant="body1" color="text.secondary" ml={2}>
+          Search...
+        </Typography>
         <IconButton
           onClick={handleClickOpen}
           name="search"
@@ -38,7 +41,9 @@ const SimpleDialogDemo = () => {
             borderStyle: "solid",
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
           }}
-        />
+        >
+          <IoSearchOutline />
+        </IconButton>
       </Stack>
     </>
   );
