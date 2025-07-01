@@ -1,15 +1,23 @@
 "use client";
 
-import { useTheme } from "@mui/material";
+import { Divider, Stack, useTheme } from "@mui/material";
 import { Container, Toolbar } from "@mui/material";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 import NextLink from "next/link";
 import React from "react";
+
+// icons
+import { MdOutlinePhone } from "react-icons/md";
+import { MdOutlineMail } from "react-icons/md";
+
+const UserSelect = dynamic(() => import('@/components/select'))
 
 const UserTopBar = () => {
   const theme = useTheme();
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Toolbar
         sx={{
           minHeight: `36px !important`,
@@ -25,7 +33,7 @@ const UserTopBar = () => {
         <Stack direction="row" alignItems="center" spacing={1}>
           <Link
             component={NextLink}
-            href={"tel:+13866883295"}
+            href={"tel:+2348069095729"}
             sx={{
               color: "text.primary",
               fontSize: 14,
@@ -34,12 +42,12 @@ const UserTopBar = () => {
               gap: 1,
             }}
           >
-            <MdOutlinePhone /> +1 386-688-3295
+            <MdOutlinePhone /> +234 806-909-5729
           </Link>
           <Divider orientation="vertical" flexItem />
           <Link
             component={NextLink}
-            href={"mailto:johndoe@yahoo.com"}
+            href={"mailto:semiteprofessor@gmail.com"}
             sx={{
               color: "text.primary",
               fontSize: 14,
@@ -48,8 +56,11 @@ const UserTopBar = () => {
               gap: 1,
             }}
           >
-            <MdOutlineMail /> johndoe@yahoo.com
+            <MdOutlineMail /> semiteprofessor@gmail.com
           </Link>
+        </Stack>
+        <Stack>
+          <UserSelect />
         </Stack>
       </Toolbar>
     </Container>

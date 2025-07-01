@@ -1,5 +1,4 @@
-import localFont from "next/font/local";
-import "./globals.css";
+
 import UserTopBar from "@/layouts/_main/topbar";
 
 export const metadata = {
