@@ -1,5 +1,6 @@
-import { TextField } from "@mui/material";
+import { CircularProgress, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Search = ({ ...props }) => {
   const { onClose, mobile, multiSelect, selectedProducts, handleSave } = props;
@@ -31,6 +32,21 @@ const Search = ({ ...props }) => {
         onKeyDown={onKeyDown}
         onChange={(e) => {
           setSearch(e.target.value);
+          setState({ ...state, initialized: true });
+        }}
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment>
+              {isLoading ? (
+                <CircularProgress
+                  sx={{ width: "24px !important", height: "24px !important" }}
+                />
+              ) : (
+                <SearchIcon />
+              )}
+            </InputAdornment>
+          ),
         }}
       />
     </>
