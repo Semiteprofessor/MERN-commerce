@@ -1,5 +1,6 @@
 "use client";
 
+import { NotFoundIllustration } from "@/illustrations";
 import { Box, Button, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
@@ -34,7 +35,11 @@ const NotFound = () => {
         >
           Go Back
         </Button>
-        <Button variant="outlined" onClick={() => router.push("/")}>
+        <Button
+          variant="outlined"
+          onClick={() => router.push("/")}
+          size="large"
+        >
           Go To Home
         </Button>
       </Box>
