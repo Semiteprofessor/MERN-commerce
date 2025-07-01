@@ -1,6 +1,10 @@
 "use client";
 
+import Logo from "@/components/ui/logo";
 import { alpha, AppBar, Container, Stack, Toolbar } from "@mui/material";
+import dynamic from "next/dynamic";
+
+const Search = dynamic(() => import("@/components/dialog/search"));
 
 const Navbar = () => {
   return (
@@ -33,7 +37,7 @@ const Navbar = () => {
           sx={{ px: "0px !important" }}
         >
           <Stack gap={4} direction="row" alignItems="center">
-
+            <Logo />
           </Stack>
         </Toolbar>
       </Container>
