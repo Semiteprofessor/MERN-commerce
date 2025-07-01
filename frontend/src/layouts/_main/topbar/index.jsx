@@ -1,20 +1,54 @@
 "use client";
 
-import { Divider, Stack, useTheme } from "@mui/material";
-import { Container, Toolbar } from "@mui/material";
+import {
+  Container,
+  Toolbar,
+  Divider,
+  Link,
+  Skeleton,
+  Stack,
+  useTheme,
+} from "@mui/material";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import NextLink from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
 // icons
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 
-const UserSelect = dynamic(() => import('@/components/select'))
+const UserSelect = dynamic(() => import("@/components/select/userSelect"), {
+  ssr: false,
+  loading: () => (
+    <Stack>
+      <Skeleton
+        variant="rectangular"
+        width={29.4}
+        height={18.9}
+        sx={{ borderRadius: "4px" }}
+      />
+      <Divider orientation="vertical" flexItem />
+      <Skeleton
+        variant="rectangular"
+        width={29.4}
+        height={18.9}
+        sx={{ borderRadius: "4px" }}
+      />
+    </Stack>
+  ),
+});
 
 const UserTopBar = () => {
   const theme = useTheme();
+  //   const { user, isAuthenticated } = useSelector(({ user }) => user);
+  const user = {
+    firstName: "Taiwo",
+    lastName: "Olapade",
+    role: "user",
+  };
+
+  const isAuthenticated = true;
 
   return (
     <Container maxWidth="xl">
@@ -59,8 +93,41 @@ const UserTopBar = () => {
             <MdOutlineMail /> semiteprofessor@gmail.com
           </Link>
         </Stack>
-        <Stack>
+        <Stack direction="row" alignItems="center" spacing={1}>
           <UserSelect />
+          {isAuthenticated ? (
+            user.role === "user" && (
+              <>
+                <Divider orientation="vertical" flexItem />
+                <Link
+                  component={NextLink}
+                  href={
+                    isAuthenticated
+                      ? "/create-shop"
+                      : "/auth/register?redirect=/create-shop"
+                  }
+                  sx={{ color: "text.primary", fontSize: 14 }}
+                >
+                  Become a seller
+                </Link>
+              </>
+            )
+          ) : (
+            <>
+              <Divider orientation="vertical" flexItem />
+              <Link
+                component={NextLink}
+                href={
+                  isAuthenticated
+                    ? "/create-shop"
+                    : "/auth/register?redirect=/create-shop"
+                }
+                sx={{ color: "text.primary", fontSize: 14 }}
+              >
+                Become a seller
+              </Link>
+            </>
+          )}
         </Stack>
       </Toolbar>
     </Container>

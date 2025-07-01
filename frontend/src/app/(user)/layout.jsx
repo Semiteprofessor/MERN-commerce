@@ -1,4 +1,3 @@
-
 import UserTopBar from "@/layouts/_main/topbar";
 
 export const metadata = {
