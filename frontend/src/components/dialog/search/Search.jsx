@@ -7,6 +7,15 @@ const Search = ({ ...props }) => {
 
   const [focus, setFocus] = useState(false);
   const [search, setSearch] = useState("");
+  const { data: filters, isLoading: filtersLoading } = useQuery(
+    ["get-search-filters"],
+    () => api.getSearchFilters()
+  );
+  const { mutate, isLoading } = useMutation("search", api.search, {
+    onSuccess: (data) => {
+      setstate({ ...state, ...data });
+    },
+  });
 
   const [state, setState] = useState({
     products: [],
@@ -47,6 +56,14 @@ const Search = ({ ...props }) => {
               )}
             </InputAdornment>
           ),
+        }}
+        sx={{
+          ...(mobile && {
+            position: "sticky",
+            top: 0,
+            zIndex: 1,
+            bgcolor: "background.paper",
+          }),
         }}
       />
     </>
