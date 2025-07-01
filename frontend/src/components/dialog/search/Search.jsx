@@ -1,7 +1,9 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
 
-const Search = () => {
+const Search = ({ ...props }) => {
+  const { onClose, mobile, multiSelect, selectedProducts, handleSave } = props;
+
   const [focus, setFocus] = useState(false);
   const [search, setSearch] = useState("");
 
