@@ -1,6 +1,7 @@
-import { alpha, IconButton, Stack, Typography } from "@mui/material";
+import { alpha, IconButton, Stack, Typography, Dialog } from "@mui/material";
 import React, { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
+import Search from "./Search";
 
 const SimpleDialogDemo = () => {
   const [open, setOpen] = useState(false);
@@ -45,6 +46,9 @@ const SimpleDialogDemo = () => {
           <IoSearchOutline />
         </IconButton>
       </Stack>
+      <Dialog open={open}>
+        <Search onClose={handleClose} />
+      </Dialog>
     </>
   );
 };
