@@ -9,7 +9,7 @@ const slice = createSlice({
   name: "shops",
   initialState,
   reducers: {
-    setShops(state, action) {
+    setShops: (state, action) => {
       state.shops = action.payload;
       state.isLoading = false;
     },

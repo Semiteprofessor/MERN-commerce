@@ -16,5 +16,18 @@ const slice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = true;
     },
+    setLogout: (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
+    },
+    setCount: (state) => {
+      state.count = state.count + 1;
+    },
+    setInitialize: (state) => {
+      state.isInitialized = true;
+    },
+    updateStatus: (state) => {
+      state.user.status = action.payload;
+    },
   },
 });

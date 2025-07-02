@@ -11,13 +11,13 @@ const slice = createSlice({
   name: "settings",
   initialState,
   reducer: {
-    setThemeMode(state, action) {
+    setThemeMode: (state, action) => {
       state.themeMode = action.payload;
     },
-    toggleSidebar(state, action) {
+    toggleSidebar: (state, action) => {
       state.openSidebar = action.payload;
     },
-    handleChangeCurrency(state, action) {
+    handleChangeCurrency: (state, action) => {
       state.currency = action.payload.currency;
       state.rate = action.payload.rate;
     },
