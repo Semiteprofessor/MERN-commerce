@@ -1,6 +1,7 @@
 import { CircularProgress, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import { useMutation, useQuery } from "react-query";
 
 const Search = ({ ...props }) => {
   const { onClose, mobile, multiSelect, selectedProducts, handleSave } = props;
@@ -13,7 +14,7 @@ const Search = ({ ...props }) => {
   );
   const { mutate, isLoading } = useMutation("search", api.search, {
     onSuccess: (data) => {
-      setstate({ ...state, ...data });
+      setState({ ...state, ...data });
     },
   });
 
