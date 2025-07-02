@@ -1,7 +1,7 @@
 import { alpha, IconButton, Stack, Typography, Dialog } from "@mui/material";
 import React, { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import Search from "./Search";
+import Search from "./search";
 
 const SimpleDialogDemo = () => {
   const [open, setOpen] = useState(false);
