@@ -17,5 +17,14 @@ const slice = createSlice({
     toggleSidebar(state, action) {
       state.openSidebar = action.payload;
     },
+    handleChangeCurrency(state, action) {
+      state.currency = action.payload.currency;
+      state.rate = action.payload.rate;
+    },
   },
 });
+
+export default slice.reducer;
+
+export const { setThemeMode, toggleSidebar, handleChangeCurrency } =
+  slice.actions;
