@@ -46,7 +46,11 @@ const SimpleDialogDemo = () => {
           <IoSearchOutline />
         </IconButton>
       </Stack>
-      <Dialog open={open}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        sx={{ "& .MuiPaper-root": { width: 600 } }}
+      >
         <Search onClose={handleClose} />
       </Dialog>
     </>

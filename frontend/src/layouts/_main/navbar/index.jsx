@@ -57,6 +57,14 @@ const Navbar = () => {
             <Logo />
             <Search />
           </Stack>
+
+          <Stack gap={2} direction="row" alignItems="center">
+            <LanguageSelect />
+            <SettingMode />
+            <WishlistProvider />
+            <CompareWidget />
+            <CartWidget />
+          </Stack>
         </Toolbar>
       </Container>
     </AppBar>
