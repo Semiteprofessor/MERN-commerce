@@ -1,11 +1,10 @@
+import { persistor } from "@/redux/store";
 import ThemeRegistry from "@/theme";
 import { LinearProgress, Stack } from "@mui/material";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { PersistGate } from "redux-persist/integration/react";
-
-import { reduxStore, persistor } from "src/redux";
 
 const Providers = (props) => {
   const [queryClient] = useState(
