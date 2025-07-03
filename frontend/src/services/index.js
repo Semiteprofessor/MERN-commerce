@@ -174,3 +174,31 @@ export const updateUserRoleByAdmin = async (id) => {
   return response;
 };
   
+export const getCouponCodesByAdmin = async (page, search) => {
+  const { data: response } = await http.get(
+    `/admin/coupon-codes?search=${search}&page=${page}`
+  );
+  return response;
+};
+
+export const getCouponCodeByAdmin = async (id) => {
+  const { data: response } = await http.get(`/admin/coupon-codes/${id}`);
+  return response;
+};
+
+export const addCouponCodeByAdmin = async (payload) => {
+  const { data: response } = await http.post(`/admin/coupon-codes`, payload);
+  return response;
+};
+export const updateCouponCodeByAdmin = async ({ currentId, ...others }) => {
+  const { data: response } = await http.put(
+    `/admin/coupon-codes/${currentId}`,
+    others
+  );
+  return response;
+};
+export const deleteCouponCodeByAdmin = async (id) => {
+  const { data: response } = await http.delete(`/admin/coupon-codes/${id}`);
+  return response;
+};
+  
