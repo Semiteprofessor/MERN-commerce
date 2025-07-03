@@ -424,3 +424,39 @@ export const getFiltersByShop = async (shop) => {
   return data;
 };
   
+export const getNewArrivels = async () => {
+  const { data } = await http.get("/new-arrivals");
+  return data;
+};
+export const getRelatedProducts = async (pid) => {
+  const { data } = await http.get(`/related-products/${pid}`);
+  return data;
+};
+export const getProductBySlug = async (slug) => {
+  const { data } = await http.get(`/products/${slug}`);
+  return data;
+};
+
+export const getProductReviews = async (pid) => {
+  const { data } = await http.get(`/reviews/${pid}`);
+  return data;
+};
+export const addReview = async (payload) => {
+  const { data } = await http.post(`/reviews`, payload);
+  return data;
+};
+
+export const getUserInvoice = async (page) => {
+  const { data: response } = await http.get(`/users/invoice${page}`);
+  return response;
+};
+
+export const updateProfile = async ({ ...payload }) => {
+  const { data } = await http.put(`/users/profile`, payload);
+  return data;
+};
+export const changePassword = async ({ ...payload }) => {
+  const { data } = await http.put(`/users/change-password`, payload);
+  return data;
+};
+  
