@@ -28,7 +28,6 @@ const LanguageSelect = dynamic(() => import("@/components/languageSelect"), {
   loading: () => <Skeleton variant="circular" width={40} height={40} />,
 });
 
-
 const SettingMode = dynamic(
   () => import("@/components/settings/themeModeSetting"),
   {
