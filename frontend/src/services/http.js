@@ -19,3 +19,24 @@ const getToken = () => {
   }
   return "";
 };
+
+const baseUrl = process.env.BASE_URL;
+const http = axios.create({
+  baseURL: baseUrl + `/api`,
+  timeout: 30000,
+});
+
+http.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export default http;
