@@ -557,3 +557,40 @@ export const getFeaturedProducts = async () => {
   return data;
 };
   
+export const getTopRatedProducts = async () => {
+  const { data } = await http.get(`/home/products/top`);
+  return data;
+};
+export const getHomeBrands = async () => {
+  const { data } = await http.get(`/home/brands`);
+  return data;
+};
+export const getBrands = async () => {
+  const { data } = await http.get(`/brands`);
+  return data;
+};
+export const applyCouponCode = async (code) => {
+  const { data: response } = await http.get(`/coupon-codes/${code}`);
+  return response;
+};
+
+export const paymentIntents = async (amount, currency) => {
+  const { data } = await http.post(`/payment-intents`, {
+    amount,
+    currency,
+  });
+  return data;
+};
+
+export const addShopByUser = async (payload) => {
+  const { data } = await http.post(`/shops`, {
+    ...payload,
+  });
+
+  return data;
+};
+export const getShopByUser = async () => {
+  const { data } = await http.get(`/user/shop`);
+  return data;
+};
+  
