@@ -341,3 +341,23 @@ export const updateVendorProduct = async ({ currentSlug, ...payload }) => {
   );
   return response;
 };
+export const getOrdersByVendor = async (payload) => {
+  const { data } = await http.get(`/vendor/orders?${payload}`);
+  return data;
+};
+export const addShopByVendor = async (payload) => {
+  const { data } = await http.post(`/vendor/shops`, payload);
+  return data;
+};
+export const updateShopByVendor = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/vendor/shops/${currentSlug}`, payload);
+  return data;
+};
+export const getShopDetailsByVendor = async () => {
+  const { data } = await http.get(`/vendor/shop/stats`);
+  return data;
+};
+export const getIncomeByVendor = async (slug, page) => {
+  const { data } = await http.get(`/vendor/shops/income?page=${page || 1}`);
+  return data;
+};
