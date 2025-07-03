@@ -83,3 +83,25 @@ export const deleteCategoryByAdmin = async (slug) => {
   const { data } = await http.delete(`/admin/categories/${slug}`);
   return data;
 };
+
+export const addCategoryByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/categories`, payload);
+  return data;
+};
+export const updateCategoryByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/categories/${currentSlug}`, payload);
+  return data;
+};
+export const getAllCategoriesByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-categories`);
+  return data;
+};
+
+export const getSubCategoryByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/subcategories/${slug}`);
+  return data;
+};
+export const getSubCategoriesByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/subcategories?${params}`);
+  return data;
+};
