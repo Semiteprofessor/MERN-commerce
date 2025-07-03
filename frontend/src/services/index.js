@@ -202,3 +202,42 @@ export const deleteCouponCodeByAdmin = async (id) => {
   return response;
 };
   
+export const getNewsletter = async (page) => {
+  const { data } = await http.get(`/admin/newsletter?page=${page}`);
+  return data;
+};
+export const getShopDetailsByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/shops/${slug}`);
+  return data;
+};
+export const addAdminShopByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/shops`, payload);
+  return data;
+};
+export const updateAdminShopByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/shops/${currentSlug}`, payload);
+  return data;
+};
+export const deleteShop = async (slug) => {
+  const { data: response } = await http.delete(`/admin/shops/${slug}`);
+  return response;
+};
+export const getLowStockProductsByAdmin = async (page) => {
+  const { data: response } = await http.get(
+    `/admin/low-stock-products?page=${page}`
+  );
+  return response;
+};
+export const getShopsByAdmin = async (page, search) => {
+  const { data: response } = await http.get(
+    `/admin/shops?search=${search}&page=${page}`
+  );
+  return response;
+};
+export const getShopIncomeByAdmin = async (slug, page) => {
+  const { data } = await http.get(
+    `/admin/shops/${slug}/income?page=${page || 1}`
+  );
+
+  return data;
+};
