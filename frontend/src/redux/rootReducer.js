@@ -13,3 +13,37 @@ const persistConfig = {
   whitelist: [],
 };
 
+const productPersistConfig = {
+  key: "product",
+  storage,
+  keyPrefix: "redux-",
+  whitelist: ["sortBy", "checkout"],
+};
+
+const wishlistPersistConfig = {
+  key: "wishlist",
+  storage,
+  keyPrefix: "redux-",
+  whitelist: ["wishlist"],
+};
+
+const comparePersistConfig = {
+  key: "compare",
+  storage,
+  keyPrefix: "redux-",
+  whitelist: ["product"],
+};
+
+const settingsPersistConfig = {
+  key: "user",
+  storage,
+  keyPrefix: "redux-",
+  whitelist: ["user", "isAuthenticated"],
+};
+
+const userPersistConfig = {
+  key: "user",
+  storage,
+  keyPrefix: "redux-",
+  whitelist: ["user", "isAuthenticated"],
+};
