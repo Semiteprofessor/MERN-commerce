@@ -492,3 +492,34 @@ export const placeOrder = async (payload) => {
   const { data } = await http.post(`/orders`, payload);
   return data;
 };
+export const getLayout = async () => {
+  const { data } = await http.get(`/layout`);
+  return data;
+};
+export const singleDeleteFile = async (id) => {
+  const { data } = await http.delete(`/delete-file/${id}`);
+  return data;
+};
+
+export const sendNewsletter = async (payload) => {
+  const { data } = await http.post(`/newsletter`, payload);
+  return data;
+};
+
+export const getWishlist = async () => {
+  const { data } = await http.get(`/wishlist`);
+  return data;
+};
+export const updateWishlist = async (pid) => {
+  const { data } = await http.post(`/wishlist`, { pid });
+  return data;
+};
+export const getCompareProducts = async (products) => {
+  const { data } = await http.post(`/compare/products`, { products });
+  return data;
+};
+
+export const getProfile = async () => {
+  const { data } = await http.get(`/users/profile`);
+  return data;
+};
