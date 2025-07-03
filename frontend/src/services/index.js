@@ -621,3 +621,29 @@ export const getCategorySlugs = async () => {
   const { data } = await http.get(`/categories-slugs`);
   return data;
 };
+export const getShopSlugs = async () => {
+  const { data } = await http.get("/shops-slugs");
+  return data;
+};
+export const getShopBySlug = async (shop) => {
+  const { data } = await http.get(`/shops/${shop}`);
+  return data;
+};
+export const getShopTitle = async (shop) => {
+  const { data } = await http.get(`/shop-title/${shop}`);
+  return data;
+};
+
+export const getSubCategoryTitle = async (subcategory) => {
+  const { data } = await http.get(`/subcategory-title/${subcategory}`);
+  return data;
+};
+export const getSubCategoryBySlug = async (subcategory) => {
+  const { data } = await http.get(`/subcategories/${subcategory}`);
+  return data;
+};
+
+export const getSubCategorySlugs = async () => {
+  const { data } = await http.get(`/subcategories-slugs`);
+  return data;
+};
