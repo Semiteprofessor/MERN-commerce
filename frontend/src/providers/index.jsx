@@ -1,3 +1,5 @@
+"use client";
+
 import { persistor } from "@/redux/store";
 import ThemeRegistry from "@/theme";
 import { LinearProgress, Stack } from "@mui/material";
@@ -5,6 +7,12 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { PersistGate } from "redux-persist/integration/react";
+
+
+// dynamic import
+const ProgressBar = dynamic(() => import('@/components/ProgressBar'), {
+  ssr: false
+});
 
 const Providers = (props) => {
   const [queryClient] = useState(
@@ -43,5 +51,9 @@ const Providers = (props) => {
     </ThemeRegistry>
   );
 };
+
+Providers.propTypes = {
+  isAuth: propTypes.bool.isRequired
+}
 
 export default Providers;
