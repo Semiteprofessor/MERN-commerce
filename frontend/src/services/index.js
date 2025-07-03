@@ -647,3 +647,26 @@ export const getSubCategorySlugs = async () => {
   const { data } = await http.get(`/subcategories-slugs`);
   return data;
 };
+
+export const getCompaignSlugs = async () => {
+    const { data } = await http.get('/compaigns-slugs');
+    return data;
+  };
+  export const getCompaignBySlug = async (slug) => {
+    const { data } = await http.get(`/compaigns/${slug}`);
+    return data;
+  };
+  export const getCompaignTitle = async (slug) => {
+    const { data } = await http.get(`/compaign-title/${slug}`);
+    return data;
+  };
+  
+  export const followShop = async (shopId) => {
+    const { data } = await http.put(`/shops/${shopId}/follow`);
+    return data;
+  };
+  // export const contactUs = async (payload) => {
+  //   const { data } = await http.post(`/contact-us`, payload);
+  //   return data;
+  // };
+  
