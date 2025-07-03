@@ -399,3 +399,28 @@ export const getProductsBySubCategory = async (
   return data;
 };
   
+export const getProductsByShop = async (query = "", shop, rate) => {
+  const { data } = await http.get(
+    `/shop/products/${shop}${query || "?"}&rate=${rate}`
+  );
+  return data;
+};
+
+export const getAllProducts = async () => {
+  const { data } = await http.get(`/products/all`);
+  return data;
+};
+export const getAllFilters = async () => {
+  const { data } = await http.get(`/products/filters`);
+  return data;
+};
+
+export const getNewProducts = async () => {
+  const { data } = await http.get(`/products/new`);
+  return data;
+};
+export const getFiltersByShop = async (shop) => {
+  const { data } = await http.get(`/filters/${shop}`);
+  return data;
+};
+  
