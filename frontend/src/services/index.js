@@ -301,3 +301,43 @@ export const deleteCompaignByAdmin = async (slug) => {
   const { data } = await http.delete(`/admin/compaigns/${slug}`);
   return data;
 };
+
+export const getVendorProductBySlug = async (slug) => {
+  const { data } = await http.get(`/vendor/products/${slug}`);
+  return data;
+};
+export const getVendorShop = async () => {
+  const { data } = await http.get(`/vendor/shop`);
+  return data;
+};
+export const vendorDashboardAnalytics = async () => {
+  const { data } = await http.get(`/vendor/dashboard-analytics`);
+  return data;
+};
+export const getVendorLowStockProducts = async (page) => {
+  const { data: response } = await http.get(
+    `/vendor/low-stock-products?page=${page}`
+  );
+  return response;
+};
+export const getVendorProducts = async (page, search) => {
+  const { data: response } = await http.get(
+    `/vendor/products?search=${search}&page=${page}`
+  );
+  return response;
+};
+export const deleteVendorProduct = async (slug) => {
+  const { data: response } = await http.delete(`/vendor/products/${slug}`);
+  return response;
+};
+export const createVendorProduct = async (payload) => {
+  const { data: response } = await http.post(`/vendor/products`, payload);
+  return response;
+};
+export const updateVendorProduct = async ({ currentSlug, ...payload }) => {
+  const { data: response } = await http.put(
+    `/vendor/products/${currentSlug}`,
+    payload
+  );
+  return response;
+};
