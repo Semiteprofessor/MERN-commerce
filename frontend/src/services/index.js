@@ -594,3 +594,30 @@ export const getShopByUser = async () => {
   return data;
 };
   
+export const getShops = async () => {
+  const { data } = await http.get(`/shops`);
+  return data;
+};
+export const getAllCategoriesByUser = async () => {
+  const { data } = await http.get(`/all-categories`);
+  return data;
+};
+
+export const getCurrencies = async () => {
+  const { data } = await http.get(`/currencies`);
+  return data;
+};
+export const getCategoryTitle = async (category) => {
+  const { data } = await http.get(`/category-title/${category}`);
+  return data;
+};
+
+export const getCategoryBySlug = async (category) => {
+  const { data } = await http.get(`/categories/${category}`);
+  return data;
+};
+
+export const getCategorySlugs = async () => {
+  const { data } = await http.get(`/categories-slugs`);
+  return data;
+};
