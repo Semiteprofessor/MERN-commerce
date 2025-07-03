@@ -137,4 +137,40 @@ export const updateProductByAdmin = async ({ currentSlug, ...payload }) => {
   );
   return response;
 };
+
+export const deleteProductByAdmin = async (slug) => {
+  const { data: response } = await http.delete(`/admin/products/${slug}`);
+  return response;
+};
+
+export const getOrdersByAdmin = async (payload) => {
+  const { data } = await http.get(`/admin/orders?${payload}`);
+  return data;
+};
+export const getOrderByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/orders/${id}`);
+  return data;
+};
+export const deleteOrderByAdmin = async (id) => {
+  const { data } = await http.delete(`/admin/orders/${id}`);
+  return data;
+};
+export const updateOrderStatus = async ({ id, ...payload }) => {
+  const { data } = await http.put(`/admin/orders/${id}`, payload);
+  return data;
+};
+export const getUserByAdminsByAdmin = async (page, search) => {
+  const { data: response } = await http.get(
+    `/admin/users?search=${search}&page=${page}`
+  );
+  return response;
+};
+export const getUserByAdmin = async (id) => {
+  const { data: response } = await http.get(`/admin/users/${id}`);
+  return response;
+};
+export const updateUserRoleByAdmin = async (id) => {
+  const { data: response } = await http.post(`/admin/users/role/${id}`);
+  return response;
+};
   
