@@ -23,6 +23,19 @@ const Search = dynamic(() => import("@/components/dialog/search"), {
   ),
 });
 
+const LanguageSelect = dynamic(() => import("@/components/languageSelect"), {
+  ssr: false,
+  loading: () => <Skeleton variant="circular" width={40} height={40} />,
+});
+
+
+const SettingMode = dynamic(
+  () => import("@/components/settings/themeModeSetting"),
+  {
+    loading: () => <Skeleton variant="circular" width={40} height={40} />,
+  }
+);
+
 const Navbar = () => {
   return (
     <AppBar
@@ -61,9 +74,9 @@ const Navbar = () => {
           <Stack gap={2} direction="row" alignItems="center">
             <LanguageSelect />
             <SettingMode />
-            <WishlistProvider />
+            {/* <WishlistProvider />
             <CompareWidget />
-            <CartWidget />
+            <CartWidget /> */}
           </Stack>
         </Toolbar>
       </Container>
