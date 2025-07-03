@@ -275,3 +275,29 @@ export const updateCurrencyByAdmin = async ({ _id, ...others }) => {
   const { data } = await http.put(`/admin/currencies/${_id}`, others);
   return data;
 };
+export const getCurrencyByAdmin = async (cid) => {
+  const { data } = await http.get(`/admin/currencies/${cid}`);
+  return data;
+};
+export const getCompaignsByAdmin = async (page, search) => {
+  const { data } = await http.get(
+    `/admin/compaigns?page=${page || 1}&search=${search || ""}`
+  );
+  return data;
+};
+export const addCompaignByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/compaigns`, payload);
+  return data;
+};
+export const updateCompaignByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/compaigns/${currentSlug}`, payload);
+  return data;
+};
+export const getCompaignByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/compaigns/${slug}`);
+  return data;
+};
+export const deleteCompaignByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/compaigns/${slug}`);
+  return data;
+};
