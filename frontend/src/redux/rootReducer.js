@@ -1,13 +1,16 @@
+import { combineReducers } from "@reduxjs/toolkit";
+import ShopReducer from "./slices/shops";
+
 import ProductReducer from "./slices/products";
 import UserReducer from "./slices/users";
+import WishlistReducer from "./slices/wishlist";
 import CompareReducer from "./slices/compare";
 import SettingsReducer from "./slices/settings";
 import CategoryReducer from "./slices/categories";
 import BrandReducer from "./slices/brands";
-import ShopReducer from "./slices/shops";
-import { combineReducers } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
 
-const persistConfig = {
+const rootPersistConfig = {
   key: "root",
   storage,
   keyPrefix: "redux-",
@@ -50,6 +53,14 @@ const userPersistConfig = {
 };
 
 const reducer = combineReducers({
-  product: persistConfig(productPersistConfig, ProductReducer),
-  user: persistConfig(userPersistConfig, UserReducer),
+  product: persistReducer(productPersistConfig, ProductReducer),
+  user: persistReducer(userPersistConfig, UserReducer),
+  settings: persistReducer(settingsPersistConfig, SettingsReducer),
+  wishlist: persistReducer(wishlistPersistConfig, WishlistReducer),
+  compare: persistReducer(comparePersistConfig, CompareReducer),
+  categories: CategoryReducer,
+  brands: BrandReducer,
+  shops: ShopReducer,
 });
+
+export { rootPersistConfig, reducer };
