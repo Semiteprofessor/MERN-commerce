@@ -5,6 +5,7 @@ import SettingsReducer from "./slices/settings";
 import CategoryReducer from "./slices/categories";
 import BrandReducer from "./slices/brands";
 import ShopReducer from "./slices/shops";
+import { combineReducers } from "@reduxjs/toolkit";
 
 const persistConfig = {
   key: "root",
@@ -47,3 +48,8 @@ const userPersistConfig = {
   keyPrefix: "redux-",
   whitelist: ["user", "isAuthenticated"],
 };
+
+const reducer = combineReducers({
+  product: persistConfig(productPersistConfig, ProductReducer),
+  user: persistConfig(userPersistConfig, UserReducer),
+});

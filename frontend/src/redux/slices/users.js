@@ -31,3 +31,8 @@ const slice = createSlice({
     },
   },
 });
+
+export default slice.reducer;
+
+export const { setLogin, setLogout, setCount, setInitialize, updateStatus } =
+  slice.actions;
