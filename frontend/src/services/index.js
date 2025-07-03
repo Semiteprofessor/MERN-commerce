@@ -105,3 +105,36 @@ export const getSubCategoriesByAdmin = async (params) => {
   const { data } = await http.get(`/admin/subcategories?${params}`);
   return data;
 };
+
+export const deleteSubCategoryByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/subcategories/${slug}`);
+  return data;
+};
+export const addSubCategoryByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/subcategories`, payload);
+  return data;
+};
+export const updateSubCategoryByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(
+    `/admin/subcategories/${currentSlug}`,
+    payload
+  );
+  return data;
+};
+
+export const getProductsByAdmin = async (params) => {
+  const { data: response } = await http.get(`/admin/products?${params}`);
+  return response;
+};
+export const createProductByAdmin = async (payload) => {
+  const { data: response } = await http.post(`/admin/products`, payload);
+  return response;
+};
+export const updateProductByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data: response } = await http.put(
+    `/admin/products/${currentSlug}`,
+    payload
+  );
+  return response;
+};
+  
