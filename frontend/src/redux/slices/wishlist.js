@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: "notification",
+  name: "wishlist",
   initialState,
   reducers: {
     setWishlist: (state, action) => {
