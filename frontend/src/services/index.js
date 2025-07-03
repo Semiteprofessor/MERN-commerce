@@ -361,3 +361,41 @@ export const getIncomeByVendor = async (slug, page) => {
   const { data } = await http.get(`/vendor/shops/income?page=${page || 1}`);
   return data;
 };
+
+export const getProducts = async (query = "", cat, rate) => {
+  const { data } = await http.get(`/products${query || "?"}&rate=${rate}`);
+  return data;
+};
+export const getProductDetails = async (pid) => {
+  const { data } = await http.get(`/products/${pid}`);
+  return data;
+};
+
+export const getProductsByCategory = async (query = "", category, rate) => {
+  const { data } = await http.get(
+    `/category/products/${category}${query || "?"}&rate=${rate}`
+  );
+  return data;
+};
+export const getProductsByCompaign = async (query = "", slug, rate) => {
+  const { data } = await http.get(
+    `/compaign/products/${slug}${query || "?"}&rate=${rate}`
+  );
+  return data;
+};
+
+export const getProductSlugs = async () => {
+  const { data } = await http.get(`/products-slugs`);
+  return data;
+};
+export const getProductsBySubCategory = async (
+  query = "",
+  subcategory,
+  rate
+) => {
+  const { data } = await http.get(
+    `/subcategory/products/${subcategory}${query || "?"}&rate=${rate}`
+  );
+  return data;
+};
+  
