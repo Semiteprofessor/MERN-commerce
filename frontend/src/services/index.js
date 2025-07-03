@@ -51,3 +51,35 @@ export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
   return data;
 };
+
+export const getAllBrandsByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-brands`);
+  return data;
+};
+export const addBrandByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/brands`, payload);
+  return data;
+};
+export const updateBrandByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/brands/${currentSlug}`, payload);
+  return data;
+};
+export const deleteBrandByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/brands/${slug}`);
+  return data;
+};
+
+export const getCategoriesByAdmin = async (page, search) => {
+  const { data } = await http.get(
+    `/admin/categories?search=${search}&page=${page}`
+  );
+  return data;
+};
+export const getCategoryByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/categories/${slug}`);
+  return data;
+};
+export const deleteCategoryByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/categories/${slug}`);
+  return data;
+};
