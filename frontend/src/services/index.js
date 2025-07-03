@@ -23,3 +23,31 @@ export const forgetPassword = async (payload) => {
   const { data } = await http.post("/auth/forget-password", payload);
   return data;
 };
+
+export const resetPassword = async ({ newPassword, token }) => {
+  const { data } = await http.post("/auth/reset-password", {
+    newPassword: newPassword,
+    token: token,
+  });
+  return data;
+};
+
+export const adminDashboardAnalytics = async () => {
+  const { data } = await http.get(`/admin/dashboard-analytics`);
+  return data;
+};
+export const getNotifications = async (page) => {
+  const { data } = await http.get(`/admin/notifications?limit=${page}`, {});
+  return data;
+};
+
+export const getBrandsByAdmin = async (page, search) => {
+  const { data } = await http.get(
+    `/admin/brands?search=${search}&page=${page}`
+  );
+  return data;
+};
+export const getBrandByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/brands/${id}`);
+  return data;
+};
