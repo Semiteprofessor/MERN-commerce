@@ -460,3 +460,35 @@ export const changePassword = async ({ ...payload }) => {
   return data;
 };
   
+export const getAddress = async (payload) => {
+  const { data } = await http.get(`/users/addresses?id=${payload}`);
+  return data;
+};
+export const updateAddress = async ({ _id, ...payload }) => {
+  const { data } = await http.put(`/users/addresses/${_id}`, payload);
+  return data;
+};
+export const createAddress = async ({ ...payload }) => {
+  const { data } = await http.post(`/users/addresses/`, payload);
+  return data;
+};
+export const deleteAddress = async ({ _id }) => {
+  const { data } = await http.delete(`/users/addresses/${_id}`);
+  return data;
+};
+export const search = async (payload) => {
+  const { data } = await http.post(`/search`, payload);
+  return data;
+};
+export const getSearchFilters = async () => {
+  const { data } = await http.get(`/search-filters`);
+  return data;
+};
+export const getInvoices = async () => {
+  const { data } = await http.get(`/users/invoice`);
+  return data;
+};
+export const placeOrder = async (payload) => {
+  const { data } = await http.post(`/orders`, payload);
+  return data;
+};
