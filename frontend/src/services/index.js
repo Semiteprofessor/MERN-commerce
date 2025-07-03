@@ -523,3 +523,37 @@ export const getProfile = async () => {
   const { data } = await http.get(`/users/profile`);
   return data;
 };
+
+export const getCart = async (ids) => {
+  const { data } = await http.post(`/cart`, {
+    products: ids,
+  });
+  return data;
+};
+
+export const getAllCategories = async () => {
+  const { data } = await http.get(`/all-categories`);
+  return data;
+};
+export const getHomeCategories = async () => {
+  const { data } = await http.get(`/home/categories`);
+  return data;
+};
+
+export const getHomeShops = async () => {
+  const { data } = await http.get(`/shops?limit=5`);
+  return data;
+};
+export const getHomeCompaigns = async () => {
+  const { data } = await http.get(`/compaigns`);
+  return data;
+};
+export const getBestSellingProducts = async () => {
+  const { data } = await http.get(`/home/products/best-selling`);
+  return data;
+};
+export const getFeaturedProducts = async () => {
+  const { data } = await http.get(`/home/products/featured`);
+  return data;
+};
+  
