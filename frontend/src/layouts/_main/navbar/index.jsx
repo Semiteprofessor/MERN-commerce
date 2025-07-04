@@ -63,6 +63,18 @@ const CompareWidget = dynamic(() => import("@/components/compareWidget"), {
   ),
 });
 
+const CartWidget = dynamic(() => import("@/components/cartWidget"), {
+  loading: () => (
+    <Stack direction="row" spacing={1} alignItems="center">
+      <Skeleton variant="circular" width={40} height={40} />
+      <Box>
+        <Skeleton variant="text" width={60} sx={{ mb: 0.6 }} />
+        <Skeleton variant="text" width={60} />
+      </Box>
+    </Stack>
+  ),
+});
+
 const Navbar = () => {
   return (
     <AppBar
@@ -103,7 +115,7 @@ const Navbar = () => {
             <SettingMode />
             <WishlistProvider />
             <CompareWidget />
-            {/* <CartWidget /> */}
+            <CartWidget />
           </Stack>
         </Toolbar>
       </Container>

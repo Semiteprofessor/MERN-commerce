@@ -1,12 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import Link from 'next/link';
+import React from "react";
+import { useSelector } from "react-redux";
+import Link from "next/link";
 
 // mui
-import { IconButton, alpha, Stack, Typography } from '@mui/material';
+import { IconButton, alpha, Stack, Typography } from "@mui/material";
 
 // icons
-import { GoGitCompare } from 'react-icons/go';
+import { GoGitCompare } from "react-icons/go";
 
 export default function WishlistWidget() {
   const { products: compareProducts } = useSelector(({ compare }) => compare);
@@ -18,7 +18,7 @@ export default function WishlistWidget() {
         alignItems="center"
         width="auto"
         sx={{
-          cursor: 'pointer'
+          cursor: "pointer",
         }}
       >
         <IconButton
@@ -26,10 +26,10 @@ export default function WishlistWidget() {
           color="primary"
           disableRipple
           sx={{
-            borderColor: 'primary',
+            borderColor: "primary",
             borderWidth: 1,
-            borderStyle: 'solid',
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
+            borderStyle: "solid",
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
           }}
         >
           <GoGitCompare />
@@ -39,7 +39,8 @@ export default function WishlistWidget() {
             Compare
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            {compareProducts?.length || 0} {compareProducts?.length > 1 ? 'Items' : 'Item'}
+            {compareProducts?.length || 0}{" "}
+            {compareProducts?.length > 1 ? "Items" : "Item"}
           </Typography>
         </Stack>
       </Stack>
