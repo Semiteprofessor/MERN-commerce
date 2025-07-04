@@ -6,6 +6,8 @@ import {
   DialogContent,
   Grid,
   IconButton,
+  Skeleton,
+  Stack,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -84,7 +86,27 @@ const LanguageSelect = () => {
                     }}
                     fullWidth
                     size="large"
-                  />
+                    variant="outlined"
+                    color={currency == cur?.code ? "primary" : "inherit"}
+                    sx={{ textAlign: "left", justifyContent: "start" }}
+                  >
+                    <Stack>
+                      <Typography variant="subtitle2" noWrap>
+                        {isLoading ? (
+                          <Skeleton variant="text" width={120} />
+                        ) : (
+                          `${cur.name} - ${cur.code}`
+                        )}
+                      </Typography>
+                      <Typography>
+                        {isLoading ? (
+                          <Skeleton variant="text" width={60} />
+                        ) : (
+                          cur.country
+                        )}
+                      </Typography>
+                    </Stack>
+                  </Button>
                 </Grid>
               )
             )}

@@ -22,7 +22,7 @@ const getToken = () => {
 
 const baseUrl = process.env.BASE_URL;
 const http = axios.create({
-  baseURL: baseUrl + `/api`,
+  baseURL: baseUrl + `http://localhost:8899/api`,
   timeout: 30000,
 });
 

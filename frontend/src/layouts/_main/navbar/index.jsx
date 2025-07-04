@@ -4,6 +4,7 @@ import Logo from "@/components/ui/logo";
 import {
   alpha,
   AppBar,
+  Box,
   Container,
   Skeleton,
   Stack,
@@ -32,6 +33,21 @@ const SettingMode = dynamic(
   () => import("@/components/settings/themeModeSetting"),
   {
     loading: () => <Skeleton variant="circular" width={40} height={40} />,
+  }
+);
+
+const WishlistProvider = dynamic(
+  () => import("@/components/popover/wishlist"),
+  {
+    loading: () => (
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Skeleton variant="circular" width={40} height={40} />
+        <Box>
+          <Skeleton variant="text" width={60} sx={{ mb: 0.6 }} />
+          <Skeleton variant="text" width={60} />
+        </Box>
+      </Stack>
+    ),
   }
 );
 
@@ -73,8 +89,8 @@ const Navbar = () => {
           <Stack gap={2} direction="row" alignItems="center">
             <LanguageSelect />
             <SettingMode />
-            {/* <WishlistProvider />
-            <CompareWidget />
+            <WishlistProvider />
+            {/* <CompareWidget />
             <CartWidget /> */}
           </Stack>
         </Toolbar>
