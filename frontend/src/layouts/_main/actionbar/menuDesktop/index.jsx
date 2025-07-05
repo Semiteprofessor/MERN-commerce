@@ -34,53 +34,99 @@ MenuDesktopItem.propTypes = {
 };
 
 function MenuDesktopItem({ ...props }) {
-    const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose, isLoading, data } = props;
-    const { title, path, isDropdown } = item;
-    const anchorRef = React.useRef(null);
-    const isActive = pathname === path;
-  
-    if (isDropdown) {
-      return (
-        <>
-          <Box
+  const {
+    item,
+    pathname,
+    isHome,
+    isOpen,
+    isOffset,
+    onOpen,
+    scrollPosition,
+    onClose,
+    isLoading,
+    data,
+  } = props;
+  const { title, path, isDropdown } = item;
+  const anchorRef = React.useRef(null);
+  const isActive = pathname === path;
+
+  if (isDropdown) {
+    return (
+      <>
+        <Box
+          sx={{
+            flexGrow: 1,
+          }}
+        >
+          <Button
+            ref={anchorRef}
+            className={` ${isOffset && isHome && "offset"}`}
+            id="composition-button"
+            aria-controls={isOpen ? "composition-menu" : undefined}
+            aria-expanded={isOpen ? "true" : undefined}
+            aria-haspopup="true"
+            onClick={onOpen}
+            variant="contained"
+            color="primary"
+            size="large"
             sx={{
-              flexGrow: 1
+              boxShadow: "none",
+              borderRadius: 0,
+              width: 280,
+              bgcolor: (theme) => alpha(theme.palette.common.black, 0.1),
+              "&.arrow-icon": {
+                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+              },
             }}
+            startIcon={<RxDashboard />}
+            endIcon={<FaAngleDown size={14} className="arrow-icon" />}
           >
-            <Button
-              ref={anchorRef}
-              className={` ${isOffset && isHome && 'offset'}`}
-              id="composition-button"
-              aria-controls={isOpen ? 'composition-menu' : undefined}
-              aria-expanded={isOpen ? 'true' : undefined}
-              aria-haspopup="true"
-              onClick={onOpen}
-              variant="contained"
-              color="primary"
-              size="large"
-              sx={{
-                boxShadow: 'none',
-                borderRadius: 0,
-                width: 280,
-                bgcolor: (theme) => alpha(theme.palette.common.black, 0.1),
-                '&.arrow-icon': {
-                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
-                }
-              }}
-              startIcon={<RxDashboard />}
-              endIcon={<FaAngleDown size={14} className="arrow-icon" />}
-            >
-              {title}
-            </Button>
-          </Box>
-          <MenuDesktopPopover
-            isOpen={isOpen}
-            scrollPosition={scrollPosition}
-            onClose={onClose}
-            isLoading={isLoading}
-            data={data}
-          />
-        </>
-      );
-    }
-  
+            {title}
+          </Button>
+        </Box>
+        <MenuDesktopPopover
+          isOpen={isOpen}
+          scrollPosition={scrollPosition}
+          onClose={onClose}
+          isLoading={isLoading}
+          data={data}
+        />
+      </>
+    );
+  }
+
+  return (
+    <Link
+      component={NextLink}
+      key={title}
+      href={path}
+      name={title}
+      className={` ${isActive && "active"}`}
+      sx={{
+        ...typography.subtitle1,
+        color: "common.white",
+        textDecoration: "none",
+        fontWeight: 500,
+        transition: ".2s ease-in",
+        cursor: "pointer",
+        // '&:hover': {
+        //   color: 'primary.main',
+        //   textDecoration: 'none'
+        // },
+        "&.offset": {
+          color: "text.primary",
+        },
+        "&.active": {
+          color: "primary.main",
+        },
+        "& .link-icon": {
+          ml: 0.5,
+          fontSize: 16,
+        },
+      }}
+    >
+      {title}
+    </Link>
+  );
+}
+    
