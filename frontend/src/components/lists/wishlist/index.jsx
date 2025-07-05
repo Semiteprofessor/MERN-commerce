@@ -63,3 +63,28 @@ const SkeletonComponent = () => {
   );
 };
   
+export default function Wishlist({ ...props }) {
+    const { item, isLast, isUser } = props;
+    const router = useRouter();
+    const t = (v) => v;
+    // const { checkout } = useSelector((state) => state.product);
+    const dispatch = useDispatch();
+    const linkTo = `/products/${item.slug}`;
+    const [isLoading, setLoading] = useState(false);
+    const { mutate, isLoading: deleteLoading } = useMutation(api.updateWishlist, {
+      onSuccess: (data) => {
+        setLoading(false);
+        toast.success('Removed item');
+        dispatch(setWishlist(data.data));
+      },
+      onError: (err) => {
+        setLoading(false);
+        toast.error(t('common:errors.' + err.response.data.message));
+      }
+    });
+  
+    const onRemove = () => {
+      mutate({
+        pid: item._id
+      });
+    };
