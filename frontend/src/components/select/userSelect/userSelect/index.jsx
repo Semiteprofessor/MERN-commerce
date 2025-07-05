@@ -1,4 +1,6 @@
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,7 +25,32 @@ const UserSelect = ({ isAdmin }) => {
       setOpenUser(true);
     }
   };
-  return <div>UserSelect</div>;
+
+  const handleCloseUser = () => {
+    setOpenUser(false);
+  };
+
+  return (
+    <Box>
+      {!isAuthenticated && !isAdmin ? (
+        <Stack direction="row" gap={1}>
+          <Typography
+            href={`/auth/login${isAuthPath || isHomePath ? "" : `?redirect=${pathname}`}`}
+            variant="body2"
+            color="text.primary"
+            component={Link}
+            fontSize={14}
+          >
+            Login
+          </Typography>
+          <Divider orientation="vertical" flexItem />
+          <Typography>Register</Typography>
+        </Stack>
+      ) : (
+        <></>
+      )}
+    </Box>
+  );
 };
 
 export default UserSelect;
