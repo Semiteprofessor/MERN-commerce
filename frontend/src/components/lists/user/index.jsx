@@ -3,8 +3,8 @@ import { useRouter } from "next-nprogress-bar";
 import PropTypes from "prop-types";
 // redux
 import { useDispatch } from "react-redux";
-import { setLogout } from "src/redux/slices/user";
-import { resetWishlist } from "src/redux/slices/wishlist";
+import { setLogout } from "@/redux/slices/user";
+import { resetWishlist } from "@/redux/slices/wishlist";
 // mui
 import {
   Typography,
@@ -36,47 +36,53 @@ UserList.propTypes = {
 };
 
 export default function UserList({ ...props }) {
-    const { openUser, user, setOpen } = props;
-    const router = useRouter();
-    const dispatch = useDispatch();
-  
-    const onLogout = () => {
-      deleteCookies('token');
-      dispatch(setLogout());
-      dispatch(resetWishlist());
-      setOpen(false);
-      setTimeout(() => {
-        location.href = '/auth/login';
-      }, 1000);
-    };
-  
-    return (
-      <RootStyled autoFocusItem={openUser} id="composition-menu">
-        <Box px={2}>
-          <Typography variant="body1" color="text.primary" fontWeight={600} noWrap>
-            {user?.firstName + ' ' + user?.lastName} {user?.role === 'admin' ? '( Admin )' : ''}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" pb={1} noWrap>
-            {user?.email}
-          </Typography>
-        </Box>
-        <Divider />
-        <MenuItem
-          className="menu-item"
-          onClick={() => {
-            router.push('/');
-            setOpen(false);
-          }}
+  const { openUser, user, setOpen } = props;
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    deleteCookies("token");
+    dispatch(setLogout());
+    dispatch(resetWishlist());
+    setOpen(false);
+    setTimeout(() => {
+      location.href = "/auth/login";
+    }, 1000);
+  };
+
+  return (
+    <RootStyled autoFocusItem={openUser} id="composition-menu">
+      <Box px={2}>
+        <Typography
+          variant="body1"
+          color="text.primary"
+          fontWeight={600}
+          noWrap
         >
-          <ListItemIcon className="menu-icon">
-            <SlHome />
-          </ListItemIcon>
-          Home
-        </MenuItem>
-      {user?.role === 'admin' || user?.role === 'super admin' ? (
+          {user?.firstName + " " + user?.lastName}{" "}
+          {user?.role === "admin" ? "( Admin )" : ""}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" pb={1} noWrap>
+          {user?.email}
+        </Typography>
+      </Box>
+      <Divider />
+      <MenuItem
+        className="menu-item"
+        onClick={() => {
+          router.push("/");
+          setOpen(false);
+        }}
+      >
+        <ListItemIcon className="menu-icon">
+          <SlHome />
+        </ListItemIcon>
+        Home
+      </MenuItem>
+      {user?.role === "admin" || user?.role === "super admin" ? (
         <MenuItem
           onClick={() => {
-            router.push('/admin/dashboard');
+            router.push("/admin/dashboard");
             setOpen(false);
           }}
         >
@@ -85,10 +91,10 @@ export default function UserList({ ...props }) {
           </ListItemIcon>
           Admin Dashboard
         </MenuItem>
-      ) : user?.role === 'vendor' ? (
+      ) : user?.role === "vendor" ? (
         <MenuItem
           onClick={() => {
-            router.push('/vendor/dashboard');
+            router.push("/vendor/dashboard");
             setOpen(false);
           }}
         >
@@ -100,7 +106,7 @@ export default function UserList({ ...props }) {
       ) : (
         <MenuItem
           onClick={() => {
-            router.push('/create-shop');
+            router.push("/create-shop");
             setOpen(false);
           }}
         >
@@ -113,7 +119,7 @@ export default function UserList({ ...props }) {
       <MenuItem
         onClick={() => {
           setOpen(false);
-          router.push('/profile/wishlist');
+          router.push("/profile/wishlist");
         }}
       >
         <ListItemIcon className="menu-icon">
@@ -124,7 +130,7 @@ export default function UserList({ ...props }) {
       <MenuItem
         onClick={() => {
           setOpen(false);
-          router.push('/profile/orders');
+          router.push("/profile/orders");
         }}
       >
         <ListItemIcon className="menu-icon">
@@ -136,11 +142,11 @@ export default function UserList({ ...props }) {
         onClick={() => {
           setOpen(false);
           router.push(
-            user.role === 'admin' || user.role === 'super admin'
-              ? '/admin/settings'
-              : user.role === 'vendor'
-                ? '/vendor/settings'
-                : '/profile/general'
+            user.role === "admin" || user.role === "super admin"
+              ? "/admin/settings"
+              : user.role === "vendor"
+                ? "/vendor/settings"
+                : "/profile/general"
           );
         }}
       >
@@ -149,3 +155,34 @@ export default function UserList({ ...props }) {
         </ListItemIcon>
         Profile
       </MenuItem>
+      <MenuItem
+        onClick={() => {
+          setOpen(false);
+          router.push(
+            user.role === "admin" || user.role === "super admin"
+              ? "/admin/settings/change-password"
+              : user.role === "vendor"
+                ? "/vendor/settings/change-password"
+                : "/profile/change-password"
+          );
+        }}
+      >
+        <ListItemIcon className="menu-icon">
+          <MdKey />
+        </ListItemIcon>
+        Change Password
+      </MenuItem>
+      <Box px={2} mt={1}>
+        <Button
+          onClick={onLogout}
+          variant="outlined"
+          color="inherit"
+          startIcon={<LuLogOut />}
+          fullWidth
+        >
+          Logout
+        </Button>
+      </Box>
+    </RootStyled>
+  );
+}
