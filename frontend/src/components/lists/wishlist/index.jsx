@@ -88,3 +88,56 @@ export default function Wishlist({ ...props }) {
         pid: item._id
       });
     };
+    return (
+      <RootStyled>
+        <List disablePadding>
+          <ListItem>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ width: '100%' }}
+              className="main-stack"
+            >
+              <Stack
+                direction="row"
+                className={isUser && 'inner-stack'}
+                sx={{ width: '100%' }}
+                alignItems="center"
+                spacing={2}
+                justifyContent="space-between"
+              >
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <ListItemAvatar>
+                    <Avatar
+                      onClick={() => router.push(linkTo)}
+                      alt={item.name}
+                      src={item.cover}
+                      className="list-item-avatar"
+                    />
+                  </ListItemAvatar>
+                  <ListItemText className="list-item-text">
+                    <div>
+                      <Typography
+                        onClick={() => router.push(linkTo)}
+                        variant="subtitle1"
+                        color="text.primary"
+                        noWrap
+                        sx={{
+                          cursor: 'pointer',
+                          transition: 'ease-in-out 0.3s',
+                          ':hover': {
+                            color: 'primary.main'
+                          }
+                        }}
+                      >
+                        {item.name.slice(0, 40)}
+                      </Typography>
+                      <Typography className="list-item-text-span" component="span" variant="body2" color="text.primary">
+                        In Stock: {''}
+                        {item?.available} {''}Items
+                      </Typography>
+                    </div>
+                  </ListItemText>
+                </Stack>
+  
