@@ -1,5 +1,7 @@
+// components
 import Navbar from "@/layouts/_main/navbar";
 import UserTopBar from "@/layouts/_main/topbar";
+import ActionBar from "@/layouts/_main/actionbar";
 
 export const metadata = {
   title: "Create Next App",
@@ -11,6 +13,7 @@ export default function RootLayout({ children }) {
     <>
       <UserTopBar />
       <Navbar />
+      <ActionBar />
       {children}
     </>
   );

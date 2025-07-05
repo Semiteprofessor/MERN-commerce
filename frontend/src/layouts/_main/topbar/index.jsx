@@ -19,7 +19,7 @@ import {
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 
-const UserSelect = dynamic(() => import("@/components/select"), {
+const UserSelect = dynamic(() => import("@/components/select/userSelect"), {
   ssr: false,
   loading: () => (
     <Stack direction="row" alignItems="center" spacing={1}>
