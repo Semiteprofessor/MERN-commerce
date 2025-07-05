@@ -33,3 +33,33 @@ Wishlist.propTypes = {
   isLast: PropTypes.bool.isRequired,
   isUser: PropTypes.bool.isRequired,
 };
+
+const SkeletonComponent = () => {
+  return (
+    <>
+      <ListItem alignItems="flex-start">
+        <ListItemAvatar>
+          <Skeleton variant="circular" width={40} height={40} />
+        </ListItemAvatar>
+        <ListItemText
+          secondary={
+            <React.Fragment>
+              <Typography variant="body2" color="text.primary">
+                <Skeleton variant="text" />
+              </Typography>
+
+              <Stack direction="row" alignItems="center">
+                <Skeleton variant="circular" height={14} width={14} />
+                <Typography variant="body2" color="text.secondary">
+                  <Skeleton variant="text" width={140} />
+                </Typography>
+              </Stack>
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+      <Divider component="li" />
+    </>
+  );
+};
+  
