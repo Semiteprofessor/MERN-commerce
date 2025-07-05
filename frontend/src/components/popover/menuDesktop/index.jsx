@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 // mui
 import { Grid } from "@mui/material";
 // components
-import MenuDesktopList from "src/components/lists/menuDesktopList";
-import MenuPopover from "src/components/popover/popover";
+import MenuDesktopList from "@/components/lists/menuDesktopList";
+import MenuPopover from "@/components/popover/popover";
 
 export default function MenuDesktop({ ...props }) {
   const { isOpen, onClose, isLoading, data, scrollPosition } = props;
