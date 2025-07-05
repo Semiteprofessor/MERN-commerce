@@ -7,7 +7,7 @@ import { Toolbar, AppBar, Container } from "@mui/material";
 
 // components
 import MenuDesktop from "./menuDesktop";
-import config from "@/layout/_main/config.json";
+import config from "@/layouts/_main/config.json";
 
 // ----------------------------------------------------------------------
 export default function Navbar() {
