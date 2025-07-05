@@ -34,3 +34,42 @@ UserList.propTypes = {
   user: PropTypes.object.isRequired,
   setOpen: PropTypes.func.isRequired,
 };
+
+export default function UserList({ ...props }) {
+    const { openUser, user, setOpen } = props;
+    const router = useRouter();
+    const dispatch = useDispatch();
+  
+    const onLogout = () => {
+      deleteCookies('token');
+      dispatch(setLogout());
+      dispatch(resetWishlist());
+      setOpen(false);
+      setTimeout(() => {
+        location.href = '/auth/login';
+      }, 1000);
+    };
+  
+    return (
+      <RootStyled autoFocusItem={openUser} id="composition-menu">
+        <Box px={2}>
+          <Typography variant="body1" color="text.primary" fontWeight={600} noWrap>
+            {user?.firstName + ' ' + user?.lastName} {user?.role === 'admin' ? '( Admin )' : ''}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" pb={1} noWrap>
+            {user?.email}
+          </Typography>
+        </Box>
+        <Divider />
+        <MenuItem
+          className="menu-item"
+          onClick={() => {
+            router.push('/');
+            setOpen(false);
+          }}
+        >
+          <ListItemIcon className="menu-icon">
+            <SlHome />
+          </ListItemIcon>
+          Home
+        </MenuItem>
