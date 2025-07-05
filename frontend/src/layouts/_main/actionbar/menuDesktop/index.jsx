@@ -130,3 +130,38 @@ function MenuDesktopItem({ ...props }) {
   );
 }
     
+export default function MenuDesktop({ ...props }) {
+    const { isOffset, navConfig, isLeft } = props;
+  
+    const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
+  
+    const { pathname } = useRouter();
+  
+    const [open, setOpen] = useState(false);
+    const router = useRouter();
+  
+    const [scrollPosition, setPosition] = useState(0);
+    React.useLayoutEffect(() => {
+      function updatePosition() {
+        setPosition(window.pageYOffset);
+      }
+      window.addEventListener('scroll', updatePosition);
+      updatePosition();
+      return () => window.removeEventListener('scroll', updatePosition);
+    }, []);
+  
+    useEffect(() => {
+      if (open) {
+        handleClose();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pathname]);
+  
+    const handleOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+  
