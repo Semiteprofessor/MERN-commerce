@@ -22,9 +22,9 @@ import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import RootStyled from "./styled";
 
 // api
-import * as api from "src/services";
+import * as api from "@/services";
 // redux
-import { setWishlist } from "src/redux/slices/wishlist";
+import { setWishlist } from "@/redux/slices/wishlist";
 import { useDispatch } from "react-redux";
 
 // Inside your functional component
@@ -62,7 +62,7 @@ const SkeletonComponent = () => {
     </>
   );
 };
-  
+
 export default function Wishlist({ ...props }) {
   const { item, isLast, isUser } = props;
   const router = useRouter();
