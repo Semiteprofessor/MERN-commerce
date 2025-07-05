@@ -110,3 +110,42 @@ export default function UserList({ ...props }) {
           Become a seller
         </MenuItem>
       )}
+      <MenuItem
+        onClick={() => {
+          setOpen(false);
+          router.push('/profile/wishlist');
+        }}
+      >
+        <ListItemIcon className="menu-icon">
+          <IoIosHeartEmpty />
+        </ListItemIcon>
+        Wishlist
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          setOpen(false);
+          router.push('/profile/orders');
+        }}
+      >
+        <ListItemIcon className="menu-icon">
+          <LiaFileInvoiceSolid />
+        </ListItemIcon>
+        Orders
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          setOpen(false);
+          router.push(
+            user.role === 'admin' || user.role === 'super admin'
+              ? '/admin/settings'
+              : user.role === 'vendor'
+                ? '/vendor/settings'
+                : '/profile/general'
+          );
+        }}
+      >
+        <ListItemIcon className="menu-icon">
+          <TbUserSquareRounded />
+        </ListItemIcon>
+        Profile
+      </MenuItem>
