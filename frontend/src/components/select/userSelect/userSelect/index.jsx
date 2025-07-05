@@ -44,7 +44,15 @@ const UserSelect = ({ isAdmin }) => {
             Login
           </Typography>
           <Divider orientation="vertical" flexItem />
-          <Typography>Register</Typography>
+          <Typography
+            variant="body2"
+            color="text.primary"
+            component={Link}
+            href={`/auth/register${isAuthPath || isHomePath ? "" : `?redirect=${pathname}`}`}
+            fontSize={14}
+          >
+            Register
+          </Typography>
         </Stack>
       ) : (
         <></>
