@@ -398,7 +398,7 @@ export const getProductsBySubCategory = async (
   );
   return data;
 };
-  
+
 export const getProductsByShop = async (query = "", shop, rate) => {
   const { data } = await http.get(
     `/shop/products/${shop}${query || "?"}&rate=${rate}`
@@ -423,7 +423,7 @@ export const getFiltersByShop = async (shop) => {
   const { data } = await http.get(`/filters/${shop}`);
   return data;
 };
-  
+
 export const getNewArrivels = async () => {
   const { data } = await http.get("/new-arrivals");
   return data;
@@ -459,7 +459,7 @@ export const changePassword = async ({ ...payload }) => {
   const { data } = await http.put(`/users/change-password`, payload);
   return data;
 };
-  
+
 export const getAddress = async (payload) => {
   const { data } = await http.get(`/users/addresses?id=${payload}`);
   return data;
@@ -556,7 +556,7 @@ export const getFeaturedProducts = async () => {
   const { data } = await http.get(`/home/products/featured`);
   return data;
 };
-  
+
 export const getTopRatedProducts = async () => {
   const { data } = await http.get(`/home/products/top`);
   return data;
@@ -593,7 +593,7 @@ export const getShopByUser = async () => {
   const { data } = await http.get(`/user/shop`);
   return data;
 };
-  
+
 export const getShops = async () => {
   const { data } = await http.get(`/shops`);
   return data;
@@ -649,24 +649,23 @@ export const getSubCategorySlugs = async () => {
 };
 
 export const getCompaignSlugs = async () => {
-    const { data } = await http.get('/compaigns-slugs');
-    return data;
-  };
-  export const getCompaignBySlug = async (slug) => {
-    const { data } = await http.get(`/compaigns/${slug}`);
-    return data;
-  };
-  export const getCompaignTitle = async (slug) => {
-    const { data } = await http.get(`/compaign-title/${slug}`);
-    return data;
-  };
-  
-  export const followShop = async (shopId) => {
-    const { data } = await http.put(`/shops/${shopId}/follow`);
-    return data;
-  };
-  // export const contactUs = async (payload) => {
-  //   const { data } = await http.post(`/contact-us`, payload);
-  //   return data;
-  // };
-  
+  const { data } = await http.get("/compaigns-slugs");
+  return data;
+};
+export const getCompaignBySlug = async (slug) => {
+  const { data } = await http.get(`/compaigns/${slug}`);
+  return data;
+};
+export const getCompaignTitle = async (slug) => {
+  const { data } = await http.get(`/compaign-title/${slug}`);
+  return data;
+};
+
+export const followShop = async (shopId) => {
+  const { data } = await http.put(`/shops/${shopId}/follow`);
+  return data;
+};
+// export const contactUs = async (payload) => {
+//   const { data } = await http.post(`/contact-us`, payload);
+//   return data;
+// };

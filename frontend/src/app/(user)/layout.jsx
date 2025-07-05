@@ -2,6 +2,8 @@
 import Navbar from "@/layouts/_main/navbar";
 import UserTopBar from "@/layouts/_main/topbar";
 import ActionBar from "@/layouts/_main/actionbar";
+import ActionBar from "@/layouts/_main/footer";
+import { Toolbar } from "@mui/material";
 
 export const metadata = {
   title: "Create Next App",
@@ -15,6 +17,8 @@ export default function RootLayout({ children }) {
       <Navbar />
       <ActionBar />
       {children}
+      <Toolbar sx={{ display: { xs: "block", md: "none" } }} />
+      <Footer />
     </>
   );
 }

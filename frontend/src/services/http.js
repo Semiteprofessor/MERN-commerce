@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const getToken = () => {
+function getToken() {
   const cname = "token";
   if (typeof window !== "undefined") {
     let name = cname + "=";
-    let decodeCookie = decodeURIComponent(document.cookie);
-    let ca = decodeCookie.split(";");
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
     for (let i = 0; i < ca.length; i++) {
-      let ca = ca[i];
+      let c = ca[i];
       while (c.charAt(0) == " ") {
         c = c.substring(1);
       }
@@ -18,11 +18,11 @@ const getToken = () => {
     return "";
   }
   return "";
-};
+}
 
-const baseUrl = process.env.BASE_URL;
+const baseURL = process.env.BASE_URL;
 const http = axios.create({
-  baseURL: baseUrl + `http://localhost:8899/api`,
+  baseURL: baseURL + `/api`,
   timeout: 30000,
 });
 
