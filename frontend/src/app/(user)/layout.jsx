@@ -2,7 +2,7 @@
 import Navbar from "@/layouts/_main/navbar";
 import UserTopBar from "@/layouts/_main/topbar";
 import ActionBar from "@/layouts/_main/actionbar";
-import ActionBar from "@/layouts/_main/footer";
+import Footer from "@/layouts/_main/footer";
 import { Toolbar } from "@mui/material";
 
 export const metadata = {
