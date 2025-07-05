@@ -1,27 +1,28 @@
 "use client";
-
-import {
-  Container,
-  Toolbar,
-  Divider,
-  Link,
-  Skeleton,
-  Stack,
-  useTheme,
-} from "@mui/material";
+import React from "react";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
-import React from "react";
 import { useSelector } from "react-redux";
+
+// mui
+import {
+  Toolbar,
+  Container,
+  Stack,
+  useTheme,
+  Link,
+  Divider,
+  Skeleton,
+} from "@mui/material";
 
 // icons
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 
-const UserSelect = dynamic(() => import("@/components/select/userSelect"), {
+const UserSelect = dynamic(() => import("@/components/select"), {
   ssr: false,
   loading: () => (
-    <Stack>
+    <Stack direction="row" alignItems="center" spacing={1}>
       <Skeleton
         variant="rectangular"
         width={29.4}
@@ -31,7 +32,7 @@ const UserSelect = dynamic(() => import("@/components/select/userSelect"), {
       <Divider orientation="vertical" flexItem />
       <Skeleton
         variant="rectangular"
-        width={29.4}
+        width={48.4}
         height={18.9}
         sx={{ borderRadius: "4px" }}
       />
@@ -39,16 +40,9 @@ const UserSelect = dynamic(() => import("@/components/select/userSelect"), {
   ),
 });
 
-const UserTopBar = () => {
+export default function UserTopbar() {
   const theme = useTheme();
-  //   const { user, isAuthenticated } = useSelector(({ user }) => user);
-  const user = {
-    firstName: "Taiwo",
-    lastName: "Olapade",
-    role: "user",
-  };
-
-  const isAuthenticated = true;
+  const { user, isAuthenticated } = useSelector(({ user }) => user);
 
   return (
     <Container maxWidth="xl">
@@ -59,15 +53,15 @@ const UserTopBar = () => {
           justifyContent: "space-between",
           display: { xs: "none", md: "flex" },
           position: "static",
-          width: "100%",
           zIndex: 999,
-          px: "0px !important",
+          width: "100%",
+          px: "0px!important",
         }}
       >
         <Stack direction="row" alignItems="center" spacing={1}>
           <Link
             component={NextLink}
-            href={"tel:+2348069095729"}
+            href={"tel:+13866883295"}
             sx={{
               color: "text.primary",
               fontSize: 14,
@@ -76,12 +70,12 @@ const UserTopBar = () => {
               gap: 1,
             }}
           >
-            <MdOutlinePhone /> +234 806-909-5729
+            <MdOutlinePhone /> +1 386-688-3295
           </Link>
           <Divider orientation="vertical" flexItem />
           <Link
             component={NextLink}
-            href={"mailto:semiteprofessor@gmail.com"}
+            href={"mailto:johndoe@yahoo.com"}
             sx={{
               color: "text.primary",
               fontSize: 14,
@@ -90,7 +84,7 @@ const UserTopBar = () => {
               gap: 1,
             }}
           >
-            <MdOutlineMail /> semiteprofessor@gmail.com
+            <MdOutlineMail /> johndoe@yahoo.com
           </Link>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={1}>
@@ -132,6 +126,4 @@ const UserTopBar = () => {
       </Toolbar>
     </Container>
   );
-};
-
-export default UserTopBar;
+}

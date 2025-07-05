@@ -3,7 +3,7 @@ import { useRouter } from "next-nprogress-bar";
 import PropTypes from "prop-types";
 // redux
 import { useDispatch } from "react-redux";
-import { setLogout } from "@/redux/slices/user";
+import { setLogout } from "@/redux/slices/users";
 import { resetWishlist } from "@/redux/slices/wishlist";
 // mui
 import {
