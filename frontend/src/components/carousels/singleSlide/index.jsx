@@ -36,12 +36,51 @@ const variants = {
 /**
  * Experimenting with distilling swipe offset and velocity into a single variable, so the
  * less distance a user has swiped, the more velocity they need to register as a swipe.
- * Should accomodate longer swipes and short flicks without having binary checks on
+ * Should accommodate longer swipes and short flicks without having binary checks on
  * just distance thresholds and velocity > 0.
  */
 const swipeConfidenceThreshold = 10000;
 const swipePower = (offset, velocity) => {
   return Math.abs(offset) * velocity;
+};
+
+const CarouselItem = ({ ...props }) => {
+  const { item } = props;
+  return (
+    <Paper
+      sx={{
+        position: "relative",
+        borderBottom: (theme) => "1px solid " + theme.palette.divider,
+        zIndex: 11,
+        height: { xs: 125, sm: 225, md: 270, lg: 370 },
+        borderRadius: 0,
+        img: {
+          borderRadius: 0,
+          objectPosition: { md: "center", xs: "left" },
+        },
+      }}
+    >
+      <Image
+        priority
+        src={item.cover}
+        alt="centered-banner"
+        layout="fill"
+        placeholder="blur"
+        objectFit="cover"
+        static
+        draggable="false"
+        sizes="700px"
+      />
+      <Box
+        sx={{
+          top: 0,
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+        }}
+      />
+    </Paper>
+  );
 };
 
 // ----------------------------------------------------------------------
@@ -53,19 +92,14 @@ CarouselItem.propTypes = {
     color: PropTypes.string.isRequired,
     btnPrimary: PropTypes.shape({
       url: PropTypes.string.isRequired,
-      btnText: PropTypes.string.isRequired
+      btnText: PropTypes.string.isRequired,
     }).isRequired,
     btnSecondary: PropTypes.shape({
       url: PropTypes.string.isRequired,
-      btnText: PropTypes.string.isRequired
-    }).isRequired
+      btnText: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
-  index: PropTypes.number.isRequired
-};
-
-const CarouselItem = ({ ...props }) => {
-  const { item } = props;
-  return <Paper>CarouselItem</Paper>;
+  index: PropTypes.number.isRequired,
 };
 
 export default CarouselItem;
