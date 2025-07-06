@@ -1,5 +1,7 @@
-import { alpha, Stack } from "@mui/material";
+import { alpha, IconButton, Radio, Stack } from "@mui/material";
 import React from "react";
+import { GoDot, GoDotFill } from "react-icons/go";
+import { IoArrowBack, IoArrowForwardOutline } from "react-icons/io5";
 
 const actions = ({ active, paginate, data, setPage }) => {
   return (
@@ -20,7 +22,37 @@ const actions = ({ active, paginate, data, setPage }) => {
         display: { md: "flex", xs: "none" },
       }}
     >
-      actions
+      <IconButton
+        size="small"
+        aria-label="back"
+        onClick={() => paginate(-1)}
+        sx={{ width: 30, height: 30 }}
+      >
+        <IoArrowBack />
+      </IconButton>
+      {data.map((item, i) => (
+        <Radio
+          key={i}
+          checkedIcon={<GoDotFill />}
+          icon={<GoDot />}
+          size="small"
+          checked={i === active}
+          //   onChange={handleChange}
+          value={i}
+          name="radio-buttons"
+          inputProps={{ "aria-label": "A" }}
+          sx={{ width: 20, height: 20, p: 0.1 }}
+          onClick={() => setPage([i, i <= active ? -1 : 1])}
+        />
+      ))}
+      <IconButton
+        size="small"
+        aria-label="back"
+        onClick={() => paginate(1)}
+        sx={{ width: 30, height: 30 }}
+      >
+        <IoArrowForwardOutline />
+      </IconButton>
     </Stack>
   );
 };
