@@ -67,4 +67,68 @@ const manuConfig = [
       },
     ],
   },
+  {
+    title: "Parent 2",
+    path: "#",
+    icon: <FaChevronRight />,
+    more: { title: "More Categories", path: "#" },
+
+    children: [
+      {
+        subheader: "Cellphone & Accessories",
+        items: [
+          { title: "Mobile Phone Charger", path: "#" },
+          { title: "Power Bank", path: "#" },
+          { title: "Mobile Phone LCD", path: "#" },
+          { title: "Bluetooth Headset", path: "#" },
+          { title: "Mobile Phone", path: "#" },
+        ],
+      },
+
+      {
+        subheader: "Audio & Video",
+        items: [
+          { title: "Display & Accessories", path: "#" },
+          { title: "Audio & Sets", path: "#" },
+          { title: "Professional Audio", path: "#" },
+          { title: "LCD Display", path: "#" },
+          { title: "LCD Module", path: "#" },
+          { title: "Video", path: "#" },
+          { title: "TV & Parts", path: "#" },
+          { title: "Amplifier", path: "#" },
+          { title: "Portable Audio Appliance", path: "#" },
+          { title: "Home Theatre System", path: "#" },
+          { title: "HDMI Cable", path: "#" },
+          { title: "Radio", path: "#" },
+        ],
+      },
+      {
+        subheader: "Household Appliances",
+        items: [
+          { title: "Air Conditioner, Purifier & Humidifier", path: "#" },
+          { title: "Refrigerator, Freezer & Parts", path: "#" },
+          { title: "Water Heater & Components", path: "#" },
+          { title: "Electrical Fan & Exhaust Fan", path: "#" },
+          { title: "Household Water Treatment Equipment", path: "#" },
+          { title: "Solar Water Heater", path: "#" },
+          { title: "Photographic Apparatus", path: "#" },
+          { title: "Gas Burner & Gas Stove", path: "#" },
+          { title: "Entertainment Electronics", path: "#" },
+          { title: "Electrical Kettle", path: "#" },
+          { title: "Food Blender", path: "#" },
+          { title: "Dehumidifier", path: "#" },
+        ],
+      },
+      {
+        subheader: "Digital Devices",
+        items: [
+          { title: "Battery & Charger", path: "#" },
+          { title: "Wearable Devices", path: "#" },
+          { title: "Digital Photo Frame", path: "#" },
+          { title: "Digital Camera", path: "#" },
+          { title: "Smart Glasses", path: "#" },
+        ],
+      },
+    ],
+  },
 ];
