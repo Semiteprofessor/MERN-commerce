@@ -1,5 +1,5 @@
 import slide1 from "../../../../../public/images/hero-banner.png";
-import slide2 from "../../../../../public//images/hero-banner-2.png";
+import slide2 from "../../../../../public/images/hero-banner-2.png";
 
 export const data = [
   {
