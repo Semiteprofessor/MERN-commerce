@@ -201,4 +201,22 @@ const SingleSlideCarousel = ({ ...props }) => {
   );
 };
 
+SingleSlideCarousel.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      cover: PropTypes.string.isRequired,
+      heading: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      btnPrimary: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        btnText: PropTypes.string.isRequired,
+      }).isRequired,
+      btnSecondary: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        btnText: PropTypes.string.isRequired,
+      }).isRequired,
+    })
+  ).isRequired,
+};
+
 export default SingleSlideCarousel;
