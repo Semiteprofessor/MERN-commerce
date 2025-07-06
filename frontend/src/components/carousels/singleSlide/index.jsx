@@ -102,7 +102,7 @@ CarouselItem.propTypes = {
   index: PropTypes.number.isRequired,
 };
 
-const SingleSlideCarousel = () => {
+const SingleSlideCarousel = ({ ...props }) => {
   const { data } = props;
   const { themeMode } = useSelector(({ settings }) => settings);
   const [[page, direction], setPage] = useState([0, 0]);
@@ -119,6 +119,39 @@ const SingleSlideCarousel = () => {
   }, []);
   const isEmpty = !Boolean(data?.length);
 
-}
+  return (
+    <Card
+      sx={{
+        width: "100%",
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        height: { xs: 120, sm: 220, md: 250, lg: 343 },
+        borderRadius: "12px",
+      }}
+    >
+      <Stack
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        {isEmpty ? (
+          <Typography variant="h4" color="text.secondary">
+            Slides are not uploaded yet!
+          </Typography>
+        ) : (
+          <AnimatePresence initial={false} custom={direction}>
+            Hellooo
+          </AnimatePresence>
+        )}
+      </Stack>
+    </Card>
+  );
+};
 
 export default SingleSlideCarousel;
