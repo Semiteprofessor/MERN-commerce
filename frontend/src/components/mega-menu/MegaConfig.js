@@ -131,4 +131,56 @@ const manuConfig = [
       },
     ],
   },
+  {
+    title: "Parent 3",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 4",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 5",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 6",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 7",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 8",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 9",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 10",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 11",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
+  {
+    title: "Parent 12",
+    path: "#",
+    icon: <FaChevronRight />,
+  },
 ];
+
+export default menuConfig;
