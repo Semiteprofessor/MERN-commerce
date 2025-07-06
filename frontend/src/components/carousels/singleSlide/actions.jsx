@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { alpha, Stack } from "@mui/material";
 import React from "react";
 
 const actions = ({ active, paginate, data, setPage }) => {
