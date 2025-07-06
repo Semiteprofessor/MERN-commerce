@@ -87,8 +87,9 @@ function ParentItem({ shop, isLast, isLoading }) {
   );
 }
   
-const MegaMenu = () => {
-  return <div>MegaMenu</div>;
-};
+const MegaMenu = ({ shop, isLast, isLoading }) => {
+  return <ParentItem shop={shop} isLoading={isLoading} isLast={isLast} />;
+}
+  
 
 export default MegaMenu;

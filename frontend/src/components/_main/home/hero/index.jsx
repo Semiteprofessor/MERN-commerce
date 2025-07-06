@@ -4,6 +4,7 @@ import { data } from "./data";
 
 // components
 import SingleSlideCarousel from "src/components/carousels/singleSlide";
+import MegaMenu from "@/components/mega-menu/MegaMenu";
 
 const Hero = () => {
   return (
