@@ -102,4 +102,23 @@ CarouselItem.propTypes = {
   index: PropTypes.number.isRequired,
 };
 
-export default CarouselItem;
+const SingleSlideCarousel = () => {
+  const { data } = props;
+  const { themeMode } = useSelector(({ settings }) => settings);
+  const [[page, direction], setPage] = useState([0, 0]);
+  const imageIndex = Math.abs(page % data?.length);
+
+  const paginate = (newDirection) => {
+    setPage([page + newDirection, newDirection]);
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      setPage([page + 1, 1]);
+    }, 12000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const isEmpty = !Boolean(data?.length);
+
+}
+
+export default SingleSlideCarousel;
