@@ -113,6 +113,33 @@ const CarouselAnimation =({...props}) => {
             <ProductDetailsCarousel item={images[imageIndex]} />
           </motion.div>
         </AnimatePresence>
+        <Stack
+          direction="row"
+          justifyContent={images.length < 6 ? "center" : "left"}
+          spacing={1}
+          className="controls-wrapper"
+        >
+          {images.map((item, i) => (
+            <Box
+              key={Math.random()}
+              className={`controls-button ${imageIndex === i ? "active" : ""}`}
+              onClick={() => {
+                setPage([i, i]);
+              }}
+            >
+              <BlurImage
+                priority
+                fill
+                objectFit="cover"
+                sizes="14vw"
+                src={item?.src || item?.url}
+                alt="hero-carousel"
+                placeholder="blur"
+                blurDataURL={item.blurDataURL}
+              />
+            </Box>
+          ))}
+        </Stack>
       </div>
     </RootStyled>
   );
