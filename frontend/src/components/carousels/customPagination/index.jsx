@@ -42,13 +42,13 @@ const swipePower = (offset, velocity) => {
   return Math.abs(offset) * velocity;
 };
 
+const ProductDetailsCarousel = ({ ...props }) => {
+  return <div>ProductDetailsCarousel</div>;
+};
+
 // ----------------------------------------------------------------------
 ProductDetailsCarousel.propTypes = {
   item: PropTypes.object.isRequired,
-};
-
-const ProductDetailsCarousel = () => {
-  return <div>ProductDetailsCarousel</div>;
 };
 
 export default ProductDetailsCarousel;
