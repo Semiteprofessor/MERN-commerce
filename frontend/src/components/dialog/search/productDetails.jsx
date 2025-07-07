@@ -6,9 +6,10 @@ import { useQuery } from "react-query";
 // mui
 import { Grid } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
+
 // components
 import DetailsSkeleton from "@/components/skeletons/productDetail";
-import ProductDetailsSumaryMobile from "../_main/product/mobileSummary";
+import ProductDetailsSummaryMobile from "../_main/product/mobileSummary";
 import ProductDetailsCarousel from "@/components/carousels/customPaginationSlider";
 
 ProductDetailsDialog.propTypes = {

@@ -34,17 +34,18 @@ const variants = {
 /**
  * Experimenting with distilling swipe offset and velocity into a single variable, so the
  * less distance a user has swiped, the more velocity they need to register as a swipe.
- * Should accomodate longer swipes and short flicks without having binary checks on
+ * Should accommodate longer swipes and short flicks without having binary checks on
  * just distance thresholds and velocity > 0.
  */
+
 const swipeConfidenceThreshold = 10000;
 const swipePower = (offset, velocity) => {
   return Math.abs(offset) * velocity;
 };
 
 const ProductDetailsCarousel = ({ ...props }) => {
-    const { item } = props;
-  
+  const { item } = props;
+
   return (
     <div className="slide-wrapper">
       {item && (
@@ -69,8 +70,7 @@ ProductDetailsCarousel.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
-const CarouselAnimation =({...props}) => {
-    
+const CarouselAnimation = ({ ...props }) => {
   const { product } = props;
 
   const images = product?.images;
@@ -143,6 +143,11 @@ const CarouselAnimation =({...props}) => {
       </div>
     </RootStyled>
   );
+};
 
-}
+CarouselAnimation.propTypes = {
+  product: PropTypes.object,
+  data: PropTypes.object,
+};
+
 export default CarouselAnimation;
