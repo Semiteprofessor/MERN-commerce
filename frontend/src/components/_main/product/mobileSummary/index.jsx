@@ -44,4 +44,57 @@ const ProductDetailsSummaryMobile = () => {
   return <div>ProductDetailsSummaryMobile</div>;
 };
 
+ProductDetailsSummaryMobile.propTypes = {
+  product: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  totalReviews: PropTypes.number.isRequired,
+  totalRating: PropTypes.number.isRequired,
+  brand: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired,
+};
+  
+const Incrementer = ({ ...props }) => {
+  const { available } = props;
+  const [field, , helpers] = useField(props);
+  // eslint-disable-next-line react/prop-types
+
+  const { value } = field;
+  const { setValue } = helpers;
+
+  const incrementQuantity = () => {
+    setValue(value + 1);
+  };
+  const decrementQuantity = () => {
+    setValue(value - 1);
+  };
+
+  return (
+    <Box className="incrementer">
+      <IconButton
+        size="small"
+        color="inherit"
+        disabled={value <= 1}
+        onClick={decrementQuantity}
+      >
+        <IoIosRemove />
+      </IconButton>
+      <Typography variant="body2" component="span" className="text">
+        {value}
+      </Typography>
+      <IconButton
+        size="small"
+        color="inherit"
+        disabled={value >= available}
+        onClick={incrementQuantity}
+      >
+        <IoIosAdd />
+      </IconButton>
+    </Box>
+  );
+};
+
+Incrementer.propTypes = {
+  available: PropTypes.number.isRequired,
+};
 export default ProductDetailsSummaryMobile;
