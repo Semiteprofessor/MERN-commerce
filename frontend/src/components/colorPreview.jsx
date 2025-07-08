@@ -100,4 +100,12 @@ const colorPreview = ({ ...props }) => {
   );
 };
 
+ColorPreview.propTypes = {
+  colors: PropTypes.array.isRequired,
+  color: PropTypes.number.isRequired,
+  setColor: PropTypes.func.isRequired,
+  isDetail: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
+  
 export default colorPreview;
