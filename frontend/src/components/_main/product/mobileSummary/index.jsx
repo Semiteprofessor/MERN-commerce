@@ -227,4 +227,43 @@ export default function ProductDetailsSummaryMobile({ ...props }) {
                 </Typography>
               </Stack>
             )}
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="subtitle1">Available:</Typography>
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                fontWeight={400}
+                sx={{
+                  span: {
+                    color: 'error.main'
+                  }
+                }}
+              >
+                {product?.available > 0 ? `${product?.available} Items` : <span>Out of stock</span>}
+              </Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2} pt={1}>
+              <Typography variant="subtitle1">Color:</Typography>
+              <ColorPreview color={color} setColor={setColor} colors={product?.colors} isDetail />
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2} pt={1}>
+              <Typography variant="subtitle1">Size:</Typography>
+              <SizePreview size={size} setSize={setSize} sizes={product?.sizes} isDetail />
+            </Stack>
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={2} className="incrementer-wrapper">
+            <Typography variant="subtitle1">Quantity:</Typography>
+            {isLoading ? (
+              <Box sx={{ float: 'right' }}>
+                <Skeleton variant="rounded" width={120} height={40} />
+              </Box>
+            ) : (
+              <div>
+                <Incrementer name="quantity" available={product?.available} />
+                {touched.quantity && errors.quantity && (
+                  <FormHelperText error>{touched.quantity && errors.quantity}</FormHelperText>
+                )}
+              </div>
+            )}
+          </Stack>
 export default ProductDetailsSummaryMobile;
