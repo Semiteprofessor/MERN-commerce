@@ -176,4 +176,55 @@ export default function ProductDetailsSummaryMobile({ ...props }) {
     setFieldValue('quantity', 1);
   };
 
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  const isMobile = useMediaQuery('(max-width:768px)');
+  return (
+    <RootStyled>
+      <FormikProvider value={formik}>
+        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Typography noWrap variant="h4" paragraph className="heading">
+            {product?.name}
+          </Typography>
+          <Stack direction="row" alignItems="center" className="rating-wrapper" spacing={1}>
+            <Rating value={totalRating} precision={0.1} size="small" readOnly />
+            <Typography variant="body1" color="primary">
+              {totalReviews} <span>{Number(totalReviews) > 1 ? 'Reviews' : 'Review'}</span>
+            </Typography>
+
+            <Typography variant="h4" className="text-price">
+              {product?.price <= product?.priceSale ? null : (
+                <Box component="span" className="old-price">
+                  {!isLoading && isLoaded && fCurrency(product?.price)}
+                </Box>
+              )}
+              <Box component="span">
+                &nbsp;
+                {!isLoading && isLoaded && fCurrency(product?.priceSale)}
+              </Box>
+            </Typography>
+          </Stack>
+          <Stack spacing={1} my={3}>
+            <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
+              <Typography variant="subtitle1">Brand:</Typography>
+              <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
+                {brand?.name || 'Commercehope'}
+              </Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="subtitle1">Category:</Typography>
+              <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
+                {category?.name || 'Commercehope'}
+              </Typography>
+            </Stack>
+            {product?.price > product?.priceSale && (
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography variant="subtitle1">Discount:</Typography>
+                <Typography variant="subtitle1" color="text.secondary" fontWeight={400} className="text-discount">
+                  {!isLoading && isLoaded && fCurrency(product?.price - product?.priceSale)}
+                  {<span>({(100 - (product?.priceSale / product?.price) * 100).toFixed(0)}% Discount)</span>}
+                </Typography>
+              </Stack>
+            )}
 export default ProductDetailsSummaryMobile;
