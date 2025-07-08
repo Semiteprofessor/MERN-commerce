@@ -158,4 +158,22 @@ export default function ProductDetailsSummaryMobile({ ...props }) {
     }
   });
 
+  const { values, touched, errors, setFieldValue, handleSubmit } = formik;
+  const handleAddCart = () => {
+    const colorSelected = product?.colors.find((_, index) => index === color);
+    const sizeSelected = product?.sizes.find((_, index) => index === size);
+    onAddCart({
+      pid: product._id,
+      sku: product.sku,
+      color: colorSelected,
+
+      image: product?.images[0].url,
+      size: sizeSelected,
+      quantity: values.quantity,
+      price: product.priceSale === 0 ? product.price : product.priceSale,
+      subtotal: (product.priceSale || product?.price) * values.quantity
+    });
+    setFieldValue('quantity', 1);
+  };
+
 export default ProductDetailsSummaryMobile;
