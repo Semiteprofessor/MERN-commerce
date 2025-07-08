@@ -31,13 +31,13 @@ import { MdContentCopy } from "react-icons/md";
 // formik
 import { useFormik, Form, FormikProvider, useField } from "formik";
 // redux
-import { useDispatch, useSelector } from "src/redux/store";
-import { addCart } from "src/redux/slices/product";
+import { useDispatch, useSelector } from "@/redux/store";
+import { addCart } from "@/redux/slices/products";
 
 // components
-import ColorPreview from "src/components/colorPreview";
-import SizePreview from "src/components/sizePicker";
-import { fCurrency } from "src/utils/formatNumber";
+import ColorPreview from "@/components/colorPreview";
+import SizePreview from "@/components/sizePicker";
+import { fCurrency } from "@/utils/formatNumber";
 import RootStyled from "./styled";
 
 const ProductDetailsSummaryMobile = () => {
