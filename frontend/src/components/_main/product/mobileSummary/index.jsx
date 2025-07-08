@@ -40,10 +40,6 @@ import SizePreview from "@/components/sizePicker";
 import { fCurrency } from "@/utils/formatNumber";
 import RootStyled from "./styled";
 
-const ProductDetailsSummaryMobile = () => {
-  return <div>ProductDetailsSummaryMobile</div>;
-};
-
 ProductDetailsSummaryMobile.propTypes = {
   product: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
