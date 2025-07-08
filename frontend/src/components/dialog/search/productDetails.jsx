@@ -9,7 +9,7 @@ import Dialog from "@mui/material/Dialog";
 
 // components
 import DetailsSkeleton from "@/components/skeletons/productDetail";
-import ProductDetailsSummaryMobile from "../_main/product/mobileSummary";
+import ProductDetailsSummaryMobile from "../../_main/product/mobileSummary/mobileSummary";
 import ProductDetailsCarousel from "@/components/carousels/customPaginationSlider";
 
 ProductDetailsDialog.propTypes = {
@@ -39,7 +39,7 @@ export default function ProductDetailsDialog(props) {
             />
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
-            <ProductDetailsSumaryMobile
+            <ProductDetailsSummaryMobile
               id={data?.data?._id}
               product={data?.data}
               brand={data?.brand}

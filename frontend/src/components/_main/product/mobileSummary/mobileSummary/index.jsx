@@ -21,6 +21,7 @@ import {
   Rating,
   useMediaQuery,
 } from "@mui/material";
+
 // icons
 import { IoIosAdd, IoIosRemove } from "react-icons/io";
 import { IoLogoWhatsapp } from "react-icons/io5";
@@ -28,8 +29,10 @@ import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
+
 // formik
 import { useFormik, Form, FormikProvider, useField } from "formik";
+
 // redux
 import { useDispatch, useSelector } from "@/redux/store";
 import { addCart } from "@/redux/slices/products";
@@ -38,7 +41,7 @@ import { addCart } from "@/redux/slices/products";
 import ColorPreview from "@/components/colorPreview";
 import SizePreview from "@/components/sizePicker";
 import { fCurrency } from "@/utils/formatNumber";
-import RootStyled from "./styled";
+import RootStyled from "../styled";
 
 ProductDetailsSummaryMobile.propTypes = {
   product: PropTypes.object.isRequired,
