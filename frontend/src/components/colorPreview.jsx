@@ -39,6 +39,39 @@ const colorPreview = ({ ...props }) => {
           <MdKeyboardDoubleArrowLeft size={20} />
         </IconButton>
       )}
+      {loading
+        ? Array.from(new Array(4))
+        : colors?.slice(colorCount * 6, 6 * (colorCount + 1)).map((v, i) => (
+            <React.Fragment key={Math.random()}>
+              {loading ? (
+                <Skeleton variant="circular" width={24} height={24} />
+              ) : (
+                <Box
+                  sx={{
+                    height: 24,
+                    width: 24,
+                    borderRadius: 5,
+                    bgcolor: v,
+                    position: "relative",
+                    cursor: "pointer",
+                    boxShadow: "inset 0 0 2px #C4CDD5",
+                    ...(color === colorCount * 6 + i && {
+                      svg: {
+                        position: "absolute",
+                        color: v === "white" ? "common.black" : "common.white",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%,-50%)",
+                      },
+                    }),
+                  }}
+                  onClick={() => setColor(colorCount * 6 + i)}
+                >
+                  {color === colorCount * 6 + i && <FaCheck />}
+                </Box>
+              )}
+            </React.Fragment>
+          ))}
     </Stack>
   );
 };
