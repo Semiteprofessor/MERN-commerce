@@ -97,4 +97,65 @@ const Incrementer = ({ ...props }) => {
 Incrementer.propTypes = {
   available: PropTypes.number.isRequired,
 };
+
+export default function ProductDetailsSummaryMobile({ ...props }) {
+  const { product, isLoading, totalReviews, totalRating, brand, category } = props;
+  const [isClient, setIsClient] = useState(false);
+  const [color, setColor] = useState(0);
+  const [size, setSize] = useState(0);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  const router = useRouter();
+
+  const dispatch = useDispatch();
+
+  const { checkout } = useSelector(({ product }) => product);
+
+  const [isLoaded, setLoaded] = useState(false);
+
+  const isMaxQuantity =
+    !isLoading &&
+    checkout.cart.filter((item) => item._id === product?._id).map((item) => item.quantity)[0] >= product?.available;
+
+  const onAddCart = (param) => {
+    toast.success('Added to cart');
+    dispatch(addCart(param));
+  };
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      pid: product?._id,
+      cover: product?.cover,
+
+      quantity: 1
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const alreadyProduct = !isLoading && checkout.cart.filter((item) => item.pid === values.pid);
+        if (!Boolean(alreadyProduct.length)) {
+          const colorSelected = product?.colors.find((_, index) => index === color);
+          const sizeSelected = product?.sizes.find((_, index) => index === size);
+          onAddCart({
+            pid: product._id,
+            sku: product.sku,
+            color: colorSelected,
+            size: sizeSelected,
+            image: product?.images[0].url,
+            quantity: values.quantity,
+            price: product.priceSale === 0 ? product.price : product.priceSale,
+            subtotal: (product.priceSale || product?.price) * values.quantity
+          });
+          setFieldValue('quantity', 1);
+        }
+
+        setSubmitting(false);
+        router.push('/cart');
+      } catch (error) {
+        setSubmitting(false);
+      }
+    }
+  });
+
 export default ProductDetailsSummaryMobile;
