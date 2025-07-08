@@ -266,4 +266,30 @@ export default function ProductDetailsSummaryMobile({ ...props }) {
               </div>
             )}
           </Stack>
+          <Stack spacing={2} className="detail-actions-wrapper">
+            <Stack spacing={2} direction={{ xs: 'row', sm: 'row' }} className="contained-buttons">
+              <Button
+                fullWidth
+                disabled={isMaxQuantity || isLoading || product?.available < 1}
+                size={isMobile ? 'medium' : 'large'}
+                type="button"
+                color="primary"
+                variant="contained"
+                onClick={() => handleAddCart(product)}
+                className="cart-button"
+              >
+                Add to Cart
+              </Button>
+              <Button
+                disabled={isLoading || product?.available < 1}
+                fullWidth
+                size={isMobile ? 'medium' : 'large'}
+                type="submit"
+                variant="contained"
+                color="secondary"
+              >
+                Buy Now
+              </Button>
+            </Stack>
+
 export default ProductDetailsSummaryMobile;
