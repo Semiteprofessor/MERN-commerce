@@ -71,7 +71,31 @@ const colorPreview = ({ ...props }) => {
                 </Box>
               )}
             </React.Fragment>
-          ))}
+          ))}{" "}
+      {!isDetail && colors?.length > 6 && (
+        <IconButton
+          disabled={6 * (colorCount + 1) > colors?.length}
+          sx={{
+            width: 24,
+            height: 24,
+            p: 0.1,
+            svg: {
+              color:
+                6 * (colorCount + 1) > colors?.length
+                  ? "text.disabled"
+                  : "text.primary",
+            },
+          }}
+          size="small"
+          onClick={() => {
+            if (6 * (colorCount + 1) < colors?.length) {
+              setColorCount(colorCount + 1);
+            }
+          }}
+        >
+          <MdKeyboardDoubleArrowRight size={20} />
+        </IconButton>
+      )}
     </Stack>
   );
 };
