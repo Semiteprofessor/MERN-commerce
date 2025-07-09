@@ -108,7 +108,40 @@ const ProductsCarousel = ({ ...props }) => {
     }
   };
 
-  return <div>ProductsCarousel</div>;
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        position: "relative",
+        borderRadius: 0,
+        width: "100%",
+        marginLeft: 0,
+        "& .slide-wrapper ": {
+          paddingBottom: "60%",
+        },
+      }}
+    >
+      <Paper
+        className="main-paper"
+        elevation={0}
+        sx={{
+          position: "relative",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          pt: { lg: "35%", md: "44%", sm: "73%", xs: "86%" },
+          overflow: "hidden",
+          width: { xs: "100%", sm: "calc(100% + 48px)" },
+          // width: 'calc(100% + 48px)',
+          ml: { xs: 0, md: "-24px" },
+          "& .motion-dev": {
+            pl: { md: `24px !important`, xs: `0px !important` },
+            pr: { md: `24px !important`, xs: `0px !important` },
+          },
+        }}
+      ></Paper>
+    </Paper>
+  );
 };
 
 export default ProductsCarousel;
