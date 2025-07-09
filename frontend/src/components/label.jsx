@@ -66,3 +66,31 @@ const RootStyle = styled("span")(({ theme, ownerState }) => {
         }),
   };
 });
+
+const Label = ({
+  color = "default",
+  variant = "ghost",
+  children,
+  ...other
+}) => {
+  const theme = useTheme();
+  return (
+    <RootStyle ownerState={{ color, variant }} theme={theme} {...other}>
+      {children}
+    </RootStyle>
+  );
+};
+
+Label.propTypes = {
+  color: PropTypes.oneOf(["default", "primary", "secondary", "customColor"]),
+  variant: PropTypes.oneOf(["filled", "outlined", "ghost"]),
+  children: PropTypes.node.isRequired,
+};
+
+Label.defaultProps = {
+  color: "default",
+  variant: "ghost",
+};
+
+export default Label;
+  
