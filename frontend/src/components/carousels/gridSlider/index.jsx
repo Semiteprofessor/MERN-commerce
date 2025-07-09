@@ -54,14 +54,61 @@ function CarouselItem({ ...props }) {
       className="slide-wrapper"
       elevation={0}
       sx={{
-        position: 'relative',
-        pb: { md: '38%', sm: '82%', xs: '142%' },
+        position: "relative",
+        pb: { md: "38%", sm: "82%", xs: "142%" },
         zIndex: 11,
-        bgcolor: 'transparent',
-        borderRadius: 0
+        bgcolor: "transparent",
+        borderRadius: 0,
       }}
     >
       <ProductCard loading={isLoading} product={index} />
     </Paper>
   );
 }
+
+function isFloat(number) {
+  return Number(number) === number && number % 1 !== 0;
+}
+
+ProductsCarousel.propTypes = {
+  data: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
+
+const ProductsCarousel = ({ ...props }) => {
+  const { data, isLoading } = props;
+
+  const isLarge = useMediaQuery("(min-width:1200px)");
+  const isDesktop = useMediaQuery("(min-width:900px)");
+  const isTablet = useMediaQuery("(min-width:600px)");
+  const isMobile = useMediaQuery("(max-width:600px)");
+
+  const { themeMode } = useSelector(({ settings }) => settings);
+
+  const [[page, direction], setPage] = useState([0, 0]);
+  var slidesToShow = isLarge
+    ? 4
+    : isDesktop
+      ? 3
+      : isTablet
+        ? 2
+        : isMobile
+          ? 2
+          : 4;
+  var total = data?.length / slidesToShow;
+  var totalSlides =
+    total === 0 ? 0 : isFloat(total) ? Math.floor(total) + 1 : total;
+
+  const imageIndex = page;
+
+  const paginate = (newDirection) => {
+    const nextPage = page + newDirection;
+    if (nextPage >= 0 && nextPage <= totalSlides - 1) {
+      setPage([nextPage, newDirection]);
+    }
+  };
+
+  return <div>ProductsCarousel</div>;
+};
+
+export default ProductsCarousel;
