@@ -69,3 +69,80 @@ const renderer = ({ days, hours, minutes, seconds }) => {
     </Stack>
   );
 };
+
+export default function CompaginCard({ compaign, isLoading }) {
+  return (
+    <Card
+      sx={{
+        // px: 3,
+        // py: 2,
+        borderRadius: 2
+      }}
+    >
+      <Box
+        sx={{
+          position: 'relative',
+          overflow: 'hidden',
+          height: 100
+        }}
+      >
+        {isLoading ? (
+          <Skeleton variant="rectangular" width="100%" height={100} />
+        ) : (
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            <Image
+              alt="shop"
+              src={compaign?.cover?.url}
+              placeholder="blur"
+              blurDataURL={compaign?.cover?.blurDataURL}
+              layout="fill"
+              objectFit="cover"
+              static
+              draggable="false"
+              quality={5}
+              sizes={'50vw'}
+            />
+          </Box>
+        )}
+      </Box>
+      <CardContent>
+        <Stack spacing={1}>
+          <Typography
+            component={Link}
+            href={'/compaigns/' + compaign?.slug}
+            color="text.primary"
+            variant="h6"
+            textAlign="center"
+            lineHeight={0.5}
+            sx={{ textTransform: 'capitalize' }}
+          >
+            {isLoading ? <Skeleton variant="text" width="140px" sx={{ mx: 'auto' }} /> : compaign?.name}
+          </Typography>
+          <Typography color="text.secondary" variant="body1" textAlign="center">
+            {isLoading ? (
+              <Skeleton variant="text" width="80px" sx={{ mx: 'auto' }} />
+            ) : (
+              `${compaign?.products?.length} ${compaign?.products?.length > 1 ? 'Products' : 'Product'}`
+            )}
+          </Typography>
+          {isLoading ? (
+            <Stack direction="row" gap={1}>
+              <Skeleton variant="rounded" height="70px" width="100%" />
+              <Skeleton variant="rounded" height="70px" width="100%" />
+              <Skeleton variant="rounded" height="70px" width="100%" />
+              <Skeleton variant="rounded" height="70px" width="100%" />
+            </Stack>
+          ) : (
+            <Countdown date={new Date(compaign?.endDate)} renderer={renderer} />
+          )}
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
