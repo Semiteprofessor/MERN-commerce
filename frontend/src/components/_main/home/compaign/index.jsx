@@ -53,6 +53,34 @@ const CompaignsComponent = () => {
           View More
         </Button>
       </Stack>
+      <Box>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
+            <React.Fragment key={Math.random()}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
+                <CompaginCard compaign={inner} isLoading={isLoading} />
+              </Grid>
+            </React.Fragment>
+          ))}
+        </Grid>
+        <Button
+          variant="text"
+          color="primary"
+          size="small"
+          sx={{
+            borderRadius: 6,
+            mx: "auto",
+            mt: 3,
+            display: { md: "none", xs: "flex" },
+            maxWidth: "120px",
+          }}
+          endIcon={<IoIosArrowForward />}
+          component={NextLink}
+          href={`/compaigns`}
+        >
+          View More
+        </Button>
+      </Box>
     </Paper>
   );
 };
