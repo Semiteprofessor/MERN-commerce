@@ -196,6 +196,54 @@ const ProductsCarousel = ({ ...props }) => {
           </motion.div>
         </AnimatePresence>
       </Paper>
+      {!isLoading && (
+        <Stack
+          direction={"row"}
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={1}
+          className="slider-arrows"
+        >
+          <Fab
+            color="primary"
+            aria-label="back"
+            size="small"
+            className="left"
+            onClick={() => paginate(-1)}
+            disabled={page === 0}
+            sx={{
+              display: page === 0 ? "none" : "flex",
+              position: "absolute",
+              transform: "translateY(-50%)",
+              left: "-1.5%",
+              top: "40%",
+              transition: "all 0.2s ease-in-out",
+              zIndex: 11,
+            }}
+          >
+            <IoArrowBackOutline size={isMobile ? 16 : 24} />
+          </Fab>
+          <Fab
+            color="primary"
+            aria-label="forward"
+            size="small"
+            className="right"
+            onClick={() => paginate(1)}
+            disabled={totalSlides - 1 === page}
+            sx={{
+              display: totalSlides - 1 === page ? "none" : "flex",
+              transform: "translateY(-50%)",
+              right: "-1.5%",
+              top: "40%",
+              transition: "all 0.2s ease-in-out",
+              position: "absolute",
+              zIndex: 11,
+            }}
+          >
+            <IoArrowForward size={isMobile ? 16 : 24} />
+          </Fab>
+        </Stack>
+      )}
     </Paper>
   );
 };
