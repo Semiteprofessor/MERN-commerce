@@ -41,7 +41,7 @@ import { addCart } from "@/redux/slices/products";
 import ColorPreview from "@/components/colorPreview";
 import SizePreview from "@/components/sizePicker";
 import { fCurrency } from "@/utils/formatNumber";
-import RootStyled from "../styled";
+import RootStyled from "./styled";
 
 ProductDetailsSummaryMobile.propTypes = {
   product: PropTypes.object.isRequired,

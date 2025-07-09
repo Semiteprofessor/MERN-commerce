@@ -11,7 +11,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 // framer motion
 import { motion, AnimatePresence } from "framer-motion";
 // components
-import ProductCard from "@/components/cards/product";
+import ProductCard from "@/components/cards/products";
 
 const variants = {
   enter: (direction) => {
@@ -66,14 +66,14 @@ function CarouselItem({ ...props }) {
   );
 }
 
+CarouselItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
+
 function isFloat(number) {
   return Number(number) === number && number % 1 !== 0;
 }
-
-ProductsCarousel.propTypes = {
-  data: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-};
 
 const ProductsCarousel = ({ ...props }) => {
   const { data, isLoading } = props;
@@ -248,8 +248,8 @@ const ProductsCarousel = ({ ...props }) => {
   );
 };
 
-CarouselItem.propTypes = {
-  index: PropTypes.number.isRequired,
+ProductsCarousel.propTypes = {
+  data: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
