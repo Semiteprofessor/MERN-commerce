@@ -268,6 +268,38 @@ const ShopProductCard = ({ ...props }) => {
           </Box>
         </Zoom>
       </Box>
+      <Stack
+        justifyContent="center"
+        sx={{
+          zIndex: 111,
+          p: 1,
+          width: "100%",
+
+          a: {
+            color: "text.primary",
+            textDecoration: "none",
+          },
+        }}
+      >
+        <Box sx={{ display: "grid" }}>
+          {" "}
+          <Typography
+            sx={{
+              cursor: "pointer",
+              textTransform: "capitalize",
+              // fontWeight: 500,
+            }}
+            {...(product?.available > 0 && {
+              component: Link,
+              href: linkTo,
+            })}
+            variant={"subtitle1"}
+            noWrap
+          >
+            {loading ? <Skeleton variant="text" width={120} /> : name}
+          </Typography>
+        </Box>
+      </Stack>
     </Card>
   );
 };
