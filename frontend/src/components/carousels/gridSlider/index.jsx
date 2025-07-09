@@ -171,7 +171,29 @@ const ProductsCarousel = ({ ...props }) => {
                 paginate(-1);
               }
             }}
-          ></motion.div>
+          >
+            <Grid container spacing={2} justifyContent="center">
+              {(isLoading
+                ? Array.from(new Array(4))
+                : data?.slice(
+                    imageIndex * slidesToShow,
+                    (imageIndex + 1) * slidesToShow
+                  )
+              ).map((item) => (
+                <Grid item lg={3} md={4} sm={6} xs={6} key={Math.random()}>
+                  <CarouselItem
+                    themeMode={themeMode}
+                    item={data ? item : null}
+                    index={data ? item : null}
+                    activeStep={imageIndex}
+                    isActive={imageIndex}
+                    key={Math.random()}
+                    isLoading={isLoading}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </motion.div>
         </AnimatePresence>
       </Paper>
     </Paper>
