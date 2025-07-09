@@ -33,3 +33,35 @@ const variants = {
     };
   },
 };
+
+/**
+ * Experimenting with distilling swipe offset and velocity into a single variable, so the
+ * less distance a user has swiped, the more velocity they need to register as a swipe.
+ * Should accommodate longer swipes and short flicks without having binary checks on
+ * just distance thresholds and velocity > 0.
+ */
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset, velocity) => {
+  return Math.abs(offset) * velocity;
+};
+
+// ----------------------------------------------------------------------
+function CarouselItem({ ...props }) {
+  const { index, isLoading } = props;
+
+  return (
+    <Paper
+      className="slide-wrapper"
+      elevation={0}
+      sx={{
+        position: 'relative',
+        pb: { md: '38%', sm: '82%', xs: '142%' },
+        zIndex: 11,
+        bgcolor: 'transparent',
+        borderRadius: 0
+      }}
+    >
+      <ProductCard loading={isLoading} product={index} />
+    </Paper>
+  );
+}
