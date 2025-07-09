@@ -50,7 +50,7 @@ import { IoIosHeart } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa";
 
 // dynamic
-const ProductDetailsDialog = dynamic(() => import("../dialog/"));
+const ProductDetailsDialog = dynamic(() => import("../dialog/productDetails"));
 const ShopProductCard = ({ ...props }) => {
   const { product, loading } = props;
   const cCurrency = useCurrencyConvert();
@@ -70,6 +70,49 @@ const ShopProductCard = ({ ...props }) => {
   const isTablet = useMediaQuery("(max-width:900px)");
   const [isLoading, setLoading] = useState(false);
 
+  const { mutate } = useMutation(api.updateWishlist, {
+    onSuccess: (data) => {
+      toast.success(data.message);
+      setLoading(false);
+      dispatch(setWishlist(data.data));
+    },
+    onError: (err) => {
+      setLoading(false);
+      const message = JSON.stringify(err.response.data.message);
+      toast.error(
+        t(
+          message
+            ? t("common:" + JSON.parse(message))
+            : t("common:something-wrong")
+        )
+      );
+    },
+  });
+
+  const { name, slug, image, _id, averageRating } = !loading && product;
+  const linkTo = `/product/${slug ? slug : ""}`;
+
+  const onClickWishList = async (event) => {
+    if (!isAuthenticated) {
+      event.stopPropagation();
+      router.push("/auth/login");
+    } else {
+      event.stopPropagation();
+      setLoading(true);
+      await mutate(_id);
+    }
+  };
+  const onAddCompare = async (event) => {
+    event.stopPropagation();
+    toast.success("Added to compare list");
+    dispatch(addCompareProduct(product));
+  };
+
+  const onRemoveCompare = async (event) => {
+    event.stopPropagation();
+    toast.success("Removed from compare list");
+    dispatch(removeCompareProduct(_id));
+  };
   return <div>ShopProductCard</div>;
 };
 

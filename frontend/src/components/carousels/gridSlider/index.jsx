@@ -248,4 +248,9 @@ const ProductsCarousel = ({ ...props }) => {
   );
 };
 
+CarouselItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
+
 export default ProductsCarousel;

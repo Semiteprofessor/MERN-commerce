@@ -9,13 +9,13 @@ import Dialog from "@mui/material/Dialog";
 
 // components
 import DetailsSkeleton from "@/components/skeletons/productDetail";
-import ProductDetailsSummaryMobile from "../../_main/product/mobileSummary/mobileSummary";
+import ProductDetailsSummaryMobile from "../_main/product/mobileSummary/mobileSummary";
 import ProductDetailsCarousel from "@/components/carousels/customPaginationSlider";
 
 ProductDetailsDialog.propTypes = {
   slug: PropTypes.string,
   onClose: PropTypes.func,
-  open: PropTypes.bool.required,
+  open: PropTypes.bool.isRequired,
 };
 
 export default function ProductDetailsDialog(props) {
