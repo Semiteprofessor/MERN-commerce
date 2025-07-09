@@ -127,25 +127,67 @@ const ShopProductCard = ({ ...props }) => {
     >
       <Box
         sx={{
-          position: 'relative'
+          position: "relative",
         }}
       >
         {!loading && product?.available < 1 && (
           <Label
             variant="filled"
-            color={'error'}
+            color={"error"}
             sx={{
               top: isTablet ? 8 : 12,
               left: isTablet ? 8 : 12,
               zIndex: 9,
-              position: 'absolute',
-              textTransform: 'uppercase',
-              fontSize: isTablet ? 8 : 12
+              position: "absolute",
+              textTransform: "uppercase",
+              fontSize: isTablet ? 8 : 12,
             }}
           >
             Out of Stock
           </Label>
-        )}</Box>
+        )}
+        <Box
+          {...(product?.available > 0 && {
+            component: Link,
+            href: linkTo,
+          })}
+          sx={{
+            bgcolor: isLoading || loading ? "transparent" : "common.white",
+            position: "relative",
+            cursor: "pointer",
+
+            "&:after": {
+              content: `""`,
+              display: "block",
+              paddingBottom: "100%",
+            },
+            width: "100%",
+          }}
+        >
+          {loading ? (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              sx={{
+                height: "100%",
+                position: "absolute",
+              }}
+            />
+          ) : (
+            <Box component={Link} href={linkTo}>
+              <BlurImage
+                alt={name}
+                src={image.url}
+                fill
+                draggable="false"
+                objectFit="cover"
+                placeholder="blur"
+                blurDataURL={image?.blurDataURL}
+              />
+            </Box>
+          )}
+        </Box>
+      </Box>
     </Card>
   );
 };
