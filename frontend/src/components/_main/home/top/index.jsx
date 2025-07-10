@@ -17,7 +17,46 @@ const Index = () => {
     api.getTopRatedProducts()
   );
 
-  return <div>Index</div>;
+  return (
+    <Box>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        textAlign={{ xs: "center", md: "left" }}
+        alignItems="center"
+      >
+        <Box width="100%">
+          <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
+            Top Collection
+          </Typography>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            mb={{ xs: 3, md: 5 }}
+          >
+            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting
+            Industry.
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          sx={{
+            borderRadius: 6,
+            display: { xs: "none", md: "flex" },
+            minWidth: 130,
+            px: 1,
+          }}
+          endIcon={<IoIosArrowForward />}
+          component={NextLink}
+          href={`/products?top=1`}
+        >
+          View More
+        </Button>
+      </Stack>
+    </Box>
+  );
 };
 
 export default Index;
