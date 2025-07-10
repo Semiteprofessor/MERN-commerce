@@ -27,7 +27,110 @@ import { FaRegUser } from "react-icons/fa6";
 import * as api from "@/services";
 
 const ShopCard = ({ ...props }) => {
-  return <div>ShopCard</div>;
+  const { shop, isLoading } = props;
+  const { followingShops } = useSelector(({ user }) => user);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const baseUrl = "/shops/";
+  const { mutate } = useMutation(api.followShop, {
+    onSuccess: (data) => {
+      toast.success(data.message);
+      dispatch(updateFollowShop(data.shopId));
+      setLoading(false);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.message);
+      setLoading(false);
+    },
+  });
+
+  return (
+    <Card
+      sx={{
+        // px: 3,
+        // py: 2,
+        borderRadius: 2,
+      }}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          height: 100,
+        }}
+      >
+        {isLoading ? (
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              height: 100,
+              width: "100%",
+            }}
+          />
+        ) : (
+          <Box
+            sx={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Image
+              alt="shop"
+              src={shop?.cover?.url}
+              placeholder="blur"
+              blurDataURL={shop?.cover?.blurDataURL}
+              layout="fill"
+              objectFit="cover"
+              static
+              draggable="false"
+              quality={5}
+              sizes={"200px"}
+            />
+          </Box>
+        )}
+      </Box>
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          height: 100,
+        }}
+      >
+        {isLoading ? (
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              height: 100,
+              width: "100%",
+            }}
+          />
+        ) : (
+          <Box
+            sx={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Image
+              alt="shop"
+              src={shop?.cover?.url}
+              placeholder="blur"
+              blurDataURL={shop?.cover?.blurDataURL}
+              layout="fill"
+              objectFit="cover"
+              static
+              draggable="false"
+              quality={5}
+              sizes={"200px"}
+            />
+          </Box>
+        )}
+      </Box>
+    </Card>
+  );
 };
 
 export default ShopCard;
