@@ -89,7 +89,42 @@ const Subscription = () => {
 
   const { handleSubmit, getFieldProps } = formik;
 
-  return <div>Subscription</div>;
+  return (
+    <React.Fragment>
+      <Dialog
+        open={open}
+        fullWidth
+        maxWidth="md"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        onClose={handleClose}
+      >
+        <Grid container justifyContent="center" alignItems="center" spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                position: "relative",
+                height: 500,
+                width: "100%",
+                display: { xs: "none", md: "block" },
+              }}
+            >
+              <Image
+                priority
+                src={subscriptionImg}
+                alt="subscribe"
+                sizes="300px"
+                placeholder="blur"
+                fill
+                objectFit="cover"
+                static
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Dialog>
+    </React.Fragment>
+  );
 };
 
 export default Subscription;
