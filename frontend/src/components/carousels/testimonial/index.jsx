@@ -38,7 +38,7 @@ TestimonialDetailsCarousel.propTypes = {
 const TestimonialDetailsCarousel = () => {
     const { item } = props;
   return (
-    <div>
+    <div className="slide-wrapper">
       <Card
         sx={{
           p: 2,
@@ -86,4 +86,12 @@ const TestimonialDetailsCarousel = () => {
   );
 };
 
-export default TestimonialDetailsCarousel;
+import React from 'react'
+
+const TestimonialCarousel = ({ ...props }) => {
+  const { page, direction, paginate, imageIndex, images } = props;
+  const { themeMode } = useSelector(({ settings }) => settings);
+  return <div>TestimonialCarousel</div>;
+};
+
+export default TestimonialCarousel
