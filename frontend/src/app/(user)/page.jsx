@@ -17,12 +17,12 @@ const Testimonials = dynamic(
 const FeaturedProducts = dynamic(
   () => import("@/components/_main/home/featured")
 );
-// const SubscriptionModal = dynamic(
-//   () => import("@/components/_main/home/subscription"),
-//   {
-//     ssr: false,
-//   }
-// );
+const SubscriptionModal = dynamic(
+  () => import("@/components/_main/home/subscription"),
+  {
+    ssr: false,
+  }
+);
 
 // components
 import Hero from "@/components/_main/home/hero"; // Importing the Hero component.
@@ -51,8 +51,9 @@ const IndexPage = () => {
       </Container>
       <Testimonials />
       <Container maxWidth="xl">
-        <Brand />
+        <Brands />
       </Container>
+      <SubscriptionModal />
     </>
   );
 };
