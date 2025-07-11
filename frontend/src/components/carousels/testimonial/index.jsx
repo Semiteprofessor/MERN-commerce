@@ -1,3 +1,10 @@
+// react
+"use client";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import Image from "next/image";
+
+// mui
 import { Box, Typography, Card, Stack, Rating, Avatar } from "@mui/material";
 // icons
 import { GoVerified } from "react-icons/go";
@@ -30,12 +37,7 @@ const swipePower = (offset, velocity) => {
   return Math.abs(offset) * velocity;
 };
 
-// ----------------------------------------------------------------------
-TestimonialDetailsCarousel.propTypes = {
-  item: PropTypes.object.isRequired,
-};
-
-const TestimonialDetailsCarousel = () => {
+const TestimonialDetailsCarousel = ({ ...props }) => {
   const { item } = props;
   return (
     <div className="slide-wrapper">
@@ -86,7 +88,10 @@ const TestimonialDetailsCarousel = () => {
   );
 };
 
-import React from "react";
+// ----------------------------------------------------------------------
+TestimonialDetailsCarousel.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 
 const TestimonialCarousel = ({ ...props }) => {
   const { page, direction, paginate, imageIndex, images } = props;

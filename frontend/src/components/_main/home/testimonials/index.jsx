@@ -28,7 +28,7 @@ const data = [
     cover: { url: AvatarImg },
     name: "Alex Thompson",
     jobTitle: "Software Engineer",
-    reviewdetail:
+    reviewDetail:
       "Exceptional shopping experience! The user-friendly interface and seamless navigation make finding and purchasing products a breeze. As a Marketing Manager, I appreciate the...",
     reviews: 4,
   },
@@ -36,7 +36,7 @@ const data = [
     cover: { url: AvatarImg },
     name: "John Thompson",
     jobTitle: "Web Developer Engineer",
-    reviewdetail:
+    reviewDetail:
       "Exceptional shopping experience! The user-friendly interface and seamless navigation make finding and purchasing products a breeze. As a Marketing Manager, I appreciate the...",
     reviews: 5,
   },
@@ -44,7 +44,7 @@ const data = [
     cover: { url: AvatarImg },
     name: "John Doe",
     jobTitle: "Software Engineer",
-    reviewdetail:
+    reviewDetail:
       "Exceptional shopping experience! The user-friendly interface and seamless navigation make finding and purchasing products a breeze. As a Marketing Manager, I appreciate the...",
     reviews: 3,
   },
