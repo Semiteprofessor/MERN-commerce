@@ -63,7 +63,7 @@ const TestimonialDetailsCarousel = () => {
             alt="avatar"
             responsive
             static
-            dragable={false}
+            draggable={false}
             height={80}
             width={80}
             sizes="100px"
