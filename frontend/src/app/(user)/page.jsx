@@ -11,9 +11,9 @@ const Banner = dynamic(() => import("@/components/_main/home/banner"));
 const TopCollection = dynamic(() => import("@/components/_main/home/top"));
 const Shops = dynamic(() => import("@/components/_main/home/shop"));
 const Compaigns = dynamic(() => import("@/components/_main/home/compaign"));
-// const Testimonials = dynamic(
-//   () => import("@/components/_main/home/testimonials")
-// );
+const Testimonials = dynamic(
+  () => import("@/components/_main/home/testimonials")
+);
 const FeaturedProducts = dynamic(
   () => import("@/components/_main/home/featured")
 );
@@ -49,6 +49,7 @@ const IndexPage = () => {
         <Shops />
         <FeaturedProducts />
       </Container>
+      <Testimonials />
     </>
   );
 };
