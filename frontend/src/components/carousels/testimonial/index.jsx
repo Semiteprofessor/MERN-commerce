@@ -187,4 +187,8 @@ const TestimonialCarousel = ({ ...props }) => {
   );
 };
 
+TestimonialCarousel.propTypes = {
+  product: PropTypes.object,
+  data: PropTypes.object,
+};
 export default TestimonialCarousel;
