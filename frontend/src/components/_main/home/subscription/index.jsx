@@ -121,6 +121,58 @@ const Subscription = () => {
               />
             </Box>
           </Grid>
+          <Grid item xs={12} md={6}>
+            <DialogContent>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 5,
+                  right: 5,
+                }}
+              >
+                <IconButton onClick={handleClose}>
+                  <MdClear size={20} />
+                </IconButton>
+              </Box>
+              <Stack spaceing={2} textAlign="center" mb={4}>
+                <Typography variant="h4">Sign up to Nextgater</Typography>
+                <DialogContentText>
+                  Enter your email address to subscribe our notification of our
+                  new post & features by email.
+                </DialogContentText>
+              </Stack>
+              <FormikProvider value={formik}>
+                <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                  <Stack spacing={2}>
+                    <TextField
+                      size="large"
+                      placeholder="Enter your Email"
+                      {...getFieldProps("email")}
+                    />
+
+                    <LoadingButton
+                      variant="contained"
+                      size="large"
+                      color="primary"
+                      type="submit"
+                      loading={loading}
+                      sx={{ marginTop: 8, paddingX: 4 }}
+                    >
+                      Subscribe
+                    </LoadingButton>
+                    <Button
+                      variant="text"
+                      size="large"
+                      color="inherit"
+                      onClick={handleClose}
+                    >
+                      No Thanks
+                    </Button>
+                  </Stack>
+                </Form>
+              </FormikProvider>
+            </DialogContent>
+          </Grid>
         </Grid>
       </Dialog>
     </React.Fragment>
