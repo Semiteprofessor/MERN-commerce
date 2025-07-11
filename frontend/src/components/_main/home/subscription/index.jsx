@@ -28,8 +28,68 @@ import { useMutation } from "react-query";
 
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-const index = () => {
-  return <div>index</div>;
+const Subscription = () => {
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+    localStorage.setItem("subscriptionDismissedAt", Date.now().toString());
+  };
+  // useEffect to open the dialog when the component mounts
+  React.useEffect(() => {
+    const dismissedAt = localStorage.getItem("subscriptionDismissedAt");
+    if (dismissedAt) {
+      const timeSinceDismissed = Date.now() - parseInt(dismissedAt, 10);
+      if (timeSinceDismissed < ONE_DAY_IN_MS) {
+        return;
+      }
+    }
+
+    const timer = setTimeout(() => {
+      setOpen(true);
+    }, 10000); //
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  //   api integrate
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    onSubmit: async (values) => {
+      if (
+        values.email
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          )
+      ) {
+        setLoading(true);
+        mutate(values);
+      } else {
+        toast.error("Invalid email!");
+      }
+    },
+  });
+
+  const { mutate } = useMutation(api.sendNewsletter, {
+    onSuccess: (data) => {
+      toast.success(data.message);
+      setLoading(false);
+      formik.resetForm();
+      handleClose();
+    },
+    onError: (err) => {
+      setLoading(false);
+      toast.error(err.response.data.message);
+    },
+  });
+
+  const { handleSubmit, getFieldProps } = formik;
+
+  return <div>Subscription</div>;
 };
 
-export default index;
+export default Subscription;
