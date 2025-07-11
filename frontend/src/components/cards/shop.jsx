@@ -18,15 +18,15 @@ import {
   Divider,
 } from "@mui/material";
 // components
-import Image from "@/components/blurImage";
-import { updateFollowShop } from "src/redux/slices/user";
+import Image from "src/components/blurImage";
+import { updateFollowShop } from "src/redux/slices/users";
 // icons
 import { AiOutlineShop } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa6";
 // api
-import * as api from "@/services";
+import * as api from "src/services";
 
-const ShopCard = ({ ...props }) => {
+export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;
   const { followingShops } = useSelector(({ user }) => user);
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,6 @@ const ShopCard = ({ ...props }) => {
       setLoading(false);
     },
   });
-
   return (
     <Card
       sx={{
@@ -53,44 +52,6 @@ const ShopCard = ({ ...props }) => {
         borderRadius: 2,
       }}
     >
-      <Box
-        sx={{
-          position: "relative",
-          overflow: "hidden",
-          height: 100,
-        }}
-      >
-        {isLoading ? (
-          <Skeleton
-            variant="rectangular"
-            sx={{
-              height: 100,
-              width: "100%",
-            }}
-          />
-        ) : (
-          <Box
-            sx={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <Image
-              alt="shop"
-              src={shop?.cover?.url}
-              placeholder="blur"
-              blurDataURL={shop?.cover?.blurDataURL}
-              layout="fill"
-              objectFit="cover"
-              static
-              draggable="false"
-              quality={5}
-              sizes={"200px"}
-            />
-          </Box>
-        )}
-      </Box>
       <Box
         sx={{
           position: "relative",
@@ -279,8 +240,76 @@ const ShopCard = ({ ...props }) => {
           )}
         </Stack>
       </CardContent>
+      <Divider />
+      <CardContent
+        sx={{
+          py: "16px !important",
+        }}
+      >
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-evenly"
+          spacing={2}
+        >
+          <Stack alignItems="center">
+            <Typography variant="subtitle2" color="text.secondary">
+              {isLoading ? <Skeleton variant="text" width={50} /> : "Followers"}
+            </Typography>
+            <Typography variant="h5" color="text.primary">
+              {isLoading ? (
+                <Skeleton variant="text" width={100} />
+              ) : (
+                shop?.followers?.length
+              )}
+            </Typography>
+          </Stack>{" "}
+          {/* <Stack alignItems="center">
+            <Typography variant="subtitle2" color="text.secondary">
+              Following
+            </Typography>
+            <Typography variant="subtitle2" color="text.primary">
+              11.9K
+            </Typography>
+          </Stack> */}
+          <Stack alignItems="center">
+            <Typography variant="subtitle2" color="text.secondary">
+              {isLoading ? (
+                <Skeleton variant="text" width={50} />
+              ) : (
+                "Total Products"
+              )}
+            </Typography>
+            <Typography variant="h5" color="text.primary">
+              {isLoading ? (
+                <Skeleton variant="text" width={100} />
+              ) : (
+                shop?.products?.length
+              )}
+            </Typography>
+          </Stack>
+        </Stack>
+      </CardContent>
+      {/* <CardActionArea className="card-action-area" component={Link} href={`${baseUrl + shop?.slug}`}>
+        <CardContent></CardContent>
+      </CardActionArea> */}
     </Card>
   );
-};
+}
+ShopCard.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  shop: PropTypes.shape({
+    slug: PropTypes.string.isRequired,
+    cover: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      blurDataURL: PropTypes.string.isRequired,
+    }),
+    logo: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      blurDataURL: PropTypes.string.isRequired,
+    }),
 
-export default ShopCard;
+    title: PropTypes.string.isRequired,
+    address: PropTypes.object.isRequired,
+  }).isRequired,
+};
