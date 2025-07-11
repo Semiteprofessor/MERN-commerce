@@ -52,6 +52,39 @@ const ShopComponent = () => {
           View More
         </Button>
       </Stack>
+      <Box>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          {(isLoading ? Array.from(new Array(6)) : shops)?.map((inner) => (
+            <React.Fragment key={Math.random()}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
+                <ShopCard shop={inner} isLoading={isLoading} />
+              </Grid>
+            </React.Fragment>
+          ))}
+          {!isLoading && !Boolean(shops?.length) && (
+            <Typography variant="h3" color="error.main" textAlign="center">
+              Shop not found
+            </Typography>
+          )}
+        </Grid>
+        <Button
+          variant="text"
+          color="primary"
+          size="small"
+          sx={{
+            borderRadius: 6,
+            mx: "auto",
+            mt: 3,
+            display: { md: "none", xs: "flex" },
+            maxWidth: "120px",
+          }}
+          endIcon={<IoIosArrowForward />}
+          component={NextLink}
+          href={`/shops`}
+        >
+          View More
+        </Button>
+      </Box>
     </Paper>
   );
 };
