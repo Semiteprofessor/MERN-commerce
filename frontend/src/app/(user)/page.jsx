@@ -14,9 +14,9 @@ const Compaigns = dynamic(() => import("@/components/_main/home/compaign"));
 // const Testimonials = dynamic(
 //   () => import("@/components/_main/home/testimonials")
 // );
-// const FeaturedProducts = dynamic(
-//   () => import("@/components/_main/home/featured")
-// );
+const FeaturedProducts = dynamic(
+  () => import("@/components/_main/home/featured")
+);
 // const SubscriptionModal = dynamic(
 //   () => import("@/components/_main/home/subscription"),
 //   {
@@ -47,6 +47,7 @@ const IndexPage = () => {
       <Container maxWidth="xl">
         <TopCollection />
         <Shops />
+        <FeaturedProducts />
       </Container>
     </>
   );
