@@ -36,7 +36,7 @@ TestimonialDetailsCarousel.propTypes = {
 };
 
 const TestimonialDetailsCarousel = () => {
-    const { item } = props;
+  const { item } = props;
   return (
     <div className="slide-wrapper">
       <Card
@@ -86,12 +86,105 @@ const TestimonialDetailsCarousel = () => {
   );
 };
 
-import React from 'react'
+import React from "react";
 
 const TestimonialCarousel = ({ ...props }) => {
   const { page, direction, paginate, imageIndex, images } = props;
   const { themeMode } = useSelector(({ settings }) => settings);
-  return <div>TestimonialCarousel</div>;
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        height: "100%",
+      }}
+    >
+      <Stack
+        direction="row"
+        alignItems="end"
+        justifyContent="center"
+        spacing={0}
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          height: "100%",
+          pt: { xs: "50%", sm: "30%", md: "unset" },
+          pb: { xs: "50%", sm: "30%", md: "unset" },
+          "& .motion-dev": {
+            position: "absolute",
+            width: "100%",
+            //   overflow: 'hidden',
+            top: 0,
+          },
+        }}
+      >
+        <Card
+          sx={{
+            display: { xs: "none", md: "flex" },
+            mr: "auto",
+            ml: 8,
+            bgcolor: "primary.main",
+            p: 2,
+            color: "common.white",
+            minWidth: 210,
+            zIndex: 99,
+          }}
+        >
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <GoVerified size={40} />
+            <Stack spacing={0}>
+              <Typography variant="subtitle2">
+                {images[imageIndex].reviews}/5
+              </Typography>
+              <Rating
+                value={images[imageIndex].reviews}
+                readOnly
+                size="small"
+              />
+              <Typography variant="subtitle2">
+                {images[imageIndex].reviews} Customer review
+              </Typography>
+            </Stack>
+          </Stack>
+        </Card>
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            className="motion-dev"
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1);
+              }
+            }}
+          >
+            <TestimonialDetailsCarousel
+              themeMode={themeMode}
+              item={images[imageIndex]}
+              index={images[imageIndex]}
+              activeStep={imageIndex}
+              isActive={imageIndex}
+              key={Math.random()}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </Stack>
+    </Box>
+  );
 };
 
-export default TestimonialCarousel
+export default TestimonialCarousel;
