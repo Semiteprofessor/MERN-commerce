@@ -20,8 +20,72 @@ import { IoMdAdd } from "react-icons/io";
 import { MBreadcrumbs } from "./@material-extend";
 import { createGradient } from "@/theme/palette";
 
-const headerBreadcrumbs = () => {
-  return <div>headerBreadcrumbs</div>;
+const headerBreadcrumbs = ({ ...props }) => {
+  const {
+    links,
+    action,
+    icon,
+    heading,
+    moreLink = "" || [],
+    sx,
+    admin,
+    ...other
+  } = props;
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        ...sx,
+        width: "100%",
+        ...(admin && {
+          mb: 3,
+        }),
+        ...(!admin && {
+          p: 3,
+          mt: 3,
+          color: "common.white",
+          position: "relative",
+          overflow: "hidden",
+          background: createGradient(
+            theme.palette.primary.main,
+            theme.palette.primary.dark
+          ),
+          borderRadius: "8px",
+          border: `1px solid ${theme.palette.primary}`,
+          "&:before": {
+            content: "''",
+            position: "absolute",
+            top: "-23%",
+            left: "20%",
+            transform: "translateX(-50%)",
+            bgcolor: alpha(theme.palette.primary.light, 0.5),
+            height: { xs: 60, md: 80 },
+            width: { xs: 60, md: 80 },
+            borderRadius: "50px",
+            zIndex: 0,
+          },
+          "&:after": {
+            content: "''",
+            position: "absolute",
+            top: "50%",
+            transform: "translateY(-50%)",
+            right: "-3%",
+            bgcolor: alpha(theme.palette.primary.light, 0.5),
+            height: { xs: 60, md: 80 },
+            width: { xs: 60, md: 80 },
+            borderRadius: "50px",
+            zIndex: 0,
+          },
+          "& .MuiBreadcrumbs-separator": {
+            color: "common.white",
+          },
+        }),
+      }}
+    >
+      headerBreadcrumbs
+    </Box>
+  );
 };
 
 export default headerBreadcrumbs;
