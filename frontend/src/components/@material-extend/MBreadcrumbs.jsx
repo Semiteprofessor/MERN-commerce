@@ -49,3 +49,35 @@ LinkItem.propTypes = {
   }).isRequired,
   admin: PropTypes.bool.isRequired,
 };
+
+const MBreadcrumbs = ({ links, admin, activeLast = false, ...other }) => {
+  const currentLink = last(links)?.name;
+
+  const listDefault = links.map((link) => (
+    <LinkItem key={link.name} link={link} admin={admin} />
+  ));
+  const listActiveLast = links.map((link) => (
+    <div key={link.name}>
+      {link.name !== currentLink ? (
+        <LinkItem link={link} admin={admin} />
+      ) : (
+        <Typography
+          variant={admin ? "body1" : "body2"}
+          sx={{
+            maxWidth: 260,
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            color: admin ? "text.disabled" : "common.white",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {currentLink}
+        </Typography>
+      )}
+    </div>
+  ));
+
+  return <div>MBreadcrumbs</div>;
+};
+
+export default MBreadcrumbs;
