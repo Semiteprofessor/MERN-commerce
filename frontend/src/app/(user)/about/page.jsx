@@ -14,7 +14,7 @@ import HeaderBreadcrumbsSkeleton from "src/components/skeletons/breadcrumbs";
 
 // Dynamically importing the HeaderBreadcrumbs component with a fallback to a skeleton loader while loading
 const HeaderBreadcrumbs = dynamic(
-  () => import("src/components/headerBreadcrumbs"),
+  () => import("@/components/headerBreadcrumbs"),
   {
     loading: () => <HeaderBreadcrumbsSkeleton />,
   }
