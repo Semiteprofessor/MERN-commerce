@@ -103,7 +103,24 @@ const headerBreadcrumbs = ({ ...props }) => {
             },
           }),
         }}
-      ></Stack>
+      >
+        <Box
+          sx={{
+            width: "50%",
+          }}
+        >
+          <Typography
+            variant="h3"
+            gutterBottom
+            sx={{ textTransform: "capitalize", width: "80vw" }}
+            noWrap
+          >
+            {heading}
+          </Typography>
+
+          <MBreadcrumbs icon={icon} admin={admin} links={links} {...other} />
+        </Box>
+      </Stack>
     </Box>
   );
 };
