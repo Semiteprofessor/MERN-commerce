@@ -77,7 +77,24 @@ const MBreadcrumbs = ({ links, admin, activeLast = false, ...other }) => {
     </div>
   ));
 
-  return <div>MBreadcrumbs</div>;
+  return (
+    <Breadcrumbs separator="›" {...other}>
+      {activeLast ? listDefault : listActiveLast}
+    </Breadcrumbs>
+  );
+};
+
+MBreadcrumbs.propTypes = {
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      icon: PropTypes.node,
+    })
+  ).isRequired,
+  admin: PropTypes.bool.isRequired,
+  icon: PropTypes.node,
+  activeLast: PropTypes.bool,
 };
 
 export default MBreadcrumbs;
