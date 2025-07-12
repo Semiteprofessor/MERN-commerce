@@ -83,7 +83,27 @@ const headerBreadcrumbs = ({ ...props }) => {
         }),
       }}
     >
-      headerBreadcrumbs
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: "center",
+          justifyContent: "space-between",
+          ...(!admin && {
+            "&:before": {
+              content: "''",
+              position: "absolute",
+              bottom: "-30%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              bgcolor: alpha(theme.palette.primary.light, 0.5),
+              height: { xs: 60, md: 80 },
+              width: { xs: 60, md: 80 },
+              borderRadius: "50px",
+              zIndex: 0,
+            },
+          }),
+        }}
+      ></Stack>
     </Box>
   );
 };
