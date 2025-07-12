@@ -7,7 +7,7 @@ const BestSellingProducts = dynamic(
   () => import("@/components/_main/home/bestSelling")
 );
 const Banner = dynamic(() => import("@/components/_main/home/banner"));
-// const Brands = dynamic(() => import("@/components/_main/home/brands"));
+const Brands = dynamic(() => import("@/components/_main/home/brands"));
 const TopCollection = dynamic(() => import("@/components/_main/home/top"));
 const Shops = dynamic(() => import("@/components/_main/home/shop"));
 const Compaigns = dynamic(() => import("@/components/_main/home/compaign"));
@@ -50,6 +50,9 @@ const IndexPage = () => {
         <FeaturedProducts />
       </Container>
       <Testimonials />
+      <Container maxWidth="xl">
+        <Brand />
+      </Container>
     </>
   );
 };
