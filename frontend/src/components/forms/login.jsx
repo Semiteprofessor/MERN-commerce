@@ -69,7 +69,50 @@ const LoginForm = () => {
       toast.error(err.response.data.message);
     },
   });
-  return <div>LoginForm</div>;
+  const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Enter valid email")
+      .required("Email is required."),
+    password: Yup.string()
+      .required("Password is required.")
+      .min(8, "Password should be 8 characters or longer."),
+  });
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      remember: true,
+    },
+    validationSchema: LoginSchema,
+
+    onSubmit: async (values) => {
+      const { email, password } = values;
+      setLoading(true);
+      mutate({ email, password });
+    },
+  });
+
+  const {
+    errors,
+    touched,
+    setFieldValue,
+    values,
+    handleSubmit,
+    getFieldProps,
+  } = formik;
+  return (
+    <>
+      <Stack
+        mb={3}
+        gap={2}
+        sx={{
+          "& .MuiAlert-action": {
+            alignItems: "center",
+          },
+        }}
+      ></Stack>
+    </>
+  );
 };
 
-export default login;
+export default LoginForm;
