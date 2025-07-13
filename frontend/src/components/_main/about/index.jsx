@@ -33,7 +33,33 @@ const Data = [
   },
 ];
 const Index = () => {
-  return <div>Index</div>;
+  const theme = useTheme();
+  return (
+    <>
+      <Box sx={{ my: 8 }}>
+        <Grid container spacing={3}>
+          <Grid item md={6} xs={12}>
+            <Stack direction="row" spacing={3} mt={5}>
+              <Box sx={{ position: 'relative', width: '100%', height: 418, borderRadius: 4, overflow: 'hidden' }}>
+                <Image src={AboutImage} alt="" fill placeholder="blur" objectFit="cover" />
+              </Box>
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  height: 418,
+                  borderRadius: 4,
+                  overflow: 'hidden',
+                  transform: 'translateY(-40px)'
+                }}
+              >
+                <Image src={AboutImage2} alt="" fill placeholder="blur" objectFit="cover" />
+              </Box>
+            </Stack>
+          </Grid></Grid>
+      </Box>
+    </>
+  );
 };
 
 export default Index;
