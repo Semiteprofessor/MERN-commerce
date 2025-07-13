@@ -40,8 +40,36 @@ import {
 } from "react-icons/md";
 import { IoMdMail } from "react-icons/io";
 
-const login = () => {
-  return <div>login</div>;
+const LoginForm = () => {
+  const { push } = useRouter();
+  const dispatch = useDispatch();
+  const searchParam = useSearchParams();
+  const redirect = searchParam.get("redirect");
+  const [loading, setloading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const { mutate } = useMutation(api.login, {
+    onSuccess: async (data) => {
+      dispatch(setLogin(data.user));
+      dispatch(setWishlist(data.user.wishlist));
+      await createCookies("token", data.token);
+      setloading(false);
+      toast.success("Logged in successfully!");
+      const isAdmin = data.user.role.includes("admin");
+      const isVendor = data.user.role.includes("vendor");
+      push(
+        redirect || isAdmin
+          ? "/admin/dashboard"
+          : isVendor
+            ? "/vendor/dashboard"
+            : "/"
+      );
+    },
+    onError: (err) => {
+      setloading(false);
+      toast.error(err.response.data.message);
+    },
+  });
+  return <div>LoginForm</div>;
 };
 
 export default login;
