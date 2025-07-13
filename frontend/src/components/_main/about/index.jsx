@@ -40,23 +40,85 @@ const Index = () => {
         <Grid container spacing={3}>
           <Grid item md={6} xs={12}>
             <Stack direction="row" spacing={3} mt={5}>
-              <Box sx={{ position: 'relative', width: '100%', height: 418, borderRadius: 4, overflow: 'hidden' }}>
-                <Image src={AboutImage} alt="" fill placeholder="blur" objectFit="cover" />
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  height: 418,
+                  borderRadius: 4,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src={AboutImage}
+                  alt=""
+                  fill
+                  placeholder="blur"
+                  objectFit="cover"
+                />
               </Box>
               <Box
                 sx={{
-                  position: 'relative',
-                  width: '100%',
+                  position: "relative",
+                  width: "100%",
                   height: 418,
                   borderRadius: 4,
-                  overflow: 'hidden',
-                  transform: 'translateY(-40px)'
+                  overflow: "hidden",
+                  transform: "translateY(-40px)",
                 }}
               >
-                <Image src={AboutImage2} alt="" fill placeholder="blur" objectFit="cover" />
+                <Image
+                  src={AboutImage2}
+                  alt=""
+                  fill
+                  placeholder="blur"
+                  objectFit="cover"
+                />
               </Box>
             </Stack>
-          </Grid></Grid>
+          </Grid>
+          <Grid
+            item
+            md={6}
+            xs={12}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              variant="h6"
+              fontSize="16px"
+              textTransform="uppercase"
+              color="primary"
+            >
+              Who We Are?
+            </Typography>
+            <Typography variant="h2" fontWeight={800}>
+              Creating a World Where Fashion is a Lifestyle
+            </Typography>
+            <Typography
+              variant="body1"
+              fontWeight={400}
+              color="text.secondary"
+              mt={2}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. Lorem
+              Ipsum has survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. Lorem
+              Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book.
+            </Typography>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );
