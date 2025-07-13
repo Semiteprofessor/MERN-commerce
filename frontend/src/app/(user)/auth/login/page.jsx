@@ -1,10 +1,10 @@
 import React from "react";
 // guard
-import GuestGuard from "src/guards/guest";
+import GuestGuard from "@/guards/guest";
 // mui
 import { Card, Stack, Container, Typography } from "@mui/material";
 // components
-import LoginMain from "src/components/_main/auth/login";
+import LoginMain from "@/components/_main/auth/login";
 
 // Meta information
 export const metadata = {

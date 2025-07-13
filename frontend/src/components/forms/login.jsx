@@ -110,7 +110,27 @@ const LoginForm = () => {
             alignItems: "center",
           },
         }}
-      ></Stack>
+      >
+        {" "}
+        <Alert
+          severity="primary"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setFieldValue("email", "admin@nextall.com");
+                setFieldValue("password", "test1234");
+              }}
+            >
+              Copy
+            </Button>
+          }
+        >
+          <AlertTitle>Admin</AlertTitle>
+          <b>Email:</b> admin@test.com | <b>password:</b> test1234
+        </Alert>
+      </Stack>
     </>
   );
 };
