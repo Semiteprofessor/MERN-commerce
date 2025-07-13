@@ -149,6 +149,38 @@ const LoginForm = () => {
           <b>Email:</b> vendor@test.com | <b>password:</b> test1234
         </Alert>
       </Stack>
+      <FormikProvider value={formik}>
+        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Stack spacing={3}>
+            <Stack gap={0.5} width={1}>
+              <Typography
+                variant="overline"
+                color="text.primary"
+                htmlFor="email"
+                component={"label"}
+              >
+                Email
+              </Typography>
+              <TextField
+                id="email"
+                fullWidth
+                autoComplete="username"
+                type="email"
+                {...getFieldProps("email")}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IoMdMail size={24} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Stack>
+          </Stack>
+        </Form>
+      </FormikProvider>
     </>
   );
 };
