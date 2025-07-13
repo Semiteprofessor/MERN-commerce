@@ -14,7 +14,7 @@ import { createCookies } from "@/hooks/cookies";
 // redux
 import { useDispatch } from "react-redux";
 import { setWishlist } from "@/redux/slices/wishlist";
-import { setLogin } from "@/redux/slices/user";
+import { setLogin } from "@/redux/slices/users";
 // api
 import * as api from "@/services";
 // mui
