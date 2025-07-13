@@ -21,7 +21,25 @@ const HeaderBreadcrumbs = dynamic(
 );
 
 const page = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <Container maxWidth="xl">
+        <HeaderBreadcrumbs
+          heading="About Us"
+          links={[
+            {
+              name: "Home",
+              href: "/",
+            },
+            {
+              name: "About us",
+            },
+          ]}
+        />
+        <AboutUs />
+      </Container>
+    </>
+  );
 };
 
 export default page;

@@ -32,7 +32,7 @@ const Team = () => {
         sx={{ marginTop: 2, mb: 1 }}
         textAlign="center"
       >
-        Benjamin Martin
+        Taiwo Olapade
       </Typography>
       <Typography
         variant="body1"
