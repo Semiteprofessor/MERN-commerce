@@ -3,7 +3,11 @@ import React from "react";
 import LoginForm from "@/components/forms/login";
 
 const LoginMain = () => {
-  return <div>LoginMain</div>;
+  return (
+    <>
+      <LoginForm />
+    </>
+  );
 };
 
 export default LoginMain;
