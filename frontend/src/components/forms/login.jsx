@@ -219,6 +219,47 @@ const LoginForm = () => {
               />
             </Stack>
           </Stack>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ my: 2 }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  {...getFieldProps("remember")}
+                  checked={values.remember}
+                />
+              }
+              label="Remember me"
+            />
+            <Link
+              component={RouterLink}
+              variant="subtitle2"
+              href="/auth/forget-password"
+            >
+              Forgot password
+            </Link>
+          </Stack>
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={loading}
+          >
+            login
+          </LoadingButton>
+          <Typography variant="subtitle2" mt={3} textAlign="center">
+            Don{`'`}t you have an account? &nbsp;
+            <Link
+              href={`/auth/register${redirect ? "?redirect=" + redirect : ""}`}
+              component={RouterLink}
+            >
+              Register
+            </Link>
+          </Typography>
         </Form>
       </FormikProvider>
     </>
