@@ -45,14 +45,14 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const searchParam = useSearchParams();
   const redirect = searchParam.get("redirect");
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { mutate } = useMutation(api.login, {
     onSuccess: async (data) => {
       dispatch(setLogin(data.user));
       dispatch(setWishlist(data.user.wishlist));
       await createCookies("token", data.token);
-      setloading(false);
+      setLoading(false);
       toast.success("Logged in successfully!");
       const isAdmin = data.user.role.includes("admin");
       const isVendor = data.user.role.includes("vendor");
@@ -65,7 +65,7 @@ const LoginForm = () => {
       );
     },
     onError: (err) => {
-      setloading(false);
+      setLoading(false);
       toast.error(err.response.data.message);
     },
   });
