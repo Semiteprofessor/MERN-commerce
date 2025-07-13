@@ -125,4 +125,31 @@ const headerBreadcrumbs = ({ ...props }) => {
   );
 };
 
+HeaderBreadcrumbs.propTypes = {
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string,
+      name: PropTypes.string,
+      icon: PropTypes.node,
+    })
+  ).isRequired,
+  action: PropTypes.oneOfType([
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      icon: PropTypes.node,
+    }),
+    PropTypes.node,
+  ]),
+  icon: PropTypes.node,
+  heading: PropTypes.string,
+  moreLink: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
+  sx: PropTypes.object,
+  admin: PropTypes.bool,
+  isUser: PropTypes.bool,
+};
+
 export default headerBreadcrumbs;
