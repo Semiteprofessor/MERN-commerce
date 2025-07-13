@@ -120,7 +120,53 @@ const headerBreadcrumbs = ({ ...props }) => {
 
           <MBreadcrumbs icon={icon} admin={admin} links={links} {...other} />
         </Box>
+        {action ? (
+          action.href ? (
+            <>
+              <Box
+                sx={{ flexShrink: 0, display: "flex", alignItems: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={NextLink}
+                  href={action.href}
+                  startIcon={action.icon ? action.icon : <IoMdAdd size={20} />}
+                >
+                  {action.title}
+                </Button>
+              </Box>
+            </>
+          ) : (
+            action
+          )
+        ) : null}
       </Stack>
+      <Box>
+        {isString(moreLink) ? (
+          <Link
+            href={moreLink}
+            target="_blank"
+            variant={"body2"}
+            sx={{ color: "common.white" }}
+          >
+            {moreLink}
+          </Link>
+        ) : (
+          moreLink.map((href) => (
+            <Link
+              noWrap
+              key={href}
+              href={href}
+              variant={"body2"}
+              target="_blank"
+              sx={{ display: "table", color: "common.white" }}
+            >
+              {href}
+            </Link>
+          ))
+        )}
+      </Box>
     </Box>
   );
 };
