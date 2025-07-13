@@ -178,6 +178,46 @@ const LoginForm = () => {
                 }}
               />
             </Stack>
+            <Stack gap={0.5} width={1}>
+              <Typography
+                variant="overline"
+                color="text.primary"
+                htmlFor="password"
+                component={"label"}
+              >
+                Password
+              </Typography>
+              <TextField
+                id="password"
+                fullWidth
+                autoComplete="current-password"
+                type={showPassword ? "text" : "password"}
+                {...getFieldProps("password")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <MdLock size={24} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                      >
+                        {showPassword ? (
+                          <MdOutlineVisibility size={24} />
+                        ) : (
+                          <MdOutlineVisibilityOff size={24} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+              />
+            </Stack>
           </Stack>
         </Form>
       </FormikProvider>
