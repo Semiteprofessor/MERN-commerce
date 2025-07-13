@@ -129,6 +129,24 @@ const LoginForm = () => {
         >
           <AlertTitle>Admin</AlertTitle>
           <b>Email:</b> admin@test.com | <b>password:</b> test1234
+        </Alert>{" "}
+        <Alert
+          severity="secondary"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setFieldValue("email", "vendor@nextall.com");
+                setFieldValue("password", "test1234");
+              }}
+            >
+              Copy
+            </Button>
+          }
+        >
+          <AlertTitle>Vendor</AlertTitle>
+          <b>Email:</b> vendor@test.com | <b>password:</b> test1234
         </Alert>
       </Stack>
     </>
