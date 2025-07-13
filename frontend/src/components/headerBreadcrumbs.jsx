@@ -20,7 +20,7 @@ import { IoMdAdd } from "react-icons/io";
 import { MBreadcrumbs } from "./@material-extend";
 import { createGradient } from "@/theme/palette";
 
-const headerBreadcrumbs = ({ ...props }) => {
+const HeaderBreadcrumbs = ({ ...props }) => {
   const {
     links,
     action,
@@ -198,4 +198,4 @@ HeaderBreadcrumbs.propTypes = {
   isUser: PropTypes.bool,
 };
 
-export default headerBreadcrumbs;
+export default HeaderBreadcrumbs;

@@ -119,6 +119,74 @@ const Index = () => {
             </Typography>
           </Grid>
         </Grid>
+        <Box sx={{ marginTop: 5 }}>
+          <Typography variant="h3" fontWeight={700} textAlign="center">
+            Our Services
+          </Typography>
+          <Typography
+            variant="body1"
+            fontWeight={400}
+            color="text.secondary"
+            sx={{ maxWidth: 350, textAlign: "center", mx: "auto" }}
+          >
+            Customer service should not be a department. It should be the entire
+            company.
+          </Typography>
+        </Box>
+      </Box>
+      {/* WhyUs  */}
+      <WhyUs />
+      <Box sx={{ marginY: { md: 10, sm: 8, xs: 5 } }}>
+        <Grid container spacing={3}>
+          {Data.map((item, idx) => (
+            <Grid item md={3} sm={6} xs={12} key={Math.random()}>
+              <Stack
+                textAlign="center"
+                sx={{
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: 2,
+                  p: 2,
+                }}
+                key={idx}
+              >
+                <Typography variant="h3" color="text.secondary">
+                  {item.range}
+                </Typography>
+                <Typography variant="h3" color="text.primary">
+                  {item.name}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  fontWeight={400}
+                  color="text.secondary"
+                  sx={{ maxWidth: 350, textAlign: "center", mx: "auto" }}
+                >
+                  {item.description}
+                </Typography>
+              </Stack>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+      <Box sx={{ paddingBottom: 10 }}>
+        <Typography variant="h3" fontWeight={700} textAlign="center">
+          Our Team
+        </Typography>
+        <Typography
+          variant="body1"
+          fontWeight={400}
+          color="text.secondary"
+          sx={{ maxWidth: 350, textAlign: "center", mx: "auto" }}
+        >
+          Meet out expert team members.
+        </Typography>
+        <Grid container spacing={3} mt={5}>
+          {[1, 2, 3, 4].map((index) => (
+            <Grid item md={3} sm={2} xs={6} key={index}>
+              <Team />
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </>
   );
