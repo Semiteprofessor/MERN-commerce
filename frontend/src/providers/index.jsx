@@ -1,27 +1,33 @@
 "use client";
-
 import { useState } from "react";
 import PropTypes from "prop-types";
 import dynamic from "next/dynamic";
 
-import { persistor, reduxStore } from "@/redux/store";
-import ThemeRegistry from "@/theme";
+// mui
 import { LinearProgress, Stack } from "@mui/material";
-import React from "react";
-import { Toaster } from "react-hot-toast";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { PersistGate } from "redux-persist/integration/react";
-import { Provider } from "react-redux";
-import AuthProvider from "./auth";
+import ThemeRegistry from "@/theme";
 
+// redux
+import { Provider } from "react-redux";
+import { reduxStore, persistor } from "@/redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+// react quert
+import { QueryClient, QueryClientProvider } from "react-query";
+
+// toast
+import { Toaster } from "react-hot-toast";
+
+// components
 import GlobalStyles from "@/theme/globalStyles";
+import AuthProvider from "./auth";
 
 // dynamic import
 const ProgressBar = dynamic(() => import("@/components/ProgressBar"), {
   ssr: false,
 });
 
-const Providers = (props) => {
+export default function Providers(props) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -47,7 +53,7 @@ const Providers = (props) => {
                     position: "fixed",
                     top: "calc(50vh - 2px)",
                     width: "300px",
-                    left: "calc(50vw - 150px",
+                    left: "calc(50vw - 150px)",
                     zIndex: 11,
                   }}
                 >
@@ -64,11 +70,9 @@ const Providers = (props) => {
       </AuthProvider>
     </Provider>
   );
-};
+}
 
 Providers.propTypes = {
   isAuth: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };
-
-export default Providers;
