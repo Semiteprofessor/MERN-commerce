@@ -155,6 +155,45 @@ const RegisterForm = () => {
           />
         </Stack>
       </Stack>
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+        <Stack gap={0.5} width={1}>
+          <Typography
+            variant="overline"
+            color="text.primary"
+            htmlFor="gender"
+            component={"label"}
+          >
+            Gender
+          </Typography>
+          <TextField
+            id="gender"
+            select
+            fullWidth
+            {...getFieldProps("gender")}
+            error={Boolean(touched.gender && errors.gender)}
+            helperText={touched.gender && errors.gender}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  {values.gender === "male" ? (
+                    <IoMdMale size={24} />
+                  ) : values.gender === "female" ? (
+                    <IoMdFemale size={24} />
+                  ) : (
+                    <FaTransgender />
+                  )}
+                </InputAdornment>
+              ),
+            }}
+          >
+            {["Male", "Female", "Other"].map((option) => (
+              <MenuItem key={option} value={option.toLowerCase()}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Stack>
+      </Stack>
     </Stack>
   </FormikProvider>;
 };
