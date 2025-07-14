@@ -129,6 +129,31 @@ const RegisterForm = () => {
             }}
           />
         </Stack>
+        <Stack gap={0.5} width={1}>
+          <Typography
+            variant="overline"
+            color="text.primary"
+            htmlFor="lastName"
+            component={"label"}
+          >
+            Last Name
+          </Typography>
+          <TextField
+            fullWidth
+            id="lastName"
+            type="text"
+            {...getFieldProps("lastName")}
+            error={Boolean(touched.lastName && errors.lastName)}
+            helperText={touched.lastName && errors.lastName}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IoPerson size={24} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Stack>
       </Stack>
     </Stack>
   </FormikProvider>;
