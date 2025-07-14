@@ -17,8 +17,38 @@ export const metadata = {
     "ecommerce, Nextall, Commerce, Register Nextall, RegisterFrom Nextall",
 };
 
-const Register = () => {
-  return <div>Register</div>;
+const Register = async () => {
+  return (
+    <>
+      <GuestGuard>
+        <Container maxWidth="sm">
+          <Card
+            sx={{
+              maxWidth: 560,
+              m: "auto",
+              my: "80px",
+              flexDirection: "column",
+              justifyContent: "center",
+              p: 3,
+            }}
+          >
+            <Typography
+              variant="h4"
+              component="h1"
+              gutterBottom
+              textAlign="center"
+            >
+              Sign up
+            </Typography>
+            <Typography color="text.secondary" mb={5} textAlign="center">
+              Create your account
+            </Typography>
+            <RegisterMain />
+          </Card>
+        </Container>
+      </GuestGuard>
+    </>
+  );
 };
 
 export default Register;
