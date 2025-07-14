@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 // redux
 import { useDispatch } from "react-redux";
-import { setLogin } from "src/redux/slices/user";
+import { setLogin } from "src/redux/slices/users";
 // api
 import { useMutation } from "react-query";
 import * as api from "src/services";
