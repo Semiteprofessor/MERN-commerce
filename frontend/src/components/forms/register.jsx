@@ -98,7 +98,40 @@ const RegisterForm = () => {
     },
   });
   const { errors, touched, handleSubmit, values, getFieldProps } = formik;
-  return <div>RegisterForm</div>;
+  return;
+  <FormikProvider value={formik}>
+    <Form autoComplete="off" noValidate onSubmit={handleSubmit}></Form>
+
+    <Stack spacing={3}>
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+        <Stack gap={0.5} width={1}>
+          <Typography
+            variant="overline"
+            color="text.primary"
+            htmlFor="firstName"
+            component={"label"}
+          >
+            First Name
+          </Typography>
+          <TextField
+            id="firstName"
+            fullWidth
+            type="text"
+            {...getFieldProps("firstName")}
+            error={Boolean(touched.firstName && errors.firstName)}
+            helperText={touched.firstName && errors.firstName}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IoPerson size={24} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Stack>
+      </Stack>
+    </Stack>
+  </FormikProvider>;
 };
 
 export default RegisterForm;
