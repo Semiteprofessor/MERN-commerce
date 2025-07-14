@@ -43,7 +43,7 @@ const RegisterForm = () => {
   const searchParam = useSearchParams();
   const redirect = searchParam.get("redirect");
   const dispatch = useDispatch();
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -64,6 +64,40 @@ const RegisterForm = () => {
       .required("Password is required")
       .min(8, "Password should be 8 characters or longer."),
   });
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      gender: "male",
+      email: "",
+      password: "",
+    },
+    validationSchema: RegisterSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      await mutate({
+        ...values,
+      });
+    },
+  });
+  const { mutate } = useMutation(api.register, {
+    onSuccess: async (data) => {
+      dispatch(setLogin(data.user));
+      await createCookies("token", data.token);
+      toast.success("OTP sent to your email" + " " + data.user.firstName);
+      setLoading(false);
+      router.push(
+        redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`
+      );
+    },
+    onError: (err) => {
+      const message = JSON.stringify(err.response.data.message);
+      toast.error(message ? JSON.parse(message) : "Something went wrong!");
+      setLoading(false);
+    },
+  });
+  const { errors, touched, handleSubmit, values, getFieldProps } = formik;
   return <div>RegisterForm</div>;
 };
 
