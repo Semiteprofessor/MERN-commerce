@@ -193,6 +193,57 @@ const RegisterForm = () => {
             ))}
           </TextField>
         </Stack>
+        <Stack gap={0.5} width={1}>
+          <Typography
+            variant="overline"
+            color="text.primary"
+            htmlFor="phone"
+            component={"label"}
+          >
+            Phone
+          </Typography>
+          <TextField
+            fullWidth
+            id="phone"
+            type="text"
+            {...getFieldProps("phone")}
+            error={Boolean(touched.phone && errors.phone)}
+            helperText={touched.phone && errors.phone}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MdLocalPhone size={24} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Stack>
+      </Stack>
+      <Stack gap={0.5} width={1}>
+        <Typography
+          variant="overline"
+          color="text.primary"
+          htmlFor="email"
+          component={"label"}
+        >
+          Email
+        </Typography>
+        <TextField
+          id="email"
+          fullWidth
+          autoComplete="username"
+          type="email"
+          {...getFieldProps("email")}
+          error={Boolean(touched.email && errors.email)}
+          helperText={touched.email && errors.email}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <IoMdMail size={24} />
+              </InputAdornment>
+            ),
+          }}
+        />
       </Stack>
     </Stack>
   </FormikProvider>;
