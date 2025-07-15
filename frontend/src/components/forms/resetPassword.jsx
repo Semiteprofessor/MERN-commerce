@@ -174,4 +174,8 @@ const ResetPasswordForm = ({ ...props }) => {
   );
 };
 
+ResetPasswordForm.propTypes = {
+  token: PropTypes.string.isRequired,
+};
+
 export default ResetPasswordForm;
