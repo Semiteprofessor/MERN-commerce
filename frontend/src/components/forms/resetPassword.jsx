@@ -30,18 +30,18 @@ import { useMutation } from "react-query";
 const ResetPasswordForm = ({ ...props }) => {
   const { token } = props;
   const { push } = useRouter();
-  const [loading, setloading] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const { mutate } = useMutation(api.resetPassword, {
     onSuccess: () => {
-      setloading(false);
+      setLoading(false);
       push("/auth/login");
       toast.success("Password successfully updated.");
     },
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
-      setloading(false);
+      setLoading(false);
       toast.error(message || "Reset failed. try again");
     },
   });
@@ -56,7 +56,71 @@ const ResetPasswordForm = ({ ...props }) => {
     ),
   });
 
-  return <div>ResetPasswordForm</div>;
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: ResetPasswordSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      await mutate({
+        newPassword: values.password,
+        token,
+      });
+    },
+  });
+
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
+
+  return (
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Stack spacing={3}>
+          <Stack gap={0.5} width={1}>
+            <Typography
+              variant="overline"
+              color="text.primary"
+              for="password"
+              component={"label"}
+            >
+              Password
+            </Typography>
+            <TextField
+              id="password"
+              fullWidth
+              autoComplete="current-password"
+              type={showPassword ? "text" : "password"}
+              {...getFieldProps("password")}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <MdLock size={24} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      edge="end"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? (
+                        <MdOutlineVisibility size={24} />
+                      ) : (
+                        <MdOutlineVisibilityOff size={24} />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+            />
+          </Stack>
+        </Stack>
+      </Form>
+    </FormikProvider>
+  );
 };
 
 export default ResetPasswordForm;
