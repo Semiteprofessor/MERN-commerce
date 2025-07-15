@@ -117,6 +117,57 @@ const ResetPasswordForm = ({ ...props }) => {
               helperText={touched.password && errors.password}
             />
           </Stack>
+
+          <Stack gap={0.5} width={1}>
+            <Typography
+              variant="overline"
+              color="text.primary"
+              for="confirmPassword"
+              component={"label"}
+            >
+              Confirm Password
+            </Typography>
+            <TextField
+              id="confirmPassword"
+              fullWidth
+              autoComplete="current-password"
+              type={showConfirmPassword ? "text" : "password"}
+              {...getFieldProps("confirmPassword")}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <MdLock size={24} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      edge="end"
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    >
+                      {showConfirmPassword ? (
+                        <MdOutlineVisibility size={24} />
+                      ) : (
+                        <MdOutlineVisibilityOff size={24} />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+              helperText={touched.confirmPassword && errors.confirmPassword}
+            />
+          </Stack>
+
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={loading}
+          >
+            Save
+          </LoadingButton>
         </Stack>
       </Form>
     </FormikProvider>
