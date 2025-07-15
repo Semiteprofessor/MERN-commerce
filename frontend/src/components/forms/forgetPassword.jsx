@@ -13,24 +13,24 @@ import { LoadingButton } from "@mui/lab";
 // icons
 import { IoMdMail } from "react-icons/io";
 // components
-import useIsMountedRef from "src/hooks/useIsMountedRef";
+import useIsMountedRef from "@/hooks/useIsMountedRef";
 // api
-import * as api from "src/services";
+import * as api from "@/services";
 import { useMutation } from "react-query";
 
 const ForgetPasswordForm = ({ ...props }) => {
   const { onSent, onGetEmail } = props;
   const isMountedRef = useIsMountedRef();
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { mutate } = useMutation(api.forgetPassword, {
     onSuccess: () => {
       onSent();
       toast.success("Email sent check inbox");
-      setloading(false);
+      setLoading(false);
     },
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
-      setloading(false);
+      setLoading(false);
       toast.error(message || "Email incorrect please try again.");
     },
   });
@@ -48,7 +48,7 @@ const ForgetPasswordForm = ({ ...props }) => {
     validationSchema: ResetPasswordSchema,
     onSubmit: async (values) => {
       try {
-        setloading(true);
+        setLoading(true);
         onGetEmail(values.email);
         await mutate({ email: values.email, origin: window.location.origin });
       } catch (error) {
@@ -60,7 +60,55 @@ const ForgetPasswordForm = ({ ...props }) => {
   });
 
   const { errors, touched, handleSubmit, getFieldProps } = formik;
-  return <div>ForgetPasswordForm</div>;
+  return (
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Stack spacing={3}>
+          <Stack gap={0.5} width={1}>
+            <Typography
+              variant="overline"
+              color="text.primary"
+              for="email"
+              component={"label"}
+            >
+              Email
+            </Typography>
+            <TextField
+              id="email"
+              fullWidth
+              type={"text"}
+              {...getFieldProps("email")}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IoMdMail size={24} />
+                  </InputAdornment>
+                ),
+              }}
+              error={Boolean(touched.email && errors.email)}
+              helperText={touched.email && errors.email}
+            />
+          </Stack>
+
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={loading}
+          >
+            Send Email
+          </LoadingButton>
+        </Stack>
+      </Form>
+      {/* )} */}
+    </FormikProvider>
+  );
+};
+
+ForgetPasswordForm.propTypes = {
+  onSent: PropTypes.func.isRequired,
+  onGetEmail: PropTypes.func.isRequired,
 };
 
 export default ForgetPasswordForm;
