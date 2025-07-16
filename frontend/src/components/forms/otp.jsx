@@ -112,6 +112,40 @@ const VerifyOTPForm = () => {
   const [complete, setComplete] = React.useState(false);
   const [countdownDate, setCountdownDate] = React.useState(Date.now() + 60000); // Add this state
 
+  const onOtpChange = (value) => {
+    setOtp(value);
+    setComplete(false); // Reset complete state
+  };
+  const { mutate } = useMutation(api.verifyOTP, {
+    retry: false,
+    onSuccess: async () => {
+      setLoading(false);
+      dispatch(verifyUser());
+      router.push(redirect || "/");
+    },
+    onError: () => {
+      toast.error("Invalid OTP.");
+      setLoading(false);
+    },
+  });
+  const { mutate: ResendOTPMutate } = useMutation(api.resendOTP, {
+    retry: false,
+    onSuccess: async () => {
+      setComplete(false);
+      toast.success("OTP resent");
+      setResendLoading(false);
+    },
+    onError: () => {
+      toast.error("Invalid OTP.");
+      setResendLoading(false);
+    },
+  });
+
+  const onResend = () => {
+    setResendLoading(true);
+    ResendOTPMutate({ email: user.email });
+    setCountdownDate(Date.now() + 60000); // Reset countdown date on OTP change
+  };
   return <div>VerifyOTPForm</div>;
 };
 
