@@ -182,7 +182,38 @@ const VerifyOTPForm = () => {
                 fontSize: 22,
               },
             }}
-          ></Box>
+          >
+            <OtpInput
+              value={otp}
+              onChange={onOtpChange}
+              numInputs={6}
+              renderSeparator={<span>-</span>}
+              renderInput={(props) => <input {...props} />}
+              shouldAutoFocus
+            />
+
+            <LoadingButton
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{
+                maxWidth: 300,
+                mx: "auto",
+                mt: 2,
+              }}
+              loading={loading}
+              disabled={otp.length < 6 || (complete && loading)}
+              onClick={() => {
+                setLoading(true);
+                mutate({
+                  otp,
+                  email: user.email,
+                });
+              }}
+            >
+              Verify
+            </LoadingButton>
+          </Box>
         </Stack>
       </Card>
     </Container>
