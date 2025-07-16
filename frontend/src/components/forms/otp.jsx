@@ -214,6 +214,28 @@ const VerifyOTPForm = () => {
               Verify
             </LoadingButton>
           </Box>
+          {complete ? (
+            <LoadingButton
+              loading={resendLoading}
+              onClick={onResend}
+              variant="contained"
+              color="secondary"
+              fullWidth
+              sx={{
+                maxWidth: 300,
+                mx: "auto",
+                mt: 2,
+              }}
+            >
+              Resend OTP
+            </LoadingButton>
+          ) : (
+            <Countdown
+              date={countdownDate}
+              renderer={renderer}
+              onComplete={() => setComplete(true)}
+            />
+          )}
         </Stack>
       </Card>
     </Container>
