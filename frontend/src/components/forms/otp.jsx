@@ -100,6 +100,18 @@ const renderer = ({ minutes, seconds }) => {
 };
 
 const VerifyOTPForm = () => {
+  const router = useRouter();
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const searchParam = useSearchParams();
+  const redirect = searchParam.get("redirect");
+  const { user } = useSelector((state) => state.user);
+  const [loading, setLoading] = React.useState(false);
+  const [resendLoading, setResendLoading] = React.useState(false);
+  const [otp, setOtp] = React.useState("");
+  const [complete, setComplete] = React.useState(false);
+  const [countdownDate, setCountdownDate] = React.useState(Date.now() + 60000); // Add this state
+
   return <div>VerifyOTPForm</div>;
 };
 
