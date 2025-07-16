@@ -1,6 +1,6 @@
 import React from "react";
 // component
-import VerifyOTPForm from "src/components/forms/otp";
+import VerifyOTPForm from "@/components/forms/otp";
 import PropTypes from "prop-types";
 
 const OTPMain = ({ user }) => {
