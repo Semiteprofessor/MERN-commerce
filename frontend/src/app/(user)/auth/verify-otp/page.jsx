@@ -1,6 +1,6 @@
 import React from "react";
 // guard
-import AuthGuard from "@/guards/";
+import AuthGuard from "@/guards/auth";
 // mui
 import { Box } from "@mui/material";
 //  components
