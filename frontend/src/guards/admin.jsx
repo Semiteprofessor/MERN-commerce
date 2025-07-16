@@ -1,26 +1,36 @@
 "use client";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "@/redux";
 import { useRouter } from "next-nprogress-bar";
+import { toast } from "react-hot-toast";
+
+// redux
+import { useSelector } from "src/redux";
 
 // components
 import Loading from "@/components/loading";
+
 export default function Guest({ children }) {
   const router = useRouter();
-  const { isAuthenticated } = useSelector(({ user }) => user);
-  const [isAuth, setAuth] = useState(true);
+  const [isAdmin, setAdmin] = useState(true);
+  const { isAuthenticated, user } = useSelector(({ user }) => user);
+
   useEffect(() => {
-    if (!isAuthenticated) {
-      setAuth(false);
+    if (
+      !isAuthenticated ||
+      !user.role === "super admin" ||
+      !user.role === "admin"
+    ) {
+      setAdmin(false);
+      toast.error("You're not allowed to access dashboard");
       router.push("/auth/login");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (!isAuth) {
+
+  if (!isAdmin) {
     return <Loading />;
   }
-
   return children;
 }
 
