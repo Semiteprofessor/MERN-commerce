@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 // api
 import * as api from "@/services";
 import { useMutation } from "react-query";
-import { verifyUser } from "@/redux/slices/user";
+import { verifyUser } from "@/redux/slices/users";
 // mui
 import { Box, Card, Stack, Container, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";

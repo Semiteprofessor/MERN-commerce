@@ -1,10 +1,10 @@
 import React from "react";
 // guard
-import AuthGuard from "src/guards/auth";
+import AuthGuard from "@/guards/";
 // mui
 import { Box } from "@mui/material";
 //  components
-import OTPMain from "src/components/_main/auth/otp";
+import OTPMain from "@/components/_main/auth/otp";
 
 // Meta information
 export const metadata = {
@@ -17,8 +17,16 @@ export const metadata = {
   keywords:
     "ecommerce, Nextall, Commerce, VerifyEmail Nextall, VerifyEmail Page Nextall",
 };
-const VerifyOTP = () => {
-  return <div>VerifyOTP</div>;
+const VerifyOTP = async () => {
+  return (
+    <>
+      <AuthGuard>
+        <Box className="auth-pages">
+          <OTPMain />
+        </Box>
+      </AuthGuard>
+    </>
+  );
 };
 
 export default VerifyOTP;
