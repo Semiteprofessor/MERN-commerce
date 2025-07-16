@@ -146,7 +146,47 @@ const VerifyOTPForm = () => {
     ResendOTPMutate({ email: user.email });
     setCountdownDate(Date.now() + 60000); // Reset countdown date on OTP change
   };
-  return <div>VerifyOTPForm</div>;
+  return (
+    <Container maxWidth="sm">
+      <Card
+        sx={{
+          p: 3,
+          my: 4,
+        }}
+      >
+        <Stack>
+          <Typography textAlign="center" mb={1} variant="h4" gutterBottom>
+            Verify OTP
+          </Typography>
+          <Typography textAlign="center" color="text.secondary" mb={3}>
+            Please enter OTP to continue
+          </Typography>
+          <Box
+            sx={{
+              textAlign: "center",
+              "& > div": {
+                justifyContent: "center",
+              },
+              span: {
+                fontSize: 22,
+                p: 0.5,
+              },
+              input: {
+                minWidth: 40,
+                height: 40,
+                bgcolor: theme.palette.background.default,
+                color: "text.primary",
+                border: `1px solid ${theme.palette.divider}`,
+              },
+              span: {
+                fontSize: 22,
+              },
+            }}
+          ></Box>
+        </Stack>
+      </Card>
+    </Container>
+  );
 };
 
 export default VerifyOTPForm;
