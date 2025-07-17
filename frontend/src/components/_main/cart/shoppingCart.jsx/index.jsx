@@ -132,6 +132,28 @@ const ShoppingCart = ({ loading }) => {
               <EmptyCart />
             )}
             <Divider />
+            <Stack
+              mt={2}
+              direction="row "
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Button
+                color="inherit"
+                onClick={() => router.push("/")}
+                startIcon={<IoArrowBackOutline />}
+              >
+                Continue Shopping
+              </Button>
+              <Button
+                color="inherit"
+                onClick={() => dispatch(resetCart())}
+                startIcon={<MdOutlineShoppingCart />}
+                disabled={isEmptyCart}
+              >
+                Clear Cart
+              </Button>
+            </Stack>
           </Card>
         </Form>
       </FormikProvider>
