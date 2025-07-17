@@ -49,6 +49,41 @@ const EmptyCart = dynamic(() => import("src/illustrations/emptyCart"), {
 // ----------------------------------------------------------------------
 
 const ShoppingCart = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { checkout } = useSelector(({ product }) => product);
+  const { cart } = checkout;
+
+  const [count, setCount] = React.useState(0);
+
+  const isEmptyCart = cart.length === 0;
+  const handleDeleteCart = (productId) => {
+    dispatch(deleteCart(productId));
+    setCount((prev) => prev + 1);
+  };
+
+  const handleIncreaseQuantity = (productId) => {
+    dispatch(increaseQuantity(productId));
+    setCount((prev) => prev + 1);
+  };
+
+  const handleDecreaseQuantity = (productId) => {
+    dispatch(decreaseQuantity(productId));
+    setCount((prev) => prev + 1);
+  };
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: { products: [] },
+    onSubmit: () => {},
+  });
+  const { handleSubmit } = formik;
+  const totalItems = sum(cart?.map((item) => item.quantity));
+
+  React.useEffect(() => {
+    dispatch(getCart(cart));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count]);
+
   return <div>ShoppingCart</div>;
 };
 
