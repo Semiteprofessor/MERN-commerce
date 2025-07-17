@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "@/redux/slices/product";
 // components
 import PaymentSummarySkeleton from "@/components/skeletons/cart/paymentSummary";
-import ShoppingCartSkeleton from "@/components/skeletons/cart/shoppingcart";
+import ShoppingCartSkeleton from "@/components/skeletons/cart/shoppingCart";
 // dynamic
 const ShoppingCart = dynamic(
   () => import("@/components/_main/cart/shoppingCart"),
