@@ -17,7 +17,43 @@ const IncrementerStyle = styled("div")(({ theme }) => ({
 }));
 
 const Incrementer = ({ ...props }) => {
-  return <div>Incrementer</div>;
+  const { available, quantity, onIncrease, onDecrease } = props;
+  return (
+    <Stack sx={{ width: 96, mb: 0 }}>
+      <IncrementerStyle>
+        <Fab
+          size="small"
+          color="primary"
+          onClick={onDecrease}
+          disabled={quantity <= 1}
+          sx={{
+            width: 26,
+            maxHeight: 26,
+            minHeight: "auto",
+          }}
+        >
+          <IoIosRemove size={16} />
+        </Fab>
+        {quantity}
+        <Fab
+          size="small"
+          color="primary"
+          onClick={onIncrease}
+          disabled={quantity >= available}
+          sx={{
+            width: 26,
+            maxHeight: 26,
+            minHeight: "auto",
+          }}
+        >
+          <IoIosAdd size={16} />
+        </Fab>
+      </IncrementerStyle>
+      <Typography variant="caption" sx={{ color: "text.secondary" }}>
+        Available: {available}
+      </Typography>
+    </Stack>
+  );
 };
 
 export default Incrementer;
