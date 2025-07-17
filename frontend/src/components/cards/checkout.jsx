@@ -8,12 +8,12 @@ import { Typography, Card, Stack, Box, IconButton } from "@mui/material";
 import { MdDeleteOutline } from "react-icons/md";
 import { styled } from "@mui/material/styles";
 // hooks
-import { useCurrencyConvert } from "src/hooks/convertCurrency";
-import { useCurrencyFormatter } from "src/hooks/formatCurrency";
+import { useCurrencyConvert } from "@/hooks/convertCurrency";
+import { useCurrencyFormatter } from "@/hooks/formatCurrency";
 // components
 
-import BlurImage from "src/components/blurImage";
-const Incrementer = dynamic(() => import("src/components/incrementer"));
+import BlurImage from "@/components/blurImage";
+const Incrementer = dynamic(() => import("@/components"));
 
 const ThumbImgStyle = styled(Box)(({ theme }) => ({
   width: 40,
