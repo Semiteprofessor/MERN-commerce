@@ -28,10 +28,10 @@ import {
   decreaseQuantity,
   getCart,
   resetCart,
-} from "src/redux/slices/product";
+} from "@/redux/slices/product";
 // component
-import CheckoutCard from "src/components/cards/checkout";
-import CheckoutProductList from "src/components/lists/checkoutProduct";
+import CheckoutCard from "@/components/cards/checkout";
+import CheckoutProductList from "@/components/lists/checkoutProduct";
 // Styled
 import RootStyled from "./styled";
 
@@ -39,7 +39,7 @@ ShoppingCart.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-const EmptyCart = dynamic(() => import("src/illustrations/emptyCart"), {
+const EmptyCart = dynamic(() => import("@/illustrations/emptyCart"), {
   loading: () => (
     <Stack>
       <Skeleton variant="rectangular" width="100%" height={300} />
@@ -48,7 +48,7 @@ const EmptyCart = dynamic(() => import("src/illustrations/emptyCart"), {
 });
 // ----------------------------------------------------------------------
 
-const ShoppingCart = () => {
+const ShoppingCart = ({ loading }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { checkout } = useSelector(({ product }) => product);
