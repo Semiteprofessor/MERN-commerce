@@ -27,6 +27,27 @@ const PaymentSummary = dynamic(
 );
 
 const CartMain = () => {
+  const dispatch = useDispatch();
+  const { checkout } = useSelector(({ product }) => product);
+  const { cart } = checkout;
+  const [loading, setLoading] = React.useState(true);
+  const { mutate } = useMutation(api.getCart, {
+    onSuccess: (res) => {
+      setLoading(false);
+      dispatch(getCart(res.data));
+    },
+    onError: (err) => {
+      const message = JSON.stringify(err.response.data.message);
+      setLoading(false);
+      toast.error(message ? JSON.parse(message) : "Something went wrong!");
+    },
+  });
+  React.useEffect(() => {
+    setLoading(true);
+    mutate(cart);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return <div>CartMain</div>;
 };
 
