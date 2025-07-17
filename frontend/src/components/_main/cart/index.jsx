@@ -48,7 +48,35 @@ const CartMain = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div>CartMain</div>;
+  return (
+    <Box>
+      <Box py={5}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+            <ShoppingCart loading={loading} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <PaymentSummary loading={loading} cart={cart} />
+            {/* <Box mt={2}>
+              <LoadingButton
+                variant="contained"
+                fullWidth
+                size="large"
+                sx={{
+                  borderRadius: '8px'
+                }}
+                disabled={isEmptyCart}
+                loading={loading}
+                onClick={() => router.push('/checkout')}
+              >
+                Checkout
+              </LoadingButton>
+            </Box> */}
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
+  );
 };
 
 export default CartMain;
