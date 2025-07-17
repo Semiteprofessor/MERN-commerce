@@ -84,7 +84,35 @@ const ShoppingCart = ({ loading }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count]);
 
-  return <div>ShoppingCart</div>;
+  return (
+    <RootStyled>
+      <FormikProvider value={formik}>
+        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Card className="card-main">
+            <CardHeader
+              className="card-header"
+              title={
+                loading ? (
+                  <Skeleton
+                    variant="text"
+                    sx={{ fontSize: "1.5rem" }}
+                    width={120}
+                  />
+                ) : (
+                  <Typography variant="h4">
+                    Shopping Cart
+                    <Typography component="span" color="text.secondary">
+                      &nbsp;({totalItems} {totalItems > 1 ? "items" : "item"})
+                    </Typography>
+                  </Typography>
+                )
+              }
+            />
+          </Card>
+        </Form>
+      </FormikProvider>
+    </RootStyled>
+  );
 };
 
 export default ShoppingCart;
