@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { Card, Typography, Skeleton, CardContent, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 // components
-import BlurImage from "src/components/blurImage";
+import BlurImage from "@/components/blurImage";
 
 const UserBrandsCard = ({ item, isLoading }) => {
   const theme = useTheme();
@@ -70,6 +70,21 @@ const UserBrandsCard = ({ item, isLoading }) => {
       </CardContent>
     </Card>
   );
+};
+
+UserBrandsCard.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string,
+    _id: PropTypes.string,
+    logo: PropTypes.shape({
+      url: PropTypes.string,
+    }),
+    createdAt: PropTypes.string,
+    status: PropTypes.string,
+    slug: PropTypes.string,
+  }),
+  isLoading: PropTypes.bool,
+  handleClickOpen: PropTypes.func,
 };
 
 export default UserBrandsCard;
