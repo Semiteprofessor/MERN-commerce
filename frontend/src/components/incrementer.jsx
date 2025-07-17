@@ -56,4 +56,11 @@ const Incrementer = ({ ...props }) => {
   );
 };
 
+Incrementer.propTypes = {
+  available: PropTypes.number.isRequired,
+  quantity: PropTypes.number.isRequired,
+  onIncrease: PropTypes.func.isRequired,
+  onDecrease: PropTypes.func.isRequired,
+};
+
 export default Incrementer;
