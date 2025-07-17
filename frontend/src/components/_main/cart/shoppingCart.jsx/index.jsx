@@ -108,6 +108,30 @@ const ShoppingCart = ({ loading }) => {
                 )
               }
             />
+            {!isEmptyCart ? (
+              <>
+                <CheckoutCard
+                  formik={formik}
+                  onDelete={handleDeleteCart}
+                  onIncreaseQuantity={handleIncreaseQuantity}
+                  onDecreaseQuantity={handleDecreaseQuantity}
+                  cart={cart}
+                />
+                <Box className="product-list">
+                  <CheckoutProductList
+                    formik={formik}
+                    onDelete={handleDeleteCart}
+                    onIncreaseQuantity={handleIncreaseQuantity}
+                    onDecreaseQuantity={handleDecreaseQuantity}
+                    isLoading={loading}
+                    cart={cart}
+                  />
+                </Box>
+              </>
+            ) : (
+              <EmptyCart />
+            )}
+            <Divider />
           </Card>
         </Form>
       </FormikProvider>
