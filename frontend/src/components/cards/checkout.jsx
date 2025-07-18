@@ -122,4 +122,11 @@ const CheckoutCard = () => {
   );
 };
 
+CheckoutCard.propTypes = {
+  onDelete: PropTypes.func.isRequired,
+  onIncreaseQuantity: PropTypes.func.isRequired,
+  onDecreaseQuantity: PropTypes.func.isRequired,
+  cart: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 export default CheckoutCard;
