@@ -23,7 +23,55 @@ ProductListing.propTypes = {
 // dynamic components
 const Pagination = dynamic(() => import("@/components/pagination"));
 
+const sortData = [
+  { title: "Top Rated", key: "top", value: -1 },
+  { title: "Ascending", key: "name", value: 1 },
+  { title: "Descending", key: "name", value: -1 },
+  { title: "Price low to high", key: "price", value: 1 },
+  { title: "Price high to low", key: "price", value: -1 },
+  { title: "Oldest", key: "date", value: 1 },
+  { title: "Newest", key: "date", value: -1 },
+];
+const getSearchParams = (searchParams) => {
+  return searchParams.toString().length ? "?" + searchParams.toString() : "";
+};
 const ProductListing = ({ category, subCategory, shop, compaign }) => {
+  const searchParams = useSearchParams();
+  const { rate } = useSelector(({ settings }) => settings);
+  const { data, isLoading } = useQuery(
+    [
+      "products" + category || subCategory ? "-with-category" : "",
+      searchParams.toString(),
+      category,
+      subCategory,
+      shop,
+    ],
+    () =>
+      api[
+        category
+          ? "getProductsByCategory"
+          : subCategory
+            ? "getProductsBySubCategory"
+            : shop
+              ? "getProductsByShop"
+              : compaign
+                ? "getProductsByCompaign"
+                : "getProducts"
+      ](
+        getSearchParams(searchParams),
+        shop
+          ? shop?.slug
+          : category
+            ? category?.slug
+            : subCategory
+              ? subCategory?.slug
+              : compaign
+                ? compaign.slug
+                : "",
+        rate
+      )
+  );
+  const isMobile = useMediaQuery("(max-width:900px)");
   return <div>ProductListing</div>;
 };
 
