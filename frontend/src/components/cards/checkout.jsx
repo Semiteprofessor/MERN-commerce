@@ -13,7 +13,7 @@ import { useCurrencyFormatter } from "@/hooks/formatCurrency";
 // components
 
 import BlurImage from "@/components/blurImage";
-const Incrementer = dynamic(() => import("@/components"));
+const Incrementer = dynamic(() => import("@/components/incrementer"));
 
 const ThumbImgStyle = styled(Box)(({ theme }) => ({
   width: 40,
@@ -28,7 +28,22 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 }));
 
 const CheckoutCard = () => {
-  return <div>CheckoutCard</div>;
+  const { onDelete, onIncreaseQuantity, onDecreaseQuantity, cart } = props;
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
+  return;
+  <Box
+    sx={{
+      "& .card-main": {
+        p: 2,
+        borderWidth: "1px 0 0 0",
+        "& .delete-icon": {
+          fontSize: 20,
+        },
+      },
+      display: { sm: "none", xs: "block" },
+    }}
+  ></Box>;
 };
 
 export default CheckoutCard;
