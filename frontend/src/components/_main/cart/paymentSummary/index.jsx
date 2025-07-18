@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 // hooks components
-import { useCurrencyConvert } from "src/hooks/convertCurrency";
-import { useCurrencyFormatter } from "src/hooks/formatCurrency";
+import { useCurrencyConvert } from "@/hooks/convertCurrency";
+import { useCurrencyFormatter } from "@/hooks/formatCurrency";
 import RootStyled from "./styled";
 // images
 import paymentImg from "../../../../../public/images/payment-method.png";
