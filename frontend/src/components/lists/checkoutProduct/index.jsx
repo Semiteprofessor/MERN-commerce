@@ -82,6 +82,14 @@ const CartProductList = ({ ...props }) => {
             </TableCell>
           </TableRow>
         </TableHead>
+        
+        <TableBody>
+          {cart.map((product) => {
+            const { sku, name, size, color, quantity, available, price, priceSale, image } = product;
+
+            return (
+                
+            )})}</TableBody>
       </Table>
     </RootStyled>
   );
