@@ -42,7 +42,45 @@ const PaymentSummary = ({ loading, cart }) => {
         <Typography variant="h4" mb={1}>
           Payment Summary
         </Typography>
-        <Stack spacing={0} mt={1} mb={2}></Stack>
+        <Stack spacing={0} mt={1} mb={2}>
+          <Stack
+            direction="row"
+            alignItem="center"
+            justifyContent="space-between"
+            spacing={2}
+          >
+            <Typography variant="subtitle2" color="text.secondary">
+              Subtotal:
+            </Typography>
+            <Typography variant="subtitle2">
+              {loading ? (
+                <Skeleton variant="text" width={80} />
+              ) : (
+                fCurrency(cCurrency(subtotal))
+              )}
+            </Typography>
+          </Stack>
+          <Stack
+            direction="row"
+            alignItem="center"
+            justifyContent="space-between"
+            spacing={2}
+          >
+            <Typography variant="subtitle2" color="text.secondary">
+              Shipping:
+            </Typography>
+            <Typography variant="subtitle2">
+              {loading ? (
+                <Skeleton variant="text" width={80} />
+              ) : !shipping ? (
+                "Free"
+              ) : (
+                fCurrency(cCurrency(parseInt(shipping)))
+              )}
+            </Typography>
+          </Stack>
+        </Stack>
+        <Divider />
       </CardContent>
     </RootStyled>
   );
