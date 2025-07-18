@@ -237,4 +237,24 @@ const CartProductList = ({ ...props }) => {
   );
 };
 
+CartProductList.propTypes = {
+  onDelete: PropTypes.func,
+  onDecreaseQuantity: PropTypes.func,
+  onIncreaseQuantity: PropTypes.func,
+  isLoading: PropTypes.bool,
+  cart: PropTypes.arrayOf(
+    PropTypes.shape({
+      sku: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      size: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      quantity: PropTypes.number.isRequired,
+      available: PropTypes.number.isRequired,
+      price: PropTypes.number.isRequired,
+      priceSale: PropTypes.number,
+      image: PropTypes.string.isRequired,
+    })
+  ),
+};
+
 export default CartProductList;
