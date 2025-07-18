@@ -44,7 +44,45 @@ const CartProductList = ({ ...props }) => {
   const fCurrency = useCurrencyFormatter();
   return (
     <RootStyled>
-      <Table></Table>
+      <Table>
+        {" "}
+        <TableHead>
+          <TableRow className="table-head-row">
+            <TableCell>
+              {isLoading ? <Skeleton variant="text" width={100} /> : "Product"}
+            </TableCell>
+            <TableCell align="center">
+              {isLoading ? (
+                <Skeleton variant="text" width={80} sx={{ mx: "auto" }} />
+              ) : (
+                "Price"
+              )}
+            </TableCell>
+            <TableCell align="center">
+              {isLoading ? (
+                <Skeleton variant="text" width={80} sx={{ mx: "auto" }} />
+              ) : (
+                "Quantity"
+              )}
+            </TableCell>
+
+            <TableCell align="center">
+              {isLoading ? (
+                <Skeleton variant="text" width={63} sx={{ mx: "auto" }} />
+              ) : (
+                "Total Price"
+              )}
+            </TableCell>
+            <TableCell align="right">
+              {isLoading ? (
+                <Skeleton variant="text" width={44} sx={{ ml: "auto" }} />
+              ) : (
+                "Action"
+              )}
+            </TableCell>
+          </TableRow>
+        </TableHead>
+      </Table>
     </RootStyled>
   );
 };
