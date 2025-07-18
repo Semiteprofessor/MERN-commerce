@@ -82,14 +82,156 @@ const CartProductList = ({ ...props }) => {
             </TableCell>
           </TableRow>
         </TableHead>
-        
         <TableBody>
           {cart.map((product) => {
-            const { sku, name, size, color, quantity, available, price, priceSale, image } = product;
+            const {
+              sku,
+              name,
+              size,
+              color,
+              quantity,
+              available,
+              price,
+              priceSale,
+              image,
+            } = product;
 
             return (
-                
-            )})}</TableBody>
+              <TableRow key={Math.random()}>
+                <TableCell>
+                  <Box className="product-sec">
+                    {isLoading ? (
+                      <Skeleton
+                        variant="rounded"
+                        width={56}
+                        height={56}
+                        sx={{ mr: 2 }}
+                      />
+                    ) : (
+                      <ThumbImgStyle>
+                        <BlurImage
+                          priority
+                          fill
+                          alt="product image"
+                          src={image}
+                        />
+                      </ThumbImgStyle>
+                    )}
+                    <Box>
+                      <Typography
+                        noWrap
+                        variant="subtitle1"
+                        className="subtitle"
+                        lineHeight={1}
+                        mb={0 + "!important"}
+                        paddingY={0.7}
+                      >
+                        {isLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          name
+                        )}
+                      </Typography>
+
+                      <Stack>
+                        <Stack direction="row" gap={2}>
+                          {isLoading ? (
+                            <Skeleton variant="text" width={60} />
+                          ) : (
+                            <Typography
+                              variant="body2"
+                              sx={{ span: { textTransform: "uppercase" } }}
+                            >
+                              <b>Size:</b> <span>{size}</span>
+                            </Typography>
+                          )}
+                          {isLoading ? (
+                            <Skeleton variant="text" width={60} />
+                          ) : (
+                            <Typography
+                              variant="body2"
+                              sx={{ span: { textTransform: "uppercase" } }}
+                            >
+                              <b>Color:</b> <span>{color}</span>
+                            </Typography>
+                          )}
+                        </Stack>
+                      </Stack>
+                    </Box>
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  {isLoading ? (
+                    <Skeleton variant="text" width={52} sx={{ mx: "auto" }} />
+                  ) : (
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      fontWeight={600}
+                    >
+                      ${price}
+                    </Typography>
+                  )}
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    "& > div": {
+                      mx: "auto",
+                    },
+                  }}
+                >
+                  {isLoading ? (
+                    <Stack width={96} sx={{ mx: "auto" }}>
+                      <Skeleton variant="rounded" width={96} height={36} />
+                      <Skeleton
+                        variant="rounded"
+                        width={40}
+                        height={12}
+                        sx={{ ml: "auto", mt: 0.5 }}
+                      />
+                    </Stack>
+                  ) : (
+                    <Incrementer
+                      quantity={quantity}
+                      available={available}
+                      onDecrease={() => onDecreaseQuantity(sku)}
+                      onIncrease={() => onIncreaseQuantity(sku)}
+                    />
+                  )}
+                </TableCell>
+                <TableCell align="center">
+                  {isLoading ? (
+                    <Skeleton variant="text" width={52} sx={{ mx: "auto" }} />
+                  ) : (
+                    <Typography variant="subtitle2">
+                      {fCurrency(cCurrency(quantity * (priceSale || price)))}
+                    </Typography>
+                  )}
+                </TableCell>
+                <TableCell align="right">
+                  {isLoading ? (
+                    <Skeleton
+                      variant="circular"
+                      width={40}
+                      height={40}
+                      sx={{ ml: "auto" }}
+                    />
+                  ) : (
+                    <IconButton
+                      aria-label="delete"
+                      color="inherit"
+                      onClick={() => onDelete(sku)}
+                      size="small"
+                    >
+                      <IoClose size={24} />
+                    </IconButton>
+                  )}
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
       </Table>
     </RootStyled>
   );
