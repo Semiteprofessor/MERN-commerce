@@ -36,7 +36,16 @@ const PaymentSummary = ({ loading, cart }) => {
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
 
-  return <div>PaymentSummary</div>;
+  return (
+    <RootStyled>
+      <CardContent sx={{ py: 2 }}>
+        <Typography variant="h4" mb={1}>
+          Payment Summary
+        </Typography>
+        <Stack spacing={0} mt={1} mb={2}></Stack>
+      </CardContent>
+    </RootStyled>
+  );
 };
 
 export default PaymentSummary;
