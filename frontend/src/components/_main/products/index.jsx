@@ -72,7 +72,21 @@ const ProductListing = ({ category, subCategory, shop, compaign }) => {
       )
   );
   const isMobile = useMediaQuery("(max-width:900px)");
-  return <div>ProductListing</div>;
+  return (
+    <>
+      <SortBar
+        sortData={sortData}
+        productData={data}
+        category={subCategory?.parentCategory || category}
+        shop={shop}
+        subCategory={subCategory}
+        isLoading={isLoading}
+        compaign={compaign}
+      />
+      <ProductList data={data} isLoading={isLoading} isMobile={isMobile} />
+      <Pagination data={data} />
+    </>
+  );
 };
 
 export default ProductListing;
