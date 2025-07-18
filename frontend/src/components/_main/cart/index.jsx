@@ -8,7 +8,7 @@ import * as api from "@/services";
 import { useMutation } from "react-query";
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "@/redux/slices/product";
+import { getCart } from "@/redux/slices/products";
 // components
 import PaymentSummarySkeleton from "@/components/skeletons/cart/paymentSummary";
 import ShoppingCartSkeleton from "@/components/skeletons/cart/shoppingCart";

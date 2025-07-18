@@ -28,7 +28,7 @@ import {
   decreaseQuantity,
   getCart,
   resetCart,
-} from "@/redux/slices/product";
+} from "@/redux/slices/products";
 // component
 import CheckoutCard from "@/components/cards/checkout";
 import CheckoutProductList from "@/components/lists/checkoutProduct";
