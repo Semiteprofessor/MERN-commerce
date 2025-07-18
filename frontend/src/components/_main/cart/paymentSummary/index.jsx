@@ -25,7 +25,17 @@ PaymentSummary.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-const PaymentSummary = () => {
+const PaymentSummary = ({ loading, cart }) => {
+  const { product } = useSelector((state) => state);
+  const { total, shipping, subtotal } = product.checkout;
+
+  const router = useRouter();
+
+  const isEmptyCart = cart.length === 0;
+
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
+
   return <div>PaymentSummary</div>;
 };
 
