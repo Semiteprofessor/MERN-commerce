@@ -81,6 +81,40 @@ const PaymentSummary = ({ loading, cart }) => {
           </Stack>
         </Stack>
         <Divider />
+        <Stack
+          direction="row"
+          alignItem="center"
+          justifyContent="space-between"
+          spacing={2}
+          mt={2}
+        >
+          <Typography variant="subtitle1">Total:</Typography>
+          <Typography variant="subtitle1">
+            {loading ? (
+              <Skeleton variant="text" width={80} />
+            ) : (
+              fCurrency(cCurrency(total))
+            )}
+          </Typography>
+        </Stack>
+        <Box sx={{ position: "relative", width: "100%", height: 26, mt: 2 }}>
+          <Image src={paymentImg} alt="payment" fill objectFit="contain" />
+        </Box>
+        <Box mt={2}>
+          <LoadingButton
+            variant="contained"
+            fullWidth
+            size="large"
+            sx={{
+              borderRadius: "8px",
+            }}
+            disabled={isEmptyCart}
+            loading={loading}
+            onClick={() => router.push("/checkout")}
+          >
+            Checkout
+          </LoadingButton>
+        </Box>
       </CardContent>
     </RootStyled>
   );
