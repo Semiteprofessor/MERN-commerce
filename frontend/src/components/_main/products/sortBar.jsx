@@ -129,7 +129,22 @@ const SortBar = ({
               xs: "12px",
             },
           }}
-        ></Typography>
+        >
+          {isLoading ? (
+            <Skeleton variant="text" width={150} />
+          ) : (
+            productData !== 0 && (
+              <>
+                Showing{" "}
+                {page ? `${(Number(page) - 1) * Number(itemsPerPage) + 1}` : 1}-
+                {productData?.total < Number(itemsPerPage) * (Number(page) || 1)
+                  ? productData?.total
+                  : Number(itemsPerPage) * (Number(page) || 1)}{" "}
+                of {productData?.total} items
+              </>
+            )
+          )}
+        </Typography>
       </Stack>
     </>
   );
