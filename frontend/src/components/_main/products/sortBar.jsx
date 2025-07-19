@@ -223,6 +223,27 @@ const SortBar = ({
           </FormControl>
         </Stack>
       </Stack>
+      <Drawer
+        anchor={"right"}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        sx={{
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            borderRadius: "0px !important",
+            bgcolor: (theme) => theme.palette.background.paper,
+          },
+        }}
+      >
+        <Filter
+          category={category}
+          subCategory={subCategory}
+          shop={shop}
+          pathname="/products"
+          isMobile
+          onClose={() => setOpenDrawer(false)}
+        />
+      </Drawer>
     </>
   );
 };
