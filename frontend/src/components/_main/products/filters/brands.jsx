@@ -39,6 +39,18 @@ const BrandMain = ({ brands, path }) => {
     },
     [searchParams]
   );
+  const handleChange = (event) => {
+    const slug = event.target.value;
+    setSelectedBrand(slug);
+
+    const queryString = createQueryString("brand", slug);
+    push(`${path}?${queryString}`);
+  };
+
+  useEffect(() => {
+    setSelectedBrand(brand || "");
+  }, [brand]);
+
   return <div>BrandMain</div>;
 };
 
