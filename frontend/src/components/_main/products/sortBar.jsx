@@ -57,6 +57,26 @@ const SortBar = ({
     [searchParams]
   );
 
+  const handleChange = (event) => {
+    const filtered = sortData.find((item) => item.title === event.target.value);
+
+    if (state) {
+      const sortedData = sortData.find((item) => item.title === state);
+      const key = sortedData?.key;
+
+      router.push(
+        `${pathname}?${createQueryString([filtered.key], filtered.value, key)}`,
+        "isPathname"
+      );
+      setState(filtered.title);
+    } else {
+      router.push(
+        `${pathname}?${createQueryString([filtered.key], filtered.value)}`,
+        "isPathname"
+      );
+      setState(filtered.title);
+    }
+  };
   return <div>SortBar</div>;
 };
 
