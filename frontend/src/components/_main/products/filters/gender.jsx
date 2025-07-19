@@ -101,7 +101,44 @@ const GenderMain = ({ ...props }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gender]);
 
-  return <div>GenderMain</div>;
+  return (
+    <>
+      {" "}
+      <Stack direction="row" justifyContent="space-between">
+        <Typography
+          variant="body1"
+          sx={{
+            fontWeight: 600,
+            mb: 1,
+            display: "flex",
+            gap: 1,
+          }}
+          color="text.primary"
+        >
+          <IoTransgender size={20} /> Gender{" "}
+          {Boolean(state.genders.length) &&
+            gender &&
+            "(" + gender?.split("_").length + ")"}
+        </Typography>
+        {
+          <Zoom in={state.genders.length}>
+            <Button
+              onClick={() => {
+                setstate({ ...state, genders: [] });
+                push(`${path}?${deleteQueryString("gender")}`);
+              }}
+              variant="outlined"
+              color="primary"
+              size="small"
+              sx={{ float: "right" }}
+            >
+              Reset
+            </Button>
+          </Zoom>
+        }
+      </Stack>
+    </>
+  );
 };
 
 export default GenderMain;
