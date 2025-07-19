@@ -13,12 +13,12 @@ import GenderFilter from "./gender";
 import ColorsFilter from "./colors";
 import SizesFilter from "./sizes";
 import PriceRange from "./price";
-import Brands from "src/components/_main/skeletons/products/filters/brands";
-import Gender from "src/components/_main/skeletons/products/filters/gander";
-import Color from "src/components/_main/skeletons/products/filters/colors";
-import Sizes from "src/components/_main/skeletons/products/filters/sizes";
+import Brands from "@/components/_main/skeletons/products/filters/brands";
+import Gender from "@/components/_main/skeletons/products/filters/gander";
+import Color from "@/components/_main/skeletons/products/filters/colors";
+import Sizes from "@/components/_main/skeletons/products/filters/sizes";
 // api
-import * as api from "src/services";
+import * as api from "@/services";
 import { useQuery } from "react-query";
 
 Filter.propTypes = {
