@@ -98,7 +98,41 @@ const SortBar = ({
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name || date || price || limit || top]);
-  return <div>SortBar</div>;
+  return (
+    <>
+      <Stack
+        pt={2}
+        alignItems="center"
+        justifyContent={"space-between"}
+        sx={{
+          flexDirection: { md: "row", xs: "column-reverse" },
+          button: {
+            mr: 1,
+            border: (theme) => `1px solid ${theme.palette.divider}`,
+            borderRadius: "4px",
+            "&.active": {
+              border: (theme) => `1px solid ${theme.palette.primary.main}`,
+              svg: {
+                color: "primary.main",
+              },
+            },
+          },
+        }}
+      >
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{
+            mt: { md: 0, xs: 1.5 },
+            fontSize: {
+              sm: "1rem",
+              xs: "12px",
+            },
+          }}
+        ></Typography>
+      </Stack>
+    </>
+  );
 };
 
 export default SortBar;
