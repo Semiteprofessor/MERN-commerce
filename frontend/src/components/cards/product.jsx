@@ -326,6 +326,41 @@ const ShopProductCard = ({ ...props }) => {
             />
           )}
         </Stack>
+        <Stack
+          spacing={0.5}
+          direction="row"
+          justifyContent={"space-between"}
+          alignItems="center"
+        >
+          <Typography
+            variant={isTablet ? "body1" : "h5"}
+            component="p"
+            sx={{
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              "& .discount": {
+                fontSize: { md: 14, xs: 12 },
+                fontWeight: 600,
+                color: "error.main",
+                ml: 0.5,
+              },
+            }}
+          >
+            {loading ? (
+              <Skeleton variant="text" width={120} />
+            ) : (
+              <>
+                <span>{fCurrency(cCurrency(product?.priceSale))}</span>
+                <span className="discount">
+                  (
+                  {`-${(100 - (product?.priceSale / product?.price) * 100).toFixed()}%`}
+                  )
+                </span>
+              </>
+            )}
+          </Typography>
+        </Stack>
       </Stack>
     </Card>
   );
