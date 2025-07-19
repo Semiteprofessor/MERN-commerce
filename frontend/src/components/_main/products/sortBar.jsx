@@ -77,6 +77,27 @@ const SortBar = ({
       setState(filtered.title);
     }
   };
+  useEffect(() => {
+    setItemsPerPage(isString(limit) ? limit : "12");
+    setState(
+      top === "-1"
+        ? "Top Rated"
+        : name === "1"
+          ? "Asceding"
+          : name === "-1"
+            ? "Desceding"
+            : date === "1"
+              ? "Oldest"
+              : date === "-1"
+                ? "Newest"
+                : price === "1"
+                  ? "Price low to high"
+                  : price === "-1"
+                    ? "Price high to low"
+                    : "Top Rated"
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name || date || price || limit || top]);
   return <div>SortBar</div>;
 };
 
