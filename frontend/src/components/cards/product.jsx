@@ -181,6 +181,86 @@ const ShopProductCard = ({ ...props }) => {
             </Box>
           )}
         </Box>
+        <Zoom in={openActions}>
+          <Box>
+            {}
+            <Stack
+              direction={"row"}
+              sx={{
+                position: "absolute",
+                bottom: 8,
+                left: "50%",
+                transform: "translate(-50%, 0px)",
+                bgcolor: "background.paper",
+                borderRadius: "27px",
+                p: "2px",
+                zIndex: 11,
+              }}
+            >
+              {
+                <Tooltip title="Add to cart">
+                  <IconButton
+                    aria-label="add to cart"
+                    disabled={loading || product?.available < 1}
+                    onClick={() => setOpen(true)}
+                    size={isTablet ? "small" : "medium"}
+                  >
+                    <GoEye />
+                  </IconButton>
+                </Tooltip>
+              }
+
+              {wishlist?.filter((v) => v === _id).length > 0 ? (
+                <Tooltip title="Remove from cart">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onClickWishList}
+                    aria-label="Remove from cart"
+                    color="primary"
+                    size={isTablet ? "small" : "medium"}
+                  >
+                    <IoIosHeart />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Add to wishlist">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onClickWishList}
+                    aria-label="add to wishlist"
+                    size={isTablet ? "small" : "medium"}
+                  >
+                    <IoMdHeartEmpty />
+                  </IconButton>
+                </Tooltip>
+              )}
+              {compareProducts?.filter((v) => v._id === _id).length > 0 ? (
+                <Tooltip title="Remove from cart">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onRemoveCompare}
+                    aria-label="Remove from compare"
+                    color="primary"
+                    size={isTablet ? "small" : "medium"}
+                  >
+                    <GoGitCompare />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Add to compare">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onAddCompare}
+                    aria-label="add to compare"
+                    size={isTablet ? "small" : "medium"}
+                  >
+                    <GoGitCompare />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
+          </Box>
+        </Zoom>
       </Box>
     </Card>
   );
