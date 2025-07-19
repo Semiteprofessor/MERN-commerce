@@ -362,8 +362,32 @@ const ShopProductCard = ({ ...props }) => {
           </Typography>
         </Stack>
       </Stack>
+      {open && (
+        <ProductDetailsDialog
+          slug={product.slug}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </Card>
   );
+};
+
+ShopProductCard.propTypes = {
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    slug: PropTypes.string,
+    sku: PropTypes.string,
+    status: PropTypes.string,
+    image: PropTypes.object.isRequired,
+    price: PropTypes.number.isRequired,
+    priceSale: PropTypes.number,
+    available: PropTypes.number,
+    colors: PropTypes.array,
+    averageRating: PropTypes.number,
+  }),
+  loading: PropTypes.bool.isRequired,
 };
 
 export default ShopProductCard;
