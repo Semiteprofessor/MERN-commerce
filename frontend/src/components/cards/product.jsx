@@ -30,6 +30,22 @@ import {
 } from "../../redux/slices/compare";
 import ColorPreviewGroup from "@/components/colorPreviewGroup";
 
+import Label from "src/components/label";
+import BlurImage from "src/components/blurImage";
+// hooks
+import { useCurrencyConvert } from "src/hooks/convertCurrency";
+import { useCurrencyFormatter } from "src/hooks/formatCurrency";
+// api
+import * as api from "src/services";
+// icons
+import { IoMdHeartEmpty } from "react-icons/io";
+import { GoEye } from "react-icons/go";
+import { GoGitCompare } from "react-icons/go";
+import { IoIosHeart } from "react-icons/io";
+import { FaRegStar } from "react-icons/fa";
+// dynamic
+const ProductDetailsDialog = dynamic(() => import("../dialog/productDetails"));
+
 const ShopProductCard = () => {
   return <div>ShopProductCard</div>;
 };
