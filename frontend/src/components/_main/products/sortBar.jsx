@@ -20,7 +20,43 @@ const Filter = dynamic(() => import("@/components/_main/products/filters"), {
   loading: () => <Skeleton variant="rounded" width={"100%"} height={185} />,
 });
 
-const SortBar = () => {
+const SortBar = ({
+  compaign,
+  productData,
+  shop,
+  isLoading,
+  sortData,
+  category,
+  subCategory,
+}) => {
+  // filterData
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [itemsPerPage, setItemsPerPage] = useState("12");
+  const top = searchParams.get("top");
+  const name = searchParams.get("name");
+  const date = searchParams.get("date");
+  const price = searchParams.get("price");
+  const limit = searchParams.get("limit");
+  const page = searchParams.get("page");
+
+  const [state, setState] = useState(null);
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const createQueryString = useCallback(
+    (name, value, key) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+      if (name !== key) {
+        params.delete(key);
+      }
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   return <div>SortBar</div>;
 };
 
