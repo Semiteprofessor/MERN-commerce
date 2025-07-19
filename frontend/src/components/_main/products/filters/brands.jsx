@@ -16,7 +16,29 @@ import {
 // icons
 import { MdOutlineBrandingWatermark } from "react-icons/md";
 
-const BrandMain = () => {
+const BrandMain = ({ brands, path }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const brand = searchParams.get("brand");
+  const { push } = router;
+
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams]
+  );
+  const deleteQueryString = useCallback(
+    (name) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete(name);
+      return params.toString();
+    },
+    [searchParams]
+  );
   return <div>BrandMain</div>;
 };
 
