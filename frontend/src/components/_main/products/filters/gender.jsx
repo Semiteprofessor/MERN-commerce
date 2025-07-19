@@ -62,6 +62,45 @@ const GenderMain = ({ ...props }) => {
     [searchParams]
   );
 
+  const handleChange = (props, e) => {
+    var data = state.genders;
+    if (e.target.checked) {
+      data = [...data, props];
+      setstate({ ...state, genders: [...state.genders, props] });
+      push(
+        `${path}?` +
+          createQueryString("gender", [...state.genders, props].join("_"))
+      );
+    } else {
+      const index = data.indexOf(props);
+      data.splice(index, 1);
+      if (data.length > 0) {
+        const filtered = state.genders.filter((gen) => gen !== props);
+        setstate({ ...state, genders: filtered });
+        push(`${path}?` + createQueryString("gender", filtered.join("_")));
+      } else {
+        const deleted = deleteQueryString("gender");
+        push(path + "?" + deleted);
+      }
+    }
+  };
+  React.useEffect(() => {
+    if (Boolean(gender)) {
+      setstate({
+        ...state,
+        genders: [...gender.split("_")],
+      });
+    } else {
+      setstate({
+        ...state,
+        genders: [],
+        isLoaded: true,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gender]);
+
   return <div>GenderMain</div>;
 };
 
