@@ -293,6 +293,39 @@ const ShopProductCard = ({ ...props }) => {
             {loading ? <Skeleton variant="text" width={120} /> : name}
           </Typography>
         </Box>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={1}
+        >
+          <Typography
+            variant="subtitle2"
+            color="text.primary"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+            }}
+          >
+            {loading ? (
+              <Skeleton variant="text" width={72} />
+            ) : (
+              <>
+                <FaRegStar /> ({averageRating?.toFixed(1) || 0})
+              </>
+            )}
+          </Typography>
+          {loading ? (
+            <Skeleton variant="text" width={72} />
+          ) : (
+            <ColorPreviewGroup
+              limit={3}
+              colors={product?.colors}
+              sx={{ minWidth: 72 }}
+            />
+          )}
+        </Stack>
       </Stack>
     </Card>
   );
