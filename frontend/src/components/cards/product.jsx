@@ -123,7 +123,42 @@ const ShopProductCard = ({ ...props }) => {
         sx={{
           position: "relative",
         }}
-      ></Box>
+      >
+        {!loading && product?.available < 1 && (
+          <Label
+            variant="filled"
+            color={"error"}
+            sx={{
+              top: isTablet ? 8 : 12,
+              left: isTablet ? 8 : 12,
+              zIndex: 9,
+              position: "absolute",
+              textTransform: "uppercase",
+              fontSize: isTablet ? 8 : 12,
+            }}
+          >
+            Out of Stock
+          </Label>
+        )}
+        <Box
+          {...(product?.available > 0 && {
+            component: Link,
+            href: linkTo,
+          })}
+          sx={{
+            bgcolor: isLoading || loading ? "transparent" : "common.white",
+            position: "relative",
+            cursor: "pointer",
+
+            "&:after": {
+              content: `""`,
+              display: "block",
+              paddingBottom: "100%",
+            },
+            width: "100%",
+          }}
+        ></Box>
+      </Box>
     </Card>
   );
 };
