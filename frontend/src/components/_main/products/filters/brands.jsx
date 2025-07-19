@@ -51,7 +51,59 @@ const BrandMain = ({ brands, path }) => {
     setSelectedBrand(brand || "");
   }, [brand]);
 
-  return <div>BrandMain</div>;
+  return (
+    <>
+      <Stack direction="row" justifyContent="space-between">
+        <Typography
+          variant="body1"
+          sx={{
+            fontWeight: 600,
+            mb: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+          color="text.primary"
+        >
+          <MdOutlineBrandingWatermark fontSize="large" /> Brand
+        </Typography>
+        <Zoom in={Boolean(selectedBrand)}>
+          <Button
+            onClick={() => {
+              setSelectedBrand("");
+              push(`${path}?${deleteQueryString("brand")}`);
+            }}
+            variant="outlined"
+            color="primary"
+            size="small"
+            sx={{ float: "right" }}
+          >
+            Reset
+          </Button>
+        </Zoom>
+      </Stack>
+      <Grid container>
+        {brands?.map((brand) => (
+          <Grid key={brand.slug} item xs={6}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Radio />}
+                label={brand.name}
+                value={brand.slug}
+                checked={selectedBrand === brand.slug}
+                onChange={handleChange}
+              />
+            </FormGroup>
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
 };
 
 export default BrandMain;
+
+BrandMain.propTypes = {
+  brands: PropTypes.array.isRequired,
+  path: PropTypes.string.isRequired,
+};
