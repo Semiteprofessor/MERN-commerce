@@ -83,6 +83,30 @@ const ShopProductCard = ({ ...props }) => {
     },
   });
 
+  const { name, slug, image, _id, averageRating } = !loading && product;
+  const linkTo = `/product/${slug ? slug : ""}`;
+
+  const onClickWishList = async (event) => {
+    if (!isAuthenticated) {
+      event.stopPropagation();
+      router.push("/auth/login");
+    } else {
+      event.stopPropagation();
+      setLoading(true);
+      await mutate(_id);
+    }
+  };
+  const onAddCompare = async (event) => {
+    event.stopPropagation();
+    toast.success("Added to compare list");
+    dispatch(addCompareProduct(product));
+  };
+
+  const onRemoveCompare = async (event) => {
+    event.stopPropagation();
+    toast.success("Removed from compare list");
+    dispatch(removeCompareProduct(_id));
+  };
   return <div>ShopProductCard</div>;
 };
 
