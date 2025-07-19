@@ -32,7 +32,36 @@ const icons = {
   others: <IoMdTransgender size={20} />,
 };
 
-const GenderMain = () => {
+const GenderMain = ({ ...props }) => {
+  const { genders, path } = props;
+  const searchParams = useSearchParams();
+
+  const gender = searchParams.get("gender");
+  const { push } = useRouter();
+
+  const [state, setstate] = React.useState({
+    genders: [],
+    isLoaded: false,
+  });
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+  const deleteQueryString = useCallback(
+    (name) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete(name);
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   return <div>GenderMain</div>;
 };
 
