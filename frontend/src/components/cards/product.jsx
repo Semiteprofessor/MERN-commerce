@@ -107,7 +107,25 @@ const ShopProductCard = ({ ...props }) => {
     toast.success("Removed from compare list");
     dispatch(removeCompareProduct(_id));
   };
-  return <div>ShopProductCard</div>;
+  return (
+    <Card
+      onMouseEnter={() => !isLoading && setOpenActions(true)}
+      onMouseLeave={() => setOpenActions(false)}
+      sx={{
+        display: "block",
+        boxShadow:
+          theme.palette.mode === "light"
+            ? "0 6px 16px rgba(145, 158, 171, 25%)"
+            : "0 6px 16px rgb(5 6 6 / 25%)",
+      }}
+    >
+      <Box
+        sx={{
+          position: "relative",
+        }}
+      ></Box>
+    </Card>
+  );
 };
 
 export default ShopProductCard;
