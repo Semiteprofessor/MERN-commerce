@@ -145,6 +145,83 @@ const SortBar = ({
             )
           )}
         </Typography>
+        <Stack direction="row" gap={1} alignItems="center">
+          {compaign ? null : (
+            <Button
+              onClick={() => setOpenDrawer(true)}
+              variant="outlined"
+              color="inherit"
+              endIcon={<MdTune />}
+              sx={{
+                minWidth: 120,
+                justifyContent: "space-between",
+              }}
+            >
+              Filters
+            </Button>
+          )}
+
+          {/* <IconButton
+            onClick={() => setOpenDrawer(true)}
+            sx={{
+              bgcolor: 'background.neutral',
+              height: 40,
+              width: 40
+            }}
+          >
+            <MdTune />
+          </IconButton> */}
+          <FormControl
+            size="small"
+            fullWidth
+            sx={{
+              minWidth: 180,
+            }}
+          >
+            {state || state === "" ? (
+              <Select id="sort-select" value={state} onChange={handleChange}>
+                {sortData.map((item) => (
+                  <MenuItem key={Math.random()} value={item.title}>
+                    {item.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            ) : (
+              <Skeleton variant="rounded" width={150} height={40} />
+            )}
+          </FormControl>
+          <FormControl size="small" fullWidth sx={{ maxWidth: 120 }}>
+            <Select
+              id="items-select"
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(e.target.value);
+
+                router.push(
+                  `${pathname}?${createQueryString("limit", e.target.value)}`,
+                  "isPathname"
+                );
+              }}
+              sx={{
+                "& .MuiSelect-select": {
+                  textTransform: "capitalize",
+                },
+              }}
+            >
+              {["12", "18", "24", "30"].map((item) => (
+                <MenuItem
+                  key={Math.random()}
+                  value={item}
+                  sx={{
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Show: {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Stack>
       </Stack>
     </>
   );
