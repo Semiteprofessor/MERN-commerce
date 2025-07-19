@@ -248,4 +248,14 @@ const SortBar = ({
   );
 };
 
+// add propTypes
+SortBar.propTypes = {
+  productData: PropTypes.object.isRequired,
+  sortData: PropTypes.array.isRequired,
+  category: PropTypes.object.isRequired,
+  subCategory: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  shop: PropTypes.object,
+};
+
 export default SortBar;
