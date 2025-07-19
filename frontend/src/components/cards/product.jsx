@@ -157,7 +157,30 @@ const ShopProductCard = ({ ...props }) => {
             },
             width: "100%",
           }}
-        ></Box>
+        >
+          {loading ? (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              sx={{
+                height: "100%",
+                position: "absolute",
+              }}
+            />
+          ) : (
+            <Box component={Link} href={linkTo}>
+              <BlurImage
+                alt={name}
+                src={image.url}
+                fill
+                draggable="false"
+                objectFit="cover"
+                placeholder="blur"
+                blurDataURL={image?.blurDataURL}
+              />
+            </Box>
+          )}
+        </Box>
       </Box>
     </Card>
   );
