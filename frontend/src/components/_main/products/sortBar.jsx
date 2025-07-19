@@ -16,7 +16,7 @@ import { useRouter } from "next-nprogress-bar";
 // icon
 import { MdTune } from "react-icons/md";
 // dynamic component
-const Filter = dynamic(() => import("src/components/_main/products/filters"), {
+const Filter = dynamic(() => import("@/components/_main/products/filters"), {
   loading: () => <Skeleton variant="rounded" width={"100%"} height={185} />,
 });
 
